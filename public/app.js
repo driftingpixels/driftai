@@ -25,13 +25,22 @@ document.addEventListener("DOMContentLoaded", () => {
             },
             body: JSON.stringify({ message: messageText })
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
-            addMessage(data.response, "received");
+            if (data.error) {
+                addMessage(`Error: ${data.error}`, "received");
+            } else {
+                addMessage(data.response, "received");
+            }
         })
         .catch(error => {
             console.error("Error:", error);
-            addMessage("Sorry, something went wrong.", "received");
+            addMessage(`Sorry, something went wrong: ${error.message}`, "received");
         });
     }
 
