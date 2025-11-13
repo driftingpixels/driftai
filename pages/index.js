@@ -1,0 +1,26 @@
+import Head from 'next/head';
+import Script from 'next/script';
+
+export default function Home() {
+  return (
+    <div id="root">
+      <Head>
+        <title>Drift AI</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="/style.css" />
+      </Head>
+      
+      <div className="titlebar">Drift AI</div>
+      <div className="content-below-titlebar">
+        <div className="chat-container"></div>
+        <div className="input-container">
+          <input type="text" id="message-input" placeholder="Type a message..." />
+          <button id="send-button">Send</button>
+        </div>
+        <div className="footer-text">Made with 💖 by Ryan. AI can make mistakes</div>
+      </div>
+      
+      <Script src="/app.js" strategy="afterInteractive" />
+    </div>
+  );
+}
