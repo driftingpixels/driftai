@@ -11,9 +11,7 @@ const port = process.env.PORT || 3000;
 
 const genAI = new GoogleGenerativeAI(process.env.API_KEY);
 
-
-
-
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 
 app.post('/api/chat', async (req, res) => {
@@ -31,6 +29,14 @@ app.post('/api/chat', async (req, res) => {
     }
 });
 
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
+
+module.exports = app;
+
+        
