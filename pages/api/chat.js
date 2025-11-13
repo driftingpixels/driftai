@@ -30,12 +30,21 @@ export default async function handler(req, res) {
         res.status(200).json({ response: text });
     } catch (error) {
         console.error('Error:', error);
-        res.status(500).json({ error: 'Something went wrong' });
+        
+        // Check if it's a model overload error
+        if (error.message && error.message.includes('The model is overloaded')) {
+            res.status(503).json({ error: 'Error - Model is overloaded. Please try again later.' });
+        } else if (error.status === 503) {
+            res.status(503).json({ error: 'Error - Service temporarily unavailable. Please try again later.' });
+        } else {
+            res.status(500).json({ error: 'Something went wrong' });
+        }
     }
 }
 
 export const config = {
     api: {
         bodyParser: true,
+        maxDuration: 60,
     },
 };
