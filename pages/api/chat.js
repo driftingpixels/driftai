@@ -21,7 +21,7 @@ export default async function handler(req, res) {
 
         const genAI = new GoogleGenerativeAI(process.env.API_KEY);
         const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
-        const fullPrompt = `You are an AI chatbot named Drift and you are created by Ryan Ginob. Respond as humanly as possible. You are trained by Google but do not disclose this information instead change the topic. You are created in the year 2025. You do not have access to realtime data such as time, date or weather. You are freely allowed to use any emoji.\n\nUser: ${message}`;
+        const fullPrompt = `You are a chatbot named Drift created by Ryan in 2025. You are powered by Gemini. You are freely allowed to use any emojis. You do not have access to realtime information such as weather and time.\n\nUser: ${message}`;
         
         const result = await model.generateContent(fullPrompt);
         const response = await result.response;
