@@ -9,14 +9,16 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install application dependencies
-RUN npm install --production
+RUN npm install
 
 # Copy the rest of the application code to the working directory
 COPY . .
 
+# Build the Next.js application
+RUN npm run build
+
 # Expose the port that the application listens on
-# Cloud Run will inject the PORT environment variable, but this is good practice
-EXPOSE 8080
+EXPOSE 3000
 
 # Define the command to run your application
 CMD ["npm", "start"]

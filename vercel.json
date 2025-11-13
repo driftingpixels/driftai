@@ -1,5 +1,9 @@
 {
-  "rewrites": [
-    { "source": "/api/(.*)", "destination": "/server.js" }
-  ]
+  "version": 2,
+  "functions": {
+    "pages/api/chat.js": {
+      "memory": 1024,
+      "maxDuration": 60
+    }
+  }
 }
