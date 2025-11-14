@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const messageInput = document.getElementById("message-input");
     const sendButton = document.getElementById("send-button");
     const modelOptions = document.querySelectorAll(".model-option");
-    
+
     let selectedModel = "gemini-flash-latest"; // Default model
 
     // Handle model selection
@@ -12,6 +12,12 @@ document.addEventListener("DOMContentLoaded", () => {
             modelOptions.forEach(opt => opt.classList.remove("active"));
             option.classList.add("active");
             selectedModel = option.dataset.model;
+
+            // Add visual feedback
+            option.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                option.style.transform = '';
+            }, 150);
         });
     });
 
@@ -23,23 +29,34 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    // Auto-resize textarea (if we make it a textarea in the future)
+    messageInput.addEventListener("input", function() {
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight > 150 ? 150 : this.scrollHeight) + 'px';
+    });
+
     function sendMessage() {
         const messageText = messageInput.value.trim();
         if (messageText === "") return;
 
+        // Add user's message to chat
         addMessage(messageText, "sent");
         messageInput.value = "";
+        messageInput.style.height = "auto"; // Reset height if it's a textarea
 
         // Disable send button while processing
         sendButton.disabled = true;
         sendButton.textContent = "Sending...";
+
+        // Add a temporary loading indicator for the bot response
+        const loadingMessage = addMessage("", "received", true); // Create empty message element
 
         fetch("/api/chat", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ 
+            body: JSON.stringify({
                 message: messageText,
                 model: selectedModel
             })
@@ -51,6 +68,11 @@ document.addEventListener("DOMContentLoaded", () => {
             return response.json();
         })
         .then(data => {
+            // Remove the loading indicator and add the actual response
+            if (loadingMessage) {
+                loadingMessage.remove();
+            }
+
             if (data.error) {
                 addMessage(`Error: ${data.error}`, "received");
             } else {
@@ -59,6 +81,10 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .catch(error => {
             console.error("Error:", error);
+            // Remove the loading indicator and add error message
+            if (loadingMessage) {
+                loadingMessage.remove();
+            }
             addMessage(`Sorry, something went wrong: ${error.message}`, "received");
         })
         .finally(() => {
@@ -68,11 +94,27 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    function addMessage(text, type) {
+    function addMessage(text, type, isPlaceholder = false) {
         const messageElement = document.createElement("div");
         messageElement.classList.add("message", type);
-        messageElement.textContent = text;
+
+        if (!isPlaceholder) {
+            messageElement.textContent = text;
+        }
+
         chatContainer.appendChild(messageElement);
-        chatContainer.scrollTop = chatContainer.scrollHeight;
+
+        // Smooth scroll to bottom
+        chatContainer.scrollTo({
+            top: chatContainer.scrollHeight,
+            behavior: 'smooth'
+        });
+
+        return messageElement; // Return the element for potential manipulation
     }
+
+    // Initial welcome message
+    setTimeout(() => {
+        addMessage("Hello! I'm Drift, your AI assistant. How can I help you today? 😊", "received");
+    }, 500);
 });
