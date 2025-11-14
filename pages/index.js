@@ -14,7 +14,21 @@ export default function Home() {
       <div className="content-below-titlebar">
         <div className="chat-container"></div>
         <div className="input-container">
-          <input type="text" id="message-input" placeholder="Type a message..." />
+          <div className="model-toggle">
+            <button className="model-option active" data-model="gemini-flash-latest">
+              ⚡ Fast
+            </button>
+            <button className="model-option" data-model="gemini-pro-latest">
+              💎 Pro
+            </button>
+          </div>
+          <div className="input-wrapper">
+            <textarea
+              id="message-input"
+              placeholder="Type a message..."
+              rows="1"
+            />
+          </div>
           <button id="send-button">Send</button>
         </div>
         <div className="footer-text">Made with 💖 by Ryan. AI can make mistakes</div>
