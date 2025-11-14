@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Auto-resize textarea (if we make it a textarea in the future)
+    // Auto-resize textarea
     messageInput.addEventListener("input", function() {
         this.style.height = 'auto';
         this.style.height = (this.scrollHeight > 150 ? 150 : this.scrollHeight) + 'px';
@@ -42,14 +42,15 @@ document.addEventListener("DOMContentLoaded", () => {
         // Add user's message to chat
         addMessage(messageText, "sent");
         messageInput.value = "";
-        messageInput.style.height = "auto"; // Reset height if it's a textarea
+        messageInput.style.height = "auto"; // Reset height
 
         // Disable send button while processing
         sendButton.disabled = true;
-        sendButton.textContent = "Sending...";
+        const originalContent = sendButton.textContent;
+        sendButton.textContent = "...";
 
         // Add a temporary loading indicator for the bot response
-        const loadingMessage = addMessage("", "received", true); // Create empty message element
+        const loadingMessage = addMessage("", "received", true);
 
         fetch("/api/chat", {
             method: "POST",
@@ -90,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .finally(() => {
             // Re-enable send button
             sendButton.disabled = false;
-            sendButton.textContent = "Send";
+            sendButton.textContent = originalContent;
         });
     }
 
@@ -110,7 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
             behavior: 'smooth'
         });
 
-        return messageElement; // Return the element for potential manipulation
+        return messageElement;
     }
 
     // Initial welcome message
