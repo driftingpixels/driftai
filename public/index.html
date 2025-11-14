@@ -12,7 +12,17 @@
         <div class="content-below-titlebar">
             <div class="chat-container"></div>
             <div class="input-container">
-                <input type="text" id="message-input" placeholder="Type a message...">
+                <div class="model-toggle">
+                    <button class="model-option active" data-model="gemini-flash-latest">
+                        ⚡ Fast
+                    </button>
+                    <button class="model-option" data-model="gemini-pro-latest">
+                        💎 Pro
+                    </button>
+                </div>
+                <div class="input-wrapper">
+                    <input type="text" id="message-input" placeholder="Type a message...">
+                </div>
                 <button id="send-button">Send</button>
             </div>
             <div class="footer-text">Made with 💖 by Ryan. AI can make mistakes</div>
