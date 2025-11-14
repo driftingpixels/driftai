@@ -112,7 +112,7 @@ body {
   padding: 15px;
   background-color: var(--footer-bg);
   border-top: 1px solid var(--border-color);
-  gap: 15px;
+  gap: 10px;
   width: 100%;
 }
 
@@ -139,6 +139,10 @@ body {
   font-weight: 500;
   transition: all 0.2s ease;
   text-align: center;
+  min-height: 44px; /* Match the textbox height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .model-option.active {
@@ -184,6 +188,10 @@ body {
   box-shadow: 0 2px 8px rgba(25, 118, 210, 0.3);
   width: 100%;
   max-width: 500px;
+  min-height: 44px; /* Match the textbox height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #send-button:hover {
