@@ -106,11 +106,14 @@ body {
 
 .input-container {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   padding: 15px;
   background-color: var(--footer-bg);
   border-top: 1px solid var(--border-color);
-  align-items: center;
-  gap: 10px;
+  gap: 15px;
+  width: 100%;
 }
 
 .model-toggle {
@@ -120,10 +123,14 @@ body {
   padding: 4px;
   box-shadow: 0 2px 8px var(--shadow-color);
   border: 1px solid var(--border-color);
+  width: 100%;
+  max-width: 500px;
+  justify-content: center;
 }
 
 .model-option {
-  padding: 8px 16px;
+  flex: 1;
+  padding: 12px 16px;
   border: none;
   background: transparent;
   cursor: pointer;
@@ -131,7 +138,7 @@ body {
   font-size: 14px;
   font-weight: 500;
   transition: all 0.2s ease;
-  min-width: 80px;
+  text-align: center;
 }
 
 .model-option.active {
@@ -140,7 +147,8 @@ body {
 }
 
 #message-input {
-  flex: 1;
+  width: 100%;
+  max-width: 500px;
   border: 1px solid var(--border-color);
   padding: 12px 16px;
   border-radius: 20px;
@@ -154,6 +162,7 @@ body {
   max-height: 150px;
   overflow-y: auto;
   line-height: 1.4;
+  box-sizing: border-box;
 }
 
 #message-input:focus {
@@ -171,9 +180,10 @@ body {
   cursor: pointer;
   padding: 12px 20px;
   border-radius: 20px;
-  margin-left: 8px;
   transition: all 0.2s ease;
   box-shadow: 0 2px 8px rgba(25, 118, 210, 0.3);
+  width: 100%;
+  max-width: 500px;
 }
 
 #send-button:hover {
