@@ -28,8 +28,8 @@ export default function Home() {
               placeholder="Type a message..."
               rows="1"
             />
+            <button id="send-button">↑</button>
           </div>
-          <button id="send-button">Send</button>
         </div>
         <div className="footer-text">Made with 💖 by Ryan. AI can make mistakes</div>
       </div>
