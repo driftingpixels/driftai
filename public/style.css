@@ -126,6 +126,7 @@ body {
   max-width: 500px;
   justify-content: center;
   align-self: center; /* Center the toggle container */
+  gap: 4px; /* Small gap between the two buttons */
 }
 
 .model-option {
@@ -142,6 +143,7 @@ body {
   align-items: center;
   justify-content: center;
   min-width: 80px; /* Ensure minimum width for consistency */
+  flex: 0 0 auto; /* Don't grow or shrink, take natural width */
 }
 
 .model-option.active {
