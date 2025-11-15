@@ -117,7 +117,7 @@ body {
 
 .chat-container {
   flex: 1;
-  padding: 15px;
+  padding: 10px;
   padding-bottom: calc(var(--input-container-height) + 15px);
   overflow-y: auto;
   display: flex;
@@ -418,11 +418,12 @@ body {
   }
 
   .message {
-    max-width: 95%;
+    max-width: calc(100% - 10px); /* Almost full width with minimal padding */
+    padding: 12px 14px; /* Slightly reduce padding to maximize space */
   }
 
   .message.system {
-    max-width: 98%;
+    max-width: calc(100% - 5px); /* Almost full width for system messages */
     font-size: 13px;
   }
 
@@ -498,8 +499,8 @@ body {
   }
 
   .chat-container {
-    padding-left: max(15px, env(safe-area-inset-left));
-    padding-right: max(15px, env(safe-area-inset-right));
+    padding-left: max(8px, env(safe-area-inset-left));
+    padding-right: max(8px, env(safe-area-inset-right));
     padding-bottom: calc(var(--input-container-height) + env(safe-area-inset-bottom) + 15px);
   }
 
