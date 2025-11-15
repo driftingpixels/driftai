@@ -227,6 +227,7 @@ body {
   }
 }
 
+
 .input-container {
   position: fixed;
   bottom: 0;
@@ -236,7 +237,7 @@ body {
   flex-direction: column;
   padding: 12px;
   background: transparent;
-  gap: 12px;
+  gap: 10px;
   z-index: 100;
   pointer-events: none;
   height: var(--input-container-height);
