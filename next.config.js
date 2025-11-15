@@ -6,6 +6,10 @@ const nextConfig = {
   },
   reactStrictMode: true,
   swcMinify: true,
+  // Important for Vercel deployment
+  experimental: {
+    outputStandalone: true,
+  },
 };
 
 module.exports = nextConfig;
