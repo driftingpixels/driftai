@@ -321,7 +321,9 @@ export default function Home() {
         </button>
       </div>
       <div className="content-below-titlebar">
-        <div className="chat-container"></div>
+        <div className="chat-container">
+	  <div className="footer-text">Made with 💖 by Ryan. Drift is powered by Gemini</div>
+      </div>
         <div className="input-container">
           <div className="model-toggle">
             <button className="model-option active" data-model="gemini-flash-latest">
