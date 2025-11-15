@@ -70,15 +70,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Add user's message to chat
         addMessage(messageText, "sent", false, true);
-        
-        // Add user message to history in Gemini format
-        conversationHistory.push({
-            role: "user",
-            parts: [{ text: messageText }]
-        });
-        
-        // Save history to sessionStorage
-        saveHistory();
 
         console.log('Sending message with history length:', conversationHistory.length);
         console.log('Using model:', selectedModel);
@@ -102,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
             body: JSON.stringify({
                 message: messageText,
                 model: selectedModel,
-                history: conversationHistory.slice(0, -1) // Send history without current message
+                history: conversationHistory // Send history as is
             })
         })
         .then(response => {
@@ -121,12 +112,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (data.error) {
                 addMessage(`Error: ${data.error}`, "received", false, true);
-                // Remove the failed user message from history
-                conversationHistory.pop();
-                saveHistory();
             } else {
                 addMessage(data.response, "received", false, true);
                 
+                // Add user message to history in Gemini format
+                conversationHistory.push({
+                    role: "user",
+                    parts: [{ text: messageText }]
+                });
+
                 // Add model response to history in Gemini format
                 conversationHistory.push({
                     role: "model",
@@ -146,9 +140,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 loadingMessage.remove();
             }
             addMessage(`Sorry, something went wrong: ${error.message}`, "received", false, true);
-            // Remove the failed user message from history
-            conversationHistory.pop();
-            saveHistory();
         })
         .finally(() => {
             // Re-enable send button
