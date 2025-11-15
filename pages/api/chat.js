@@ -19,7 +19,7 @@ export default async function handler(req, res) {
     }
 
     try {
-        const { message, model = 'gemini-1.5-flash-latest', history = [] } = req.body;
+        const { message, model = 'gemini-flash-latest', history = [] } = req.body;
         
         console.log('=== API Request ===');
         console.log('Model:', model);
@@ -38,8 +38,8 @@ export default async function handler(req, res) {
         }
 
         // Validate model selection - using correct Gemini model names
-        const allowedModels = ['gemini-1.5-flash-latest', 'gemini-1.5-pro-latest', 'gemini-flash-latest', 'gemini-pro-latest'];
-        const selectedModel = allowedModels.includes(model) ? model : 'gemini-1.5-flash-latest';
+        const allowedModels = ['gemini-flash-latest', 'gemini-pro-latest'];
+        const selectedModel = allowedModels.includes(model) ? model : 'gemini-flash-latest';
 
         console.log('Using model:', selectedModel);
 
