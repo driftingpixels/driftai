@@ -1,5 +1,6 @@
 :root {
   --imessage-blue: #1976d2;
+  --imessage-green: #34c759;
   --message-bg: #1976d2;
   --message-text: white;
   --input-bg: #f8f9fa;
@@ -9,6 +10,7 @@
   --titlebar-text: #333;
   --footer-bg: rgba(248, 249, 250, 0.95);
   --system-bg: rgba(158, 158, 158, 0.3);
+  --system-text: #666;
   --titlebar-height: 60px;
   --input-container-height: 140px;
 }
@@ -161,11 +163,26 @@ body {
 .message.sent {
   align-self: flex-end;
   border-bottom-right-radius: 18px;
+  background-color: var(--imessage-green);
+  box-shadow: 0 0 15px rgba(52, 199, 89, 0.4), 0 2px 5px var(--shadow-color);
 }
 
 .message.received {
   align-self: flex-start;
   border-bottom-left-radius: 18px;
+}
+
+/* System message styles */
+.message.system {
+  align-self: center;
+  background-color: var(--system-bg);
+  color: var(--system-text);
+  max-width: 85%;
+  text-align: center;
+  font-size: 14px;
+  padding: 10px 14px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  animation: messageAppear 0.3s ease-out;
 }
 
 .input-container {
@@ -331,8 +348,21 @@ body {
   }
 }
 
-.message {
+@keyframes pulseGreen {
+  0%, 100% { 
+    box-shadow: 0 0 15px rgba(52, 199, 89, 0.4), 0 2px 5px var(--shadow-color);
+  }
+  50% { 
+    box-shadow: 0 0 25px rgba(52, 199, 89, 0.6), 0 2px 5px var(--shadow-color);
+  }
+}
+
+.message.received {
   animation: messageAppear 0.3s ease-out, pulse 2s infinite 1s;
+}
+
+.message.sent {
+  animation: messageAppear 0.3s ease-out, pulseGreen 2s infinite 1s;
 }
 
 .model-option {
@@ -358,6 +388,11 @@ body {
 
   .message {
     max-width: 85%;
+  }
+
+  .message.system {
+    max-width: 90%;
+    font-size: 13px;
   }
 
   .input-container {
