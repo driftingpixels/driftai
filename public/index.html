@@ -2,13 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="theme-color" content="#1976d2">
     <title>Drift AI</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="root">
-        <div class="titlebar">Drift AI</div>
+        <div class="titlebar">
+            Drift AI
+            <button class="clear-history-btn" onclick="clearChatHistory()" title="Clear chat history">
+                🗑️
+            </button>
+        </div>
         <div class="content-below-titlebar">
             <div class="chat-container"></div>
             <div class="input-container">
@@ -24,8 +32,8 @@
                     <textarea id="message-input" placeholder="Type a message..." rows="1"></textarea>
                     <button id="send-button">↑</button>
                 </div>
+                <div class="footer-text">Made with 💖 by Ryan. AI can make mistakes</div>
             </div>
-            <div class="footer-text">Made with 💖 by Ryan. AI can make mistakes</div>
         </div>
     </div>
     <script src="app.js"></script>
