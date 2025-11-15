@@ -91,17 +91,25 @@ export default function Home() {
                 history: conversationHistory
             })
         })
-        .then(response => {
+        .then(async response => {
             console.log('Response status:', response.status);
             
+            // Clone the response so we can read it multiple times if needed
+            const responseClone = response.clone();
+            
             if (!response.ok) {
-                return response.json().then(err => {
-                    throw new Error(err.error || `HTTP error! status: ${response.status}`);
-                }).catch((jsonErr) => {
-                    return response.text().then(text => {
-                        throw new Error(text || `HTTP error! status: ${response.status}`);
-                    });
-                });
+                try {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+                } catch (jsonError) {
+                    // If JSON parsing fails, try text
+                    try {
+                        const errorText = await responseClone.text();
+                        throw new Error(errorText || `HTTP error! status: ${response.status}`);
+                    } catch (textError) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                }
             }
             return response.json();
         })
@@ -267,6 +275,7 @@ export default function Home() {
       <Head>
         <title>Drift AI</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+        <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="theme-color" content="#1976d2" />
