@@ -136,6 +136,7 @@ body {
 
 .message {
   max-width: 85%;
+  min-width: 120px;
   padding: 12px 16px;
   border-radius: 18px;
   word-wrap: break-word;
@@ -147,6 +148,7 @@ body {
   background-color: var(--message-bg);
   color: var(--message-text);
   box-shadow: 0 0 15px rgba(25, 118, 210, 0.4), 0 2px 5px var(--shadow-color);
+  flex: 0 1 auto; /* Allow flexible width */
 }
 
 @keyframes messageAppear {
@@ -162,21 +164,21 @@ body {
 
 .message.sent {
   align-self: flex-end;
-  border-radius: 18px;
+  max-width: 85%;
   background-color: var(--imessage-blue);
   box-shadow: 0 0 15px rgba(25, 118, 210, 0.4), 0 2px 5px var(--shadow-color);
 }
 
 .message.received {
   align-self: flex-start;
-  border-radius: 18px;
+  max-width: 85%;
 }
 
 .message.system {
   align-self: center;
   background-color: var(--system-bg);
   color: var(--system-text);
-  max-width: 100%;
+  max-width: 90%;
   text-align: center;
   font-size: 14px;
   padding: 10px 14px;
@@ -413,11 +415,11 @@ body {
   }
 
   .message {
-    max-width: 85%;
+    max-width: 90%;
   }
 
   .message.system {
-    max-width: 100%;
+    max-width: 95%;
     font-size: 13px;
   }
 
