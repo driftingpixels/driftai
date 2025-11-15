@@ -271,6 +271,9 @@ body {
   border-radius: 16px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  align-self: flex-start; /* Only take the width needed */
+  width: fit-content; /* Only take the width needed */
+  max-width: 100%; /* Prevent overflow on small screens */
 }
 
 .model-option {
@@ -456,6 +459,9 @@ body {
   .model-toggle {
     gap: 6px;
     padding: 6px;
+    align-self: flex-start;
+    width: fit-content;
+    max-width: 100%;
   }
 
   .model-option {
