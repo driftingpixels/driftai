@@ -15,10 +15,10 @@ export default function Home() {
         <div className="chat-container"></div>
         <div className="input-container">
           <div className="model-toggle">
-            <button className="model-option active" data-model="gemini-flash-latest">
+            <button className="model-option active" data-model="gemini-2.0-flash-exp">
               ⚡ Fast
             </button>
-            <button className="model-option" data-model="gemini-pro-latest">
+            <button className="model-option" data-model="gemini-1.5-pro">
               💎 Pro
             </button>
           </div>
