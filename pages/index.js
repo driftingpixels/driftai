@@ -10,7 +10,16 @@ export default function Home() {
         <link rel="stylesheet" href="/style.css" />
       </Head>
       
-      <div className="titlebar">Drift AI</div>
+      <div className="titlebar">
+        Drift AI
+        <button 
+          className="clear-history-btn" 
+          onClick={() => typeof window !== 'undefined' && window.clearChatHistory && window.clearChatHistory()}
+          title="Clear chat history"
+        >
+          🗑️
+        </button>
+      </div>
       <div className="content-below-titlebar">
         <div className="chat-container"></div>
         <div className="input-container">
