@@ -53,14 +53,14 @@ export default async function handler(req, res) {
     } catch (error) {
         console.error('Error:', error);
         console.error('Error details:', error.message);
-        
+
         // Check if it's a model overload error
-        if (error.message && error.message.includes('overloaded')) {
+        if (error.message && (error.message.includes('overloaded') || error.message.includes('quota'))) {
             res.status(503).json({ error: 'Model is overloaded. Please try again later.' });
         } else if (error.status === 503) {
             res.status(503).json({ error: 'Service temporarily unavailable. Please try again later.' });
-        } else if (error.message && error.message.includes('API key')) {
-            res.status(401).json({ error: 'Invalid API key. Please check your configuration.' });
+        } else if (error.message && (error.message.includes('API key') || error.message.includes('400') || error.message.includes('401'))) {
+            res.status(401).json({ error: 'Invalid API key or request. Please check your configuration.' });
         } else {
             res.status(500).json({ error: `Error: ${error.message || 'Something went wrong'}` });
         }
@@ -69,7 +69,9 @@ export default async function handler(req, res) {
 
 export const config = {
     api: {
-        bodyParser: true,
+        bodyParser: {
+            sizeLimit: '4mb',
+        },
         maxDuration: 60,
     },
 };
