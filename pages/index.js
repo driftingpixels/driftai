@@ -70,8 +70,6 @@ export default function Home() {
 
         // Disable send button while processing
         sendButton.disabled = true;
-        const originalContent = sendButton.textContent;
-        sendButton.textContent = "...";
 
         // Add a loading indicator with animated dots
         const loadingMessage = addLoadingMessage();
@@ -160,7 +158,6 @@ export default function Home() {
         .finally(() => {
             // Re-enable send button
             sendButton.disabled = false;
-            sendButton.textContent = originalContent;
         });
     }
 
