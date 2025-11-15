@@ -4,7 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const sendButton = document.getElementById("send-button");
     const modelOptions = document.querySelectorAll(".model-option");
 
-    let selectedModel = "gemini-flash-latest"; // Default model
+    let selectedModel = "gemini-2.0-flash-exp"; // Default model
+    let conversationHistory = []; // Store conversation history
 
     // Handle model selection
     modelOptions.forEach(option => {
@@ -18,6 +19,9 @@ document.addEventListener("DOMContentLoaded", () => {
             setTimeout(() => {
                 option.style.transform = '';
             }, 150);
+
+            // Optional: Add a system message about model switch
+            addMessage(`Switched to ${option.textContent.trim()} model`, "system");
         });
     });
 
@@ -41,6 +45,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Add user's message to chat
         addMessage(messageText, "sent");
+        
+        // Add user message to history
+        conversationHistory.push({
+            role: "user",
+            parts: [{ text: messageText }]
+        });
+
         messageInput.value = "";
         messageInput.style.height = "auto"; // Reset height
 
@@ -59,7 +70,8 @@ document.addEventListener("DOMContentLoaded", () => {
             },
             body: JSON.stringify({
                 message: messageText,
-                model: selectedModel
+                model: selectedModel,
+                history: conversationHistory
             })
         })
         .then(response => {
@@ -78,6 +90,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 addMessage(`Error: ${data.error}`, "received");
             } else {
                 addMessage(data.response, "received");
+                
+                // Add model response to history
+                conversationHistory.push({
+                    role: "model",
+                    parts: [{ text: data.response }]
+                });
             }
         })
         .catch(error => {
@@ -116,6 +134,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Initial welcome message
     setTimeout(() => {
-        addMessage("Hello! I'm Drift, your AI assistant. How can I help you today? 😊", "received");
+        const welcomeText = "Hello! I'm Drift, your AI assistant. How can I help you today? 😊";
+        addMessage(welcomeText, "received");
+        
+        // Add welcome message to history
+        conversationHistory.push({
+            role: "model",
+            parts: [{ text: welcomeText }]
+        });
     }, 500);
 });
