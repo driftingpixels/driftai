@@ -9,7 +9,7 @@ export default function Home() {
     const sendButton = document.getElementById("send-button");
     const modelOptions = document.querySelectorAll(".model-option");
 
-    let selectedModel = "gemini-1.5-flash-latest"; // Default model
+    let selectedModel = "gemini-flash-latest"; // Default model
     let conversationHistory = []; // Store conversation history
     
     // Load conversation history from sessionStorage on page load
@@ -296,10 +296,10 @@ export default function Home() {
         <div className="chat-container"></div>
         <div className="input-container">
           <div className="model-toggle">
-            <button className="model-option active" data-model="gemini-1.5-flash-latest">
+            <button className="model-option active" data-model="gemini-flash-latest">
               ⚡ Fast
             </button>
-            <button className="model-option" data-model="gemini-1.5-pro-latest">
+            <button className="model-option" data-model="gemini-pro-latest">
               💎 Pro
             </button>
           </div>
