@@ -12,7 +12,7 @@
   --system-bg: rgba(158, 158, 158, 0.3);
   --system-text: #666;
   --titlebar-height: 60px;
-  --input-container-height: 140px;
+  --input-container-height: 120px;
 }
 
 * {
@@ -118,7 +118,7 @@ body {
 .chat-container {
   flex: 1;
   padding: 15px;
-  padding-bottom: calc(var(--input-container-height) + 15px);
+  padding-bottom: calc(var(--input-container-height) + 35px);
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -355,7 +355,7 @@ body {
 
 .footer-text {
   position: fixed;
-  bottom: 130px;
+  bottom: calc(var(--input-container-height) + 5px);
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
@@ -406,7 +406,7 @@ body {
 @media (max-width: 768px) {
   :root {
     --titlebar-height: 54px;
-    --input-container-height: 160px;
+    --input-container-height: 120px;
   }
 
   html, body {
@@ -456,7 +456,7 @@ body {
 
   .footer-text {
     font-size: 10px;
-    padding: 6px;
+    padding: 5px 10px;
   }
 }
 
@@ -483,6 +483,10 @@ body {
   .chat-container {
     padding-left: max(15px, env(safe-area-inset-left));
     padding-right: max(15px, env(safe-area-inset-right));
-    padding-bottom: calc(var(--input-container-height) + env(safe-area-inset-bottom) + 15px);
+    padding-bottom: calc(var(--input-container-height) + env(safe-area-inset-bottom) + 35px);
+  }
+
+  .footer-text {
+    bottom: calc(var(--input-container-height) + env(safe-area-inset-bottom) + 5px);
   }
 }
