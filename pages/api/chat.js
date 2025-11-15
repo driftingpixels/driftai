@@ -1,16 +1,7 @@
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 
 export default async function handler(req, res) {
-    // Set CORS headers
-    res.setHeader('Access-Control-Allow-Credentials', true);
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-    res.setHeader(
-        'Access-Control-Allow-Headers',
-        'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
-    );
-
-    // Handle OPTIONS request
+    // Handle OPTIONS request for CORS
     if (req.method === 'OPTIONS') {
         res.status(200).end();
         return;
@@ -28,7 +19,7 @@ export default async function handler(req, res) {
     }
 
     try {
-        const { message, model = 'gemini-flash-latest', history = [] } = req.body;
+        const { message, model = 'gemini-1.5-flash-latest', history = [] } = req.body;
         
         console.log('=== API Request ===');
         console.log('Model:', model);
@@ -47,8 +38,8 @@ export default async function handler(req, res) {
         }
 
         // Validate model selection - using correct Gemini model names
-        const allowedModels = ['gemini-flash-latest', 'gemini-pro-latest', 'gemini-1.5-flash-latest', 'gemini-1.5-pro-latest'];
-        const selectedModel = allowedModels.includes(model) ? model : 'gemini-flash-latest';
+        const allowedModels = ['gemini-1.5-flash-latest', 'gemini-1.5-pro-latest', 'gemini-flash-latest', 'gemini-pro-latest'];
+        const selectedModel = allowedModels.includes(model) ? model : 'gemini-1.5-flash-latest';
 
         console.log('Using model:', selectedModel);
 
@@ -117,12 +108,11 @@ export default async function handler(req, res) {
     }
 }
 
+// Remove externalResolver and simplify config
 export const config = {
     api: {
         bodyParser: {
             sizeLimit: '4mb',
         },
-        responseLimit: false,
-        externalResolver: true,
     },
 };
