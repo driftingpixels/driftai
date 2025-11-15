@@ -33,20 +33,21 @@ export default async function handler(req, res) {
             systemInstruction: "You are a chatbot named Drift created by Ryan in 2025. You are powered by Gemini. You are freely allowed to use any emojis. You do not have access to realtime information such as weather and time."
         });
         
-        // Start a chat session with history
+        // Start a chat session with the full history
         const chat = genModel.startChat({
-            history: history,
+            history: history, // This now includes the full conversation history
             generationConfig: {
                 maxOutputTokens: 2048,
                 temperature: 0.9,
             },
         });
         
+        // Send the current message
         const result = await chat.sendMessage(message);
         const response = await result.response;
         const text = response.text();
         
-        console.log('Response generated successfully');
+        console.log('Response generated successfully with context');
         
         res.status(200).json({ response: text });
     } catch (error) {
