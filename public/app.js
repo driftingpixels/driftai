@@ -79,8 +79,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Disable send button while processing
         sendButton.disabled = true;
-        const originalContent = sendButton.textContent;
-        sendButton.textContent = "...";
 
         // Add a temporary loading indicator for the bot response
         const loadingMessage = addMessage("", "received", true, false);
@@ -167,7 +165,6 @@ document.addEventListener("DOMContentLoaded", () => {
         .finally(() => {
             // Re-enable send button
             sendButton.disabled = false;
-            sendButton.textContent = originalContent;
         });
     }
 
