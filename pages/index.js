@@ -122,7 +122,7 @@ export default function Home() {
             }
 
             if (data.error) {
-                addMessage(`Error: ${data.error}`, "received", false, true);
+                addMessage(data.error, "system", false, true);
             } else if (data.response) {
                 addMessage(data.response, "received", false, true);
                 
@@ -144,7 +144,7 @@ export default function Home() {
                 console.log('Response received, history length now:', conversationHistory.length);
             } else {
                 console.error('Unexpected response format:', data);
-                addMessage("Sorry, received an unexpected response format.", "received", false, true);
+                addMessage("Sorry, received an unexpected response format.", "system", false, true);
             }
         })
         .catch(error => {
@@ -154,12 +154,8 @@ export default function Home() {
                 loadingMessage.remove();
             }
             
-            let errorMessage = "Sorry, something went wrong.";
-            if (error.message) {
-                errorMessage += ` ${error.message}`;
-            }
-            
-            addMessage(errorMessage, "received", false, true);
+            let errorMessage = error.message || "Sorry, something went wrong.";
+            addMessage(errorMessage, "system", false, true);
         })
         .finally(() => {
             // Re-enable send button
@@ -206,10 +202,15 @@ export default function Home() {
         try {
             const messages = [];
             chatContainer.querySelectorAll('.message').forEach(msg => {
-                if (!msg.classList.contains('received') || msg.textContent.trim() !== '') {
+                const classList = Array.from(msg.classList);
+                if (!classList.includes('received') || msg.textContent.trim() !== '') {
+                    let type = 'received';
+                    if (classList.includes('sent')) type = 'sent';
+                    else if (classList.includes('system')) type = 'system';
+                    
                     messages.push({
                         text: msg.textContent,
-                        type: msg.classList.contains('sent') ? 'sent' : 'received'
+                        type: type
                     });
                 }
             });
