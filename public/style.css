@@ -118,7 +118,7 @@ body {
 .chat-container {
   flex: 1;
   padding: 15px;
-  padding-bottom: calc(var(--input-container-height) + 35px);
+  padding-bottom: calc(var(--input-container-height) + 15px);
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -127,6 +127,7 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
   height: 100%;
+  position: relative;
 }
 
 .chat-container::-webkit-scrollbar {
@@ -354,22 +355,21 @@ body {
 }
 
 .footer-text {
-  position: fixed;
-  bottom: calc(var(--input-container-height) + 5px);
-  left: 50%;
-  transform: translateX(-50%);
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
   text-align: center;
-  padding: 6px 12px;
+  padding: 12px 15px;
   font-size: 11px;
   color: #666;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  z-index: 10;
+  margin: 0 -15px -15px -15px;
   pointer-events: none;
-  z-index: 50;
-  white-space: nowrap;
 }
 
 @keyframes pulse {
@@ -456,7 +456,11 @@ body {
 
   .footer-text {
     font-size: 10px;
-    padding: 5px 10px;
+    padding: 10px 12px;
+  }
+  
+  .chat-container {
+    padding-bottom: calc(var(--input-container-height) + 12px);
   }
 }
 
@@ -483,10 +487,13 @@ body {
   .chat-container {
     padding-left: max(15px, env(safe-area-inset-left));
     padding-right: max(15px, env(safe-area-inset-right));
-    padding-bottom: calc(var(--input-container-height) + env(safe-area-inset-bottom) + 35px);
+    padding-bottom: calc(var(--input-container-height) + env(safe-area-inset-bottom) + 15px);
   }
 
   .footer-text {
-    bottom: calc(var(--input-container-height) + env(safe-area-inset-bottom) + 5px);
+    padding-left: max(15px, env(safe-area-inset-left));
+    padding-right: max(15px, env(safe-area-inset-right));
+    margin-left: calc(-1 * max(15px, env(safe-area-inset-left)));
+    margin-right: calc(-1 * max(15px, env(safe-area-inset-right)));
   }
 }
