@@ -8,6 +8,7 @@
   --titlebar-bg: rgba(255, 255, 255, 0.95);
   --titlebar-text: #333;
   --footer-bg: rgba(248, 249, 250, 0.95);
+  --system-bg: rgba(158, 158, 158, 0.3);
 }
 
 * {
@@ -99,6 +100,18 @@ body {
   border-bottom-left-radius: 18px;
 }
 
+.message.system {
+  align-self: center;
+  background-color: var(--system-bg);
+  color: #333;
+  font-size: 13px;
+  padding: 6px 12px;
+  border-radius: 12px;
+  max-width: 60%;
+  box-shadow: none;
+  font-style: italic;
+}
+
 .input-container {
   display: flex;
   flex-direction: column;
@@ -151,17 +164,17 @@ body {
   transition: border-color 0.2s ease;
   min-height: 44px;
   max-height: 150px;
-  overflow-y: auto; /* Allow scrolling when content exceeds max-height */
+  overflow-y: auto;
   line-height: 1.4;
 }
 
 #message-input::-webkit-scrollbar {
-  display: none; /* Hide scrollbar for WebKit browsers (Chrome, Safari, etc.) */
+  display: none;
 }
 
 #message-input {
-  -ms-overflow-style: none;  /* Hide scrollbar for IE and Edge */
-  scrollbar-width: none;  /* Hide scrollbar for Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 #message-input:focus {
@@ -294,6 +307,10 @@ body {
 
 .message {
   animation: messageAppear 0.3s ease-out, pulse 2s infinite 1s;
+}
+
+.message.system {
+  animation: messageAppear 0.3s ease-out;
 }
 
 .model-option {
