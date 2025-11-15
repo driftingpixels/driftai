@@ -100,18 +100,6 @@ body {
   border-bottom-left-radius: 18px;
 }
 
-.message.system {
-  align-self: center;
-  background-color: var(--system-bg);
-  color: #333;
-  font-size: 13px;
-  padding: 6px 12px;
-  border-radius: 12px;
-  max-width: 60%;
-  box-shadow: none;
-  font-style: italic;
-}
-
 .input-container {
   display: flex;
   flex-direction: column;
@@ -307,10 +295,6 @@ body {
 
 .message {
   animation: messageAppear 0.3s ease-out, pulse 2s infinite 1s;
-}
-
-.message.system {
-  animation: messageAppear 0.3s ease-out;
 }
 
 .model-option {
