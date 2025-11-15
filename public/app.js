@@ -85,7 +85,11 @@ document.addEventListener("DOMContentLoaded", () => {
         // Add a temporary loading indicator for the bot response
         const loadingMessage = addMessage("", "received", true, false);
 
-        fetch("/api/chat", {
+        // Use absolute URL for API call to ensure correct routing
+        const apiUrl = `${window.location.origin}/api/chat`;
+        console.log('API URL:', apiUrl);
+
+        fetch(apiUrl, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -93,13 +97,16 @@ document.addEventListener("DOMContentLoaded", () => {
             body: JSON.stringify({
                 message: messageText,
                 model: selectedModel,
-                history: conversationHistory // Send history as is
+                history: conversationHistory
             })
         })
         .then(response => {
+            console.log('Response status:', response.status);
             if (!response.ok) {
                 return response.json().then(err => {
                     throw new Error(err.error || `HTTP error! status: ${response.status}`);
+                }).catch(() => {
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 });
             }
             return response.json();
@@ -197,7 +204,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
     
-    // Add a clear history button functionality (optional)
+    // Add a clear history button functionality
     window.clearChatHistory = function() {
         conversationHistory = [];
         sessionStorage.removeItem('conversationHistory');
