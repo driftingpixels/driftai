@@ -103,7 +103,7 @@ body {
 
 .content-below-titlebar {
   position: fixed;
-  top: 0;
+  top: var(--titlebar-height);
   left: 0;
   right: 0;
   bottom: 0;
@@ -118,7 +118,6 @@ body {
 .chat-container {
   flex: 1;
   padding: 15px;
-  padding-top: calc(var(--titlebar-height) + 15px);
   padding-bottom: calc(var(--input-container-height) + 15px);
   overflow-y: auto;
   display: flex;
@@ -470,6 +469,10 @@ body {
     height: calc(var(--titlebar-height) + env(safe-area-inset-top));
   }
 
+  .content-below-titlebar {
+    top: calc(var(--titlebar-height) + env(safe-area-inset-top));
+  }
+
   .input-container {
     padding-left: max(15px, env(safe-area-inset-left));
     padding-right: max(15px, env(safe-area-inset-right));
@@ -480,7 +483,6 @@ body {
   .chat-container {
     padding-left: max(15px, env(safe-area-inset-left));
     padding-right: max(15px, env(safe-area-inset-right));
-    padding-top: calc(var(--titlebar-height) + env(safe-area-inset-top) + 15px);
     padding-bottom: calc(var(--input-container-height) + env(safe-area-inset-bottom) + 15px);
   }
 }
