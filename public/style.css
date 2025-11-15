@@ -267,7 +267,7 @@ body {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  padding: 8px;
+  padding: 6px; /* Reduced padding to only take needed space */
   border-radius: 16px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
@@ -282,7 +282,9 @@ body {
   font-size: 14px;
   font-weight: 500;
   transition: all 0.2s ease;
-  min-width: 80px;
+  min-width: auto;
+  width: auto;
+  white-space: nowrap;
 }
 
 .model-option.active {
@@ -453,13 +455,15 @@ body {
 
   .model-toggle {
     gap: 6px;
-    padding: 8px;
+    padding: 6px;
   }
 
   .model-option {
     padding: 7px 14px;
     font-size: 13px;
-    min-width: 70px;
+    min-width: auto;
+    width: auto;
+    white-space: nowrap;
   }
 }
 
