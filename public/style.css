@@ -135,7 +135,7 @@ body {
 }
 
 .message {
-  max-width: 100%; /* Changed from 75% to 100% */
+  max-width: 100%;
   padding: 12px 16px;
   border-radius: 18px;
   word-wrap: break-word;
@@ -177,7 +177,7 @@ body {
   align-self: center;
   background-color: var(--system-bg);
   color: var(--system-text);
-  max-width: 100%; /* Changed from 85% to 100% */
+  max-width: 100%;
   text-align: center;
   font-size: 14px;
   padding: 10px 14px;
@@ -351,15 +351,20 @@ body {
   background-color: #bbdefb;
   cursor: not-allowed;
   transform: translateY(-50%);
+  opacity: 0.6;
 }
 
 .footer-text {
   text-align: center;
   padding: 8px;
   font-size: 11px;
-  color: rgba(117, 117, 117, 0.8);
-  background: transparent;
+  color: #757575;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   margin-top: 4px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 @keyframes pulse {
@@ -410,11 +415,11 @@ body {
   }
 
   .message {
-    max-width: 100%; /* Kept at 100% for mobile */
+    max-width: 100%;
   }
 
   .message.system {
-    max-width: 100%; /* Changed from 90% to 100% */
+    max-width: 100%;
     font-size: 13px;
   }
 
