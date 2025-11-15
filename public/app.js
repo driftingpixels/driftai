@@ -6,6 +6,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let selectedModel = "gemini-flash-latest"; // Default model
     let conversationHistory = []; // Store conversation history
+    
+    // Load conversation history from sessionStorage on page load
+    const savedHistory = sessionStorage.getItem('conversationHistory');
+    const savedMessages = sessionStorage.getItem('chatMessages');
+    
+    if (savedHistory) {
+        try {
+            conversationHistory = JSON.parse(savedHistory);
+            console.log('Loaded conversation history:', conversationHistory.length, 'messages');
+        } catch (e) {
+            console.error('Error loading history:', e);
+            conversationHistory = [];
+        }
+    }
+    
+    // Restore previous messages to chat UI
+    if (savedMessages) {
+        try {
+            const messages = JSON.parse(savedMessages);
+            messages.forEach(msg => {
+                addMessage(msg.text, msg.type, false, false);
+            });
+        } catch (e) {
+            console.error('Error loading messages:', e);
+        }
+    }
 
     // Handle model selection
     modelOptions.forEach(option => {
@@ -43,13 +69,16 @@ document.addEventListener("DOMContentLoaded", () => {
         if (messageText === "") return;
 
         // Add user's message to chat
-        addMessage(messageText, "sent");
+        addMessage(messageText, "sent", false, true);
         
         // Add user message to history in Gemini format
         conversationHistory.push({
             role: "user",
             parts: [{ text: messageText }]
         });
+        
+        // Save history to sessionStorage
+        saveHistory();
 
         console.log('Sending message with history length:', conversationHistory.length);
         console.log('Using model:', selectedModel);
@@ -63,7 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
         sendButton.textContent = "...";
 
         // Add a temporary loading indicator for the bot response
-        const loadingMessage = addMessage("", "received", true);
+        const loadingMessage = addMessage("", "received", true, false);
 
         fetch("/api/chat", {
             method: "POST",
@@ -91,17 +120,21 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             if (data.error) {
-                addMessage(`Error: ${data.error}`, "received");
+                addMessage(`Error: ${data.error}`, "received", false, true);
                 // Remove the failed user message from history
                 conversationHistory.pop();
+                saveHistory();
             } else {
-                addMessage(data.response, "received");
+                addMessage(data.response, "received", false, true);
                 
                 // Add model response to history in Gemini format
                 conversationHistory.push({
                     role: "model",
                     parts: [{ text: data.response }]
                 });
+                
+                // Save updated history
+                saveHistory();
                 
                 console.log('Response received, history length now:', conversationHistory.length);
             }
@@ -112,9 +145,10 @@ document.addEventListener("DOMContentLoaded", () => {
             if (loadingMessage) {
                 loadingMessage.remove();
             }
-            addMessage(`Sorry, something went wrong: ${error.message}`, "received");
+            addMessage(`Sorry, something went wrong: ${error.message}`, "received", false, true);
             // Remove the failed user message from history
             conversationHistory.pop();
+            saveHistory();
         })
         .finally(() => {
             // Re-enable send button
@@ -123,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    function addMessage(text, type, isPlaceholder = false) {
+    function addMessage(text, type, isPlaceholder = false, shouldSave = false) {
         const messageElement = document.createElement("div");
         messageElement.classList.add("message", type);
 
@@ -138,19 +172,59 @@ document.addEventListener("DOMContentLoaded", () => {
             top: chatContainer.scrollHeight,
             behavior: 'smooth'
         });
+        
+        // Save message to sessionStorage if needed
+        if (shouldSave && !isPlaceholder) {
+            saveChatMessages();
+        }
 
         return messageElement;
     }
+    
+    function saveHistory() {
+        try {
+            sessionStorage.setItem('conversationHistory', JSON.stringify(conversationHistory));
+        } catch (e) {
+            console.error('Error saving history:', e);
+        }
+    }
+    
+    function saveChatMessages() {
+        try {
+            const messages = [];
+            chatContainer.querySelectorAll('.message').forEach(msg => {
+                if (!msg.classList.contains('received') || msg.textContent.trim() !== '') {
+                    messages.push({
+                        text: msg.textContent,
+                        type: msg.classList.contains('sent') ? 'sent' : 'received'
+                    });
+                }
+            });
+            sessionStorage.setItem('chatMessages', JSON.stringify(messages));
+        } catch (e) {
+            console.error('Error saving messages:', e);
+        }
+    }
+    
+    // Add a clear history button functionality (optional)
+    window.clearChatHistory = function() {
+        conversationHistory = [];
+        sessionStorage.removeItem('conversationHistory');
+        sessionStorage.removeItem('chatMessages');
+        chatContainer.innerHTML = '';
+        console.log('Chat history cleared');
+        // Show welcome message again
+        setTimeout(() => {
+            const welcomeText = "Hello! I'm Drift, your AI assistant. How can I help you today? 😊";
+            addMessage(welcomeText, "received", false, false);
+        }, 300);
+    };
 
-    // Initial welcome message
-    setTimeout(() => {
-        const welcomeText = "Hello! I'm Drift, your AI assistant. How can I help you today? 😊";
-        addMessage(welcomeText, "received");
-        
-        // Add welcome message to history
-        conversationHistory.push({
-            role: "model",
-            parts: [{ text: welcomeText }]
-        });
-    }, 500);
+    // Initial welcome message only if no saved history
+    if (!savedHistory && !savedMessages) {
+        setTimeout(() => {
+            const welcomeText = "Hello! I'm Drift, your AI assistant. How can I help you today? 😊";
+            addMessage(welcomeText, "received", false, false);
+        }, 500);
+    }
 });
