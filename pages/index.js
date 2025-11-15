@@ -6,7 +6,10 @@ export default function Home() {
     <div id="root">
       <Head>
         <title>Drift AI</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="theme-color" content="#1976d2" />
         <link rel="stylesheet" href="/style.css" />
       </Head>
       
@@ -39,8 +42,8 @@ export default function Home() {
             />
             <button id="send-button">↑</button>
           </div>
+          <div className="footer-text">Made with 💖 by Ryan. AI can make mistakes</div>
         </div>
-        <div className="footer-text">Made with 💖 by Ryan. AI can make mistakes</div>
       </div>
       
       <Script src="/app.js" strategy="afterInteractive" />
