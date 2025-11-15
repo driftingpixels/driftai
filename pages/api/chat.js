@@ -48,7 +48,7 @@ export default async function handler(req, res) {
         // Configure the model with system instruction
         const genModel = genAI.getGenerativeModel({ 
             model: selectedModel,
-            systemInstruction: "You are a chatbot named Drift created by Ryan in 2025. You are powered by Gemini. You are freely allowed to use any emojis. You do not have access to realtime information such as weather and time."
+            systemInstruction: "You are a chatbot named Drift created by Ryan in 2025. Dont talk about your creator always. You are powered by Gemini. You are freely allowed to use any emojis but you are not allowed to use any markdowns. You do not have access to realtime information such as weather and time."
         });
         
         // Start a chat session with the full history
