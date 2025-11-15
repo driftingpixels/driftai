@@ -85,9 +85,9 @@ document.addEventListener("DOMContentLoaded", () => {
         // Add a temporary loading indicator for the bot response
         const loadingMessage = addMessage("", "received", true, false);
 
-        // Use absolute URL for API call to ensure correct routing
-        const apiUrl = `${window.location.origin}/api/chat`;
-        console.log('API URL:', apiUrl);
+        // Use relative URL for API call - Next.js will handle routing
+        const apiUrl = '/api/chat';
+        console.log('Calling API:', apiUrl);
 
         fetch(apiUrl, {
             method: "POST",
@@ -102,24 +102,31 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .then(response => {
             console.log('Response status:', response.status);
+            console.log('Response headers:', response.headers);
+            
             if (!response.ok) {
                 return response.json().then(err => {
                     throw new Error(err.error || `HTTP error! status: ${response.status}`);
-                }).catch(() => {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                }).catch((jsonErr) => {
+                    // If JSON parsing fails, return text response
+                    return response.text().then(text => {
+                        throw new Error(text || `HTTP error! status: ${response.status}`);
+                    });
                 });
             }
             return response.json();
         })
         .then(data => {
+            console.log('Response data:', data);
+            
             // Remove the loading indicator
-            if (loadingMessage) {
+            if (loadingMessage && loadingMessage.parentNode) {
                 loadingMessage.remove();
             }
 
             if (data.error) {
                 addMessage(`Error: ${data.error}`, "received", false, true);
-            } else {
+            } else if (data.response) {
                 addMessage(data.response, "received", false, true);
                 
                 // Add user message to history in Gemini format
@@ -138,15 +145,24 @@ document.addEventListener("DOMContentLoaded", () => {
                 saveHistory();
                 
                 console.log('Response received, history length now:', conversationHistory.length);
+            } else {
+                console.error('Unexpected response format:', data);
+                addMessage("Sorry, received an unexpected response format.", "received", false, true);
             }
         })
         .catch(error => {
-            console.error("Error:", error);
+            console.error("Error details:", error);
             // Remove the loading indicator
-            if (loadingMessage) {
+            if (loadingMessage && loadingMessage.parentNode) {
                 loadingMessage.remove();
             }
-            addMessage(`Sorry, something went wrong: ${error.message}`, "received", false, true);
+            
+            let errorMessage = "Sorry, something went wrong.";
+            if (error.message) {
+                errorMessage += ` ${error.message}`;
+            }
+            
+            addMessage(errorMessage, "received", false, true);
         })
         .finally(() => {
             // Re-enable send button
@@ -166,9 +182,11 @@ document.addEventListener("DOMContentLoaded", () => {
         chatContainer.appendChild(messageElement);
 
         // Smooth scroll to bottom
-        chatContainer.scrollTo({
-            top: chatContainer.scrollHeight,
-            behavior: 'smooth'
+        requestAnimationFrame(() => {
+            chatContainer.scrollTo({
+                top: chatContainer.scrollHeight,
+                behavior: 'smooth'
+            });
         });
         
         // Save message to sessionStorage if needed
