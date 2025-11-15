@@ -135,7 +135,7 @@ body {
 }
 
 .message {
-  max-width: 75%;
+  max-width: 100%; /* Changed from 75% to 100% */
   padding: 12px 16px;
   border-radius: 18px;
   word-wrap: break-word;
@@ -177,12 +177,56 @@ body {
   align-self: center;
   background-color: var(--system-bg);
   color: var(--system-text);
-  max-width: 85%;
+  max-width: 100%; /* Changed from 85% to 100% */
   text-align: center;
   font-size: 14px;
   padding: 10px 14px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   animation: messageAppear 0.3s ease-out;
+}
+
+/* Loading dots animation */
+.message.loading {
+  min-width: 60px;
+  padding: 16px 20px;
+}
+
+.message.loading .dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.message.loading .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.8);
+  animation: dotPulse 1.4s infinite ease-in-out;
+}
+
+.message.loading .dot:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.message.loading .dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.message.loading .dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes dotPulse {
+  0%, 60%, 100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  30% {
+    transform: translateY(-10px);
+    opacity: 1;
+  }
 }
 
 .input-container {
@@ -318,27 +362,6 @@ body {
   margin-top: 4px;
 }
 
-.message.received:empty::before {
-  content: '';
-  display: inline-block;
-  width: 3px;
-  height: 3px;
-  border-radius: 50%;
-  background-color: #fff;
-  margin-right: 5px;
-  animation: loadingDots 1.4s infinite;
-  box-shadow: 7px 0 0 0 #fff, 14px 0 0 0 #fff;
-}
-
-@keyframes loadingDots {
-  0%, 60%, 100% {
-    box-shadow: 7px 0 0 0 #fff, 14px 0 0 0 #fff;
-  }
-  30% {
-    box-shadow: 7px 0 0 0 #fff, 14px 0 0 0 rgba(255, 255, 255, 0);
-  }
-}
-
 @keyframes pulse {
   0%, 100% { 
     box-shadow: 0 0 15px rgba(25, 118, 210, 0.4), 0 2px 5px var(--shadow-color);
@@ -357,7 +380,7 @@ body {
   }
 }
 
-.message.received {
+.message.received:not(.loading) {
   animation: messageAppear 0.3s ease-out, pulse 2s infinite 1s;
 }
 
@@ -387,11 +410,11 @@ body {
   }
 
   .message {
-    max-width: 85%;
+    max-width: 100%; /* Kept at 100% for mobile */
   }
 
   .message.system {
-    max-width: 90%;
+    max-width: 100%; /* Changed from 90% to 100% */
     font-size: 13px;
   }
 
