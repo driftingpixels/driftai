@@ -226,6 +226,32 @@ body {
   z-index: 10;
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.clear-history-btn {
+  position: absolute;
+  right: 20px;
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  opacity: 0.6;
+}
+
+.clear-history-btn:hover {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.clear-history-btn:active {
+  transform: scale(0.95);
 }
 
 .content-below-titlebar {
@@ -260,6 +286,11 @@ body {
     width: 30px;
     height: 30px;
     font-size: 18px;
+  }
+  
+  .clear-history-btn {
+    right: 10px;
+    font-size: 16px;
   }
 }
 
