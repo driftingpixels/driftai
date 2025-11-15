@@ -73,8 +73,8 @@ export default function Home() {
         const originalContent = sendButton.textContent;
         sendButton.textContent = "...";
 
-        // Add a temporary loading indicator for the bot response
-        const loadingMessage = addMessage("", "received", true, false);
+        // Add a loading indicator with animated dots
+        const loadingMessage = addLoadingMessage();
 
         // Use relative URL for API call - Next.js will handle routing
         const apiUrl = '/api/chat';
@@ -190,6 +190,33 @@ export default function Home() {
         return messageElement;
     }
     
+    function addLoadingMessage() {
+        const messageElement = document.createElement("div");
+        messageElement.classList.add("message", "received", "loading");
+        
+        const dotsContainer = document.createElement("div");
+        dotsContainer.classList.add("dots");
+        
+        for (let i = 0; i < 3; i++) {
+            const dot = document.createElement("div");
+            dot.classList.add("dot");
+            dotsContainer.appendChild(dot);
+        }
+        
+        messageElement.appendChild(dotsContainer);
+        chatContainer.appendChild(messageElement);
+        
+        // Smooth scroll to bottom
+        requestAnimationFrame(() => {
+            chatContainer.scrollTo({
+                top: chatContainer.scrollHeight,
+                behavior: 'smooth'
+            });
+        });
+        
+        return messageElement;
+    }
+    
     function saveHistory() {
         try {
             sessionStorage.setItem('conversationHistory', JSON.stringify(conversationHistory));
@@ -203,6 +230,9 @@ export default function Home() {
             const messages = [];
             chatContainer.querySelectorAll('.message').forEach(msg => {
                 const classList = Array.from(msg.classList);
+                // Skip loading messages
+                if (classList.includes('loading')) return;
+                
                 if (!classList.includes('received') || msg.textContent.trim() !== '') {
                     let type = 'received';
                     if (classList.includes('sent')) type = 'sent';
@@ -312,7 +342,7 @@ export default function Home() {
             />
             <button id="send-button">↑</button>
           </div>
-          <div className="footer-text">Made with 💖 by Ryan. AI can make mistakes</div>
+          <div className="footer-text">Made with 💖 by Ryan. Drift is powered by Gemini</div>
         </div>
       </div>
     </div>
