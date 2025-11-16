@@ -3,16 +3,61 @@ import Head from 'next/head';
 
 export default function Home() {
   useEffect(() => {
+    // Simple markdown parser
+    function parseMarkdown(text) {
+      // Escape HTML
+      let html = text.replace(/&/g, '&amp;')
+                     .replace(/</g, '&lt;')
+                     .replace(/>/g, '&gt;');
+      
+      // Code blocks (must come before inline code)
+      html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, '<pre><code>$2</code></pre>');
+      
+      // Inline code
+      html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+      
+      // Bold
+      html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+      html = html.replace(/__(.+?)__/g, '<strong>$1</strong>');
+      
+      // Italic
+      html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+      html = html.replace(/_(.+?)_/g, '<em>$1</em>');
+      
+      // Links
+      html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+      
+      // Blockquotes
+      html = html.replace(/^&gt; (.+)$/gm, '<blockquote>$1</blockquote>');
+      
+      // Unordered lists
+      html = html.replace(/^\* (.+)$/gm, '<li>$1</li>');
+      html = html.replace(/^- (.+)$/gm, '<li>$1</li>');
+      html = html.replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>');
+      
+      // Ordered lists
+      html = html.replace(/^\d+\. (.+)$/gm, '<li>$1</li>');
+      
+      // Line breaks -> paragraphs
+      html = html.split('\n\n').map(para => {
+        if (!para.match(/^<(ul|ol|pre|blockquote)/)) {
+          return '<p>' + para.replace(/\n/g, '<br>') + '</p>';
+        }
+        return para;
+      }).join('');
+      
+      return html;
+    }
+
     // Initialize chat functionality
     const chatContainer = document.querySelector(".chat-container");
     const messageInput = document.getElementById("message-input");
     const sendButton = document.getElementById("send-button");
     const modelOptions = document.querySelectorAll(".model-option");
 
-    let selectedModel = "gemini-flash-latest"; // Default model
-    let conversationHistory = []; // Store conversation history
+    let selectedModel = "gemini-flash-latest";
+    let conversationHistory = [];
     
-    // Load conversation history from sessionStorage on page load
     const savedHistory = sessionStorage.getItem('conversationHistory');
     const savedMessages = sessionStorage.getItem('chatMessages');
     
@@ -26,7 +71,6 @@ export default function Home() {
         }
     }
     
-    // Restore previous messages to chat UI
     if (savedMessages) {
         try {
             const messages = JSON.parse(savedMessages);
@@ -38,14 +82,12 @@ export default function Home() {
         }
     }
 
-    // Handle model selection
     modelOptions.forEach(option => {
         option.addEventListener("click", () => {
             modelOptions.forEach(opt => opt.classList.remove("active"));
             option.classList.add("active");
             selectedModel = option.dataset.model;
 
-            // Add visual feedback
             option.style.transform = 'scale(0.95)';
             setTimeout(() => {
                 option.style.transform = '';
@@ -59,22 +101,18 @@ export default function Home() {
         const messageText = messageInput.value.trim();
         if (messageText === "") return;
 
-        // Add user's message to chat
         addMessage(messageText, "sent", false, true);
 
         console.log('Sending message with history length:', conversationHistory.length);
         console.log('Using model:', selectedModel);
 
         messageInput.value = "";
-        messageInput.style.height = "auto"; // Reset height
+        messageInput.style.height = "auto";
 
-        // Disable send button while processing
         sendButton.disabled = true;
 
-        // Add a loading indicator with animated dots
         const loadingMessage = addLoadingMessage();
 
-        // Use relative URL for API call - Next.js will handle routing
         const apiUrl = '/api/chat';
         console.log('Calling API:', apiUrl);
 
@@ -92,7 +130,6 @@ export default function Home() {
         .then(async response => {
             console.log('Response status:', response.status);
             
-            // Clone the response so we can read it multiple times if needed
             const responseClone = response.clone();
             
             if (!response.ok) {
@@ -100,7 +137,6 @@ export default function Home() {
                     const errorData = await response.json();
                     throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
                 } catch (jsonError) {
-                    // If JSON parsing fails, try text
                     try {
                         const errorText = await responseClone.text();
                         throw new Error(errorText || `HTTP error! status: ${response.status}`);
@@ -114,7 +150,6 @@ export default function Home() {
         .then(data => {
             console.log('Response data:', data);
             
-            // Remove the loading indicator
             if (loadingMessage && loadingMessage.parentNode) {
                 loadingMessage.remove();
             }
@@ -124,19 +159,16 @@ export default function Home() {
             } else if (data.response) {
                 addMessage(data.response, "received", false, true);
                 
-                // Add user message to history in Gemini format
                 conversationHistory.push({
                     role: "user",
                     parts: [{ text: messageText }]
                 });
 
-                // Add model response to history in Gemini format
                 conversationHistory.push({
                     role: "model",
                     parts: [{ text: data.response }]
                 });
                 
-                // Save updated history
                 saveHistory();
                 
                 console.log('Response received, history length now:', conversationHistory.length);
@@ -147,7 +179,6 @@ export default function Home() {
         })
         .catch(error => {
             console.error("Error details:", error);
-            // Remove the loading indicator
             if (loadingMessage && loadingMessage.parentNode) {
                 loadingMessage.remove();
             }
@@ -156,7 +187,6 @@ export default function Home() {
             addMessage(errorMessage, "system", false, true);
         })
         .finally(() => {
-            // Re-enable send button
             sendButton.disabled = false;
         });
     }
@@ -166,12 +196,15 @@ export default function Home() {
         messageElement.classList.add("message", type);
 
         if (!isPlaceholder) {
-            messageElement.textContent = text;
+            if (type === "received" || type === "sent") {
+                messageElement.innerHTML = parseMarkdown(text);
+            } else {
+                messageElement.textContent = text;
+            }
         }
 
         chatContainer.appendChild(messageElement);
 
-        // Smooth scroll to bottom
         requestAnimationFrame(() => {
             chatContainer.scrollTo({
                 top: chatContainer.scrollHeight,
@@ -179,7 +212,6 @@ export default function Home() {
             });
         });
         
-        // Save message to sessionStorage if needed
         if (shouldSave && !isPlaceholder) {
             saveChatMessages();
         }
@@ -203,7 +235,6 @@ export default function Home() {
         messageElement.appendChild(dotsContainer);
         chatContainer.appendChild(messageElement);
         
-        // Smooth scroll to bottom
         requestAnimationFrame(() => {
             chatContainer.scrollTo({
                 top: chatContainer.scrollHeight,
@@ -227,7 +258,6 @@ export default function Home() {
             const messages = [];
             chatContainer.querySelectorAll('.message').forEach(msg => {
                 const classList = Array.from(msg.classList);
-                // Skip loading messages
                 if (classList.includes('loading')) return;
                 
                 if (!classList.includes('received') || msg.textContent.trim() !== '') {
@@ -247,26 +277,22 @@ export default function Home() {
         }
     }
     
-    // Add a clear history button functionality
     window.clearChatHistory = function() {
         conversationHistory = [];
         sessionStorage.removeItem('conversationHistory');
         sessionStorage.removeItem('chatMessages');
         chatContainer.innerHTML = '';
         console.log('Chat history cleared');
-        // Show welcome message again
         setTimeout(() => {
             const welcomeText = "Hello! I'm Drift, your AI assistant. How can I help you today? 😊";
             addMessage(welcomeText, "received", false, false);
         }, 300);
     };
 
-    // Send button click handler
     if (sendButton) {
         sendButton.addEventListener("click", sendMessage);
     }
 
-    // Enter key handler
     if (messageInput) {
         messageInput.addEventListener("keydown", (event) => {
             if (event.key === "Enter" && !event.shiftKey) {
@@ -275,14 +301,20 @@ export default function Home() {
             }
         });
 
-        // Auto-resize textarea
         messageInput.addEventListener("input", function() {
             this.style.height = 'auto';
-            this.style.height = (this.scrollHeight > 150 ? 150 : this.scrollHeight) + 'px';
+            const newHeight = this.scrollHeight;
+            this.style.height = newHeight + 'px';
+            
+            // Adjust chat container padding based on input height
+            const inputContainer = this.closest('.input-container');
+            if (inputContainer) {
+                const totalHeight = inputContainer.scrollHeight;
+                chatContainer.style.paddingBottom = (totalHeight + 15) + 'px';
+            }
         });
     }
 
-    // Initial welcome message only if no saved history
     if (!savedHistory && !savedMessages) {
         setTimeout(() => {
             const welcomeText = "Hello! I'm Drift, your AI assistant. How can I help you today? 😊";
@@ -290,7 +322,6 @@ export default function Home() {
         }, 500);
     }
 
-    // Cleanup
     return () => {
       if (sendButton) {
         sendButton.removeEventListener("click", sendMessage);
