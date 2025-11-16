@@ -13,7 +13,7 @@
   --system-text: #666;
   --titlebar-height: 60px;
   --input-container-height: 160px;
-  --message-padding: 10px; /* Horizontal padding for messages */
+  --message-padding: 10px;
 }
 
 * {
@@ -136,8 +136,8 @@ body {
 }
 
 .message {
-  width: fit-content; /* Only take needed width */
-  max-width: 100%; /* But don't exceed container width */
+  width: fit-content;
+  max-width: 100%;
   padding: 12px 16px;
   border-radius: 18px;
   word-wrap: break-word;
@@ -149,8 +149,67 @@ body {
   font-size: 16px;
   background-color: var(--message-bg);
   color: var(--message-text);
-  box-shadow: 0 0 15px rgba(25, 118, 210, 0.4), 0 2px 5px var(--shadow-color);
+  box-shadow: 0 0 25px rgba(25, 118, 210, 0.6), 0 4px 8px var(--shadow-color);
   overflow-wrap: break-word;
+}
+
+/* Markdown support styles */
+.message p {
+  margin: 0 0 8px 0;
+}
+
+.message p:last-child {
+  margin-bottom: 0;
+}
+
+.message code {
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9em;
+}
+
+.message pre {
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 8px 0;
+}
+
+.message pre code {
+  background-color: transparent;
+  padding: 0;
+}
+
+.message strong {
+  font-weight: 700;
+}
+
+.message em {
+  font-style: italic;
+}
+
+.message ul, .message ol {
+  margin: 8px 0;
+  padding-left: 20px;
+}
+
+.message li {
+  margin: 4px 0;
+}
+
+.message a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.message blockquote {
+  border-left: 3px solid rgba(255, 255, 255, 0.5);
+  padding-left: 12px;
+  margin: 8px 0;
+  font-style: italic;
 }
 
 @keyframes messageAppear {
@@ -165,13 +224,13 @@ body {
 }
 
 .message.sent {
-  align-self: flex-end; /* Align to right */
-  background-color: var(--imessage-blue);
-  box-shadow: 0 0 15px rgba(25, 118, 210, 0.4), 0 2px 5px var(--shadow-color);
+  align-self: flex-end;
+  background-color: var(--imessage-green);
+  box-shadow: 0 0 25px rgba(52, 199, 89, 0.6), 0 4px 8px var(--shadow-color);
 }
 
 .message.received {
-  align-self: flex-start; /* Align to left */
+  align-self: flex-start;
 }
 
 .message.system {
@@ -229,7 +288,6 @@ body {
   }
 }
 
-
 .input-container {
   position: fixed;
   bottom: 0;
@@ -242,7 +300,8 @@ body {
   gap: 10px;
   z-index: 100;
   pointer-events: none;
-  height: var(--input-container-height);
+  height: auto;
+  max-height: 400px;
 }
 
 .input-container > * {
@@ -259,7 +318,7 @@ body {
   -webkit-backdrop-filter: blur(20px);
   border-radius: 20px;
   border: 1px solid rgba(0, 0, 0, 0.1);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   padding: 8px;
 }
 
@@ -272,7 +331,7 @@ body {
   padding: 6px;
   border-radius: 16px;
   border: 1px solid rgba(0, 0, 0, 0.1);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   align-self: flex-start;
   width: fit-content;
   max-width: 100%;
@@ -295,7 +354,7 @@ body {
 .model-option.active {
   background: var(--imessage-blue);
   color: white;
-  box-shadow: 0 2px 10px rgba(25, 118, 210, 0.3);
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.3);
 }
 
 #message-input {
@@ -309,7 +368,7 @@ body {
   font-family: inherit;
   transition: all 0.2s ease;
   min-height: 38px;
-  max-height: 120px;
+  max-height: 200px;
   overflow-y: auto;
   line-height: 1.4;
 }
@@ -343,6 +402,7 @@ body {
   transition: all 0.2s ease;
   padding: 0;
   flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.3);
 }
 
 #send-button:hover {
@@ -378,10 +438,19 @@ body {
 
 @keyframes pulse {
   0%, 100% { 
-    box-shadow: 0 0 15px rgba(25, 118, 210, 0.4), 0 2px 5px var(--shadow-color);
+    box-shadow: 0 0 25px rgba(25, 118, 210, 0.6), 0 4px 8px var(--shadow-color);
   }
   50% { 
-    box-shadow: 0 0 25px rgba(25, 118, 210, 0.6), 0 2px 5px var(--shadow-color);
+    box-shadow: 0 0 35px rgba(25, 118, 210, 0.8), 0 4px 8px var(--shadow-color);
+  }
+}
+
+@keyframes pulseSent {
+  0%, 100% { 
+    box-shadow: 0 0 25px rgba(52, 199, 89, 0.6), 0 4px 8px var(--shadow-color);
+  }
+  50% { 
+    box-shadow: 0 0 35px rgba(52, 199, 89, 0.8), 0 4px 8px var(--shadow-color);
   }
 }
 
@@ -390,7 +459,7 @@ body {
 }
 
 .message.sent {
-  animation: messageAppear 0.3s ease-out;
+  animation: messageAppear 0.3s ease-out, pulseSent 2s infinite 1s;
 }
 
 .model-option {
@@ -401,8 +470,7 @@ body {
 @media (max-width: 768px) {
   :root {
     --titlebar-height: 54px;
-    --input-container-height: 160px;
-    --message-padding: 10px; /* Equal padding on mobile */
+    --message-padding: 10px;
   }
 
   html, body {
@@ -416,8 +484,8 @@ body {
   }
 
   .message {
-    width: fit-content; /* Only take needed width on mobile */
-    max-width: 100%; /* Don't exceed container */
+    width: fit-content;
+    max-width: 100%;
     padding: 12px 14px;
   }
 
@@ -428,6 +496,7 @@ body {
 
   .input-container {
     padding: 12px;
+    max-height: 350px;
   }
 
   .titlebar {
@@ -438,6 +507,7 @@ body {
   #message-input {
     padding: 8px 12px;
     font-size: 16px;
+    max-height: 150px;
   }
 
   #send-button {
@@ -458,7 +528,7 @@ body {
   }
   
   .chat-container {
-    padding-bottom: calc(var(--input-container-height) + 12px);
+    padding-bottom: 180px;
   }
 
   .model-toggle {
@@ -494,13 +564,11 @@ body {
     padding-left: max(12px, env(safe-area-inset-left));
     padding-right: max(12px, env(safe-area-inset-right));
     padding-bottom: max(12px, env(safe-area-inset-bottom));
-    height: calc(var(--input-container-height) + env(safe-area-inset-bottom));
   }
 
   .chat-container {
     padding-left: max(var(--message-padding), env(safe-area-inset-left));
     padding-right: max(var(--message-padding), env(safe-area-inset-right));
-    padding-bottom: calc(var(--input-container-height) + env(safe-area-inset-bottom) + 15px);
   }
 
   .footer-text {
