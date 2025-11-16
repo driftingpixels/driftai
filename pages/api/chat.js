@@ -38,7 +38,7 @@ export default async function handler(req, res) {
         }
 
         // Validate model selection - using correct Gemini model names
-        const allowedModels = ['gemini-flash-latest', 'gemini-pro-latest'];
+        const allowedModels = ['gemini-flash-latest', 'gemini-2.0-pro'];
         const selectedModel = allowedModels.includes(model) ? model : 'gemini-flash-latest';
 
         console.log('Using model:', selectedModel);
