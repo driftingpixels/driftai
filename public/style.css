@@ -585,7 +585,7 @@ body {
   }
 
   .content-below-titlebar {
-    top: calc(var(--titlebar-height) + env(safe-area-inset-top));
+    padding-top: calc(var(--titlebar-height) + env(safe-area-inset-top));
   }
 
   .input-container {
