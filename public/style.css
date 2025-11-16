@@ -74,14 +74,13 @@ body {
   backdrop-filter: blur(40px) saturate(180%);
   -webkit-backdrop-filter: blur(40px) saturate(180%);
   z-index: 1000;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 0 0 16px 16px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-  border-top: none;
 }
 
 .clear-history-btn {
