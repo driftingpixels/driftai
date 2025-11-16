@@ -98,8 +98,9 @@ export default function Home() {
     let selectedModel = "gemini-flash-latest";
     let conversationHistory = [];
     
-    const savedHistory = sessionStorage.getItem('conversationHistory');
-    const savedMessages = sessionStorage.getItem('chatMessages');
+    // Load conversation history from localStorage on page load
+    const savedHistory = localStorage.getItem('conversationHistory');
+    const savedMessages = localStorage.getItem('chatMessages');
     
     if (savedHistory) {
         try {
@@ -111,6 +112,7 @@ export default function Home() {
         }
     }
     
+    // Restore previous messages to chat UI
     if (savedMessages) {
         try {
             const messages = JSON.parse(savedMessages);
@@ -315,7 +317,7 @@ export default function Home() {
     
     function saveHistory() {
         try {
-            sessionStorage.setItem('conversationHistory', JSON.stringify(conversationHistory));
+            localStorage.setItem('conversationHistory', JSON.stringify(conversationHistory));
         } catch (e) {
             console.error('Error saving history:', e);
         }
@@ -339,7 +341,7 @@ export default function Home() {
                     });
                 }
             });
-            sessionStorage.setItem('chatMessages', JSON.stringify(messages));
+            localStorage.setItem('chatMessages', JSON.stringify(messages));
         } catch (e) {
             console.error('Error saving messages:', e);
         }
@@ -347,8 +349,8 @@ export default function Home() {
     
     window.clearChatHistory = function() {
         conversationHistory = [];
-        sessionStorage.removeItem('conversationHistory');
-        sessionStorage.removeItem('chatMessages');
+        localStorage.removeItem('conversationHistory');
+        localStorage.removeItem('chatMessages');
         chatContainer.innerHTML = '';
         console.log('Chat history cleared');
         setTimeout(() => {
