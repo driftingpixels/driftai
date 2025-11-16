@@ -45,10 +45,15 @@ export default async function handler(req, res) {
 
         const genAI = new GoogleGenerativeAI(process.env.API_KEY);
         
-        // Configure the model with system instruction
+        // Configure the model with system instruction and Google Search grounding
         const genModel = genAI.getGenerativeModel({ 
             model: selectedModel,
-            systemInstruction: "You are a chatbot named Drift created by Ryan in 2025. You are powered by Gemini. You are freely allowed to use any emojis but you are not allowed to use any markdowns. You do not have access to realtime information such as weather and time."
+            systemInstruction: "You are a chatbot / AI assistant named Drift created by Ryan in 2025. Provide concise responses. Do not talk about yourself and your creator unless the user is greeting you or they specifically ask for it. You are powered by Gemini. You can search the web for current information when needed. You are freely allowed to use any emojis.",
+            tools: [
+                {
+                    googleSearch: {}
+                }
+            ]
         });
         
         // Start a chat session with the full history
@@ -60,7 +65,7 @@ export default async function handler(req, res) {
             },
         });
         
-        console.log('Sending message to AI...');
+        console.log('Sending message to AI with Google Search enabled...');
         
         // Send the current message
         const result = await chat.sendMessage(message);
@@ -69,6 +74,12 @@ export default async function handler(req, res) {
         
         console.log('Response generated successfully');
         console.log('Response length:', text.length);
+        
+        // Check if grounding metadata is available (indicates search was used)
+        const groundingMetadata = response.groundingMetadata;
+        if (groundingMetadata) {
+            console.log('Google Search was used for this response');
+        }
         
         res.status(200).json({ response: text });
     } catch (error) {
