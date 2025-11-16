@@ -37,8 +37,9 @@ export default async function handler(req, res) {
             return res.status(400).json({ error: 'Message is too long. Please keep it under 10,000 characters.' });
         }
 
+
         // Validate model selection - using correct Gemini model names
-        const allowedModels = ['gemini-flash-latest', 'gemini-2.0-pro'];
+        const allowedModels = ['gemini-flash-latest', 'gemini-pro-latest'];
         const selectedModel = allowedModels.includes(model) ? model : 'gemini-flash-latest';
 
         console.log('Using model:', selectedModel);
