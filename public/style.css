@@ -136,8 +136,8 @@ body {
 }
 
 .message {
-  width: calc(100% - 0px); /* Full width minus container padding (handled by container) */
-  max-width: none; /* Remove max-width restriction */
+  width: fit-content; /* Only take needed width */
+  max-width: 100%; /* But don't exceed container width */
   padding: 12px 16px;
   border-radius: 18px;
   word-wrap: break-word;
@@ -165,13 +165,13 @@ body {
 }
 
 .message.sent {
-  align-self: stretch; /* Stretch to full width */
+  align-self: flex-end; /* Align to right */
   background-color: var(--imessage-blue);
   box-shadow: 0 0 15px rgba(25, 118, 210, 0.4), 0 2px 5px var(--shadow-color);
 }
 
 .message.received {
-  align-self: stretch; /* Stretch to full width */
+  align-self: flex-start; /* Align to left */
 }
 
 .message.system {
@@ -416,7 +416,8 @@ body {
   }
 
   .message {
-    width: 100%; /* Full width on mobile */
+    width: fit-content; /* Only take needed width on mobile */
+    max-width: 100%; /* Don't exceed container */
     padding: 12px 14px;
   }
 
