@@ -16,6 +16,11 @@ export default function Home() {
       // Inline code
       html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
       
+      // Headers (must come before bold/italic)
+      html = html.replace(/^###\s+(.+)$/gm, '<h3>$1</h3>');
+      html = html.replace(/^##\s+(.+)$/gm, '<h2>$1</h2>');
+      html = html.replace(/^#\s+(.+)$/gm, '<h1>$1</h1>');
+      
       // Bold
       html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
       html = html.replace(/__(.+?)__/g, '<strong>$1</strong>');
@@ -30,17 +35,51 @@ export default function Home() {
       // Blockquotes
       html = html.replace(/^&gt; (.+)$/gm, '<blockquote>$1</blockquote>');
       
-      // Unordered lists
-      html = html.replace(/^\* (.+)$/gm, '<li>$1</li>');
-      html = html.replace(/^- (.+)$/gm, '<li>$1</li>');
-      html = html.replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>');
+      // Lists - process line by line to properly handle ordered and unordered
+      let lines = html.split('\n');
+      let result = [];
+      let inList = false;
+      let listType = null;
       
-      // Ordered lists
-      html = html.replace(/^\d+\. (.+)$/gm, '<li>$1</li>');
+      for (let i = 0; i < lines.length; i++) {
+        let line = lines[i];
+        let isUnordered = /^[\*\-]\s+(.+)$/.test(line);
+        let isOrdered = /^\d+\.\s+(.+)$/.test(line);
+        
+        if (isUnordered || isOrdered) {
+          let content = line.replace(/^[\*\-]\s+/, '').replace(/^\d+\.\s+/, '');
+          let currentListType = isOrdered ? 'ol' : 'ul';
+          
+          if (!inList) {
+            result.push(`<${currentListType}>`);
+            inList = true;
+            listType = currentListType;
+          } else if (listType !== currentListType) {
+            result.push(`</${listType}>`);
+            result.push(`<${currentListType}>`);
+            listType = currentListType;
+          }
+          
+          result.push(`<li>${content}</li>`);
+        } else {
+          if (inList) {
+            result.push(`</${listType}>`);
+            inList = false;
+            listType = null;
+          }
+          result.push(line);
+        }
+      }
+      
+      if (inList) {
+        result.push(`</${listType}>`);
+      }
+      
+      html = result.join('\n');
       
       // Line breaks -> paragraphs
       html = html.split('\n\n').map(para => {
-        if (!para.match(/^<(ul|ol|pre|blockquote)/)) {
+        if (!para.match(/^<(ul|ol|pre|blockquote|h[1-3])/)) {
           return '<p>' + para.replace(/\n/g, '<br>') + '</p>';
         }
         return para;
