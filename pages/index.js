@@ -428,7 +428,7 @@ export default function Home() {
             <button className="model-option active" data-model="gemini-flash-latest">
               ⚡ Fast
             </button>
-            <button className="model-option" data-model="gemini-pro-latest">
+            <button className="model-option" data-model="gemini-2.0-pro">
               💎 Pro
             </button>
           </div>
