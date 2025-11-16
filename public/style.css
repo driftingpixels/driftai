@@ -69,7 +69,9 @@ body {
   font-weight: 700;
   letter-spacing: 0.5px;
   color: var(--titlebar-text);
-  background: transparent;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
   z-index: 1000;
   border-bottom: 1px solid rgba(255, 255, 255, 0.3);
   display: flex;
@@ -78,21 +80,6 @@ body {
   flex-shrink: 0;
   border-radius: 0 0 16px 16px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-  isolation: isolate;
-}
-
-.titlebar::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(40px) saturate(180%);
-  -webkit-backdrop-filter: blur(40px) saturate(180%);
-  border-radius: 0 0 16px 16px;
-  z-index: -1;
 }
 
 .clear-history-btn {
