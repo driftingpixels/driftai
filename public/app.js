@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const messageInput = document.getElementById("message-input");
     const sendButton = document.getElementById("send-button");
     const modelOptions = document.querySelectorAll(".model-option");
+    const modelToggle = document.querySelector(".model-toggle");
 
     let selectedModel = "gemini-flash-latest"; // Default model
     let conversationHistory = []; // Store conversation history
@@ -33,6 +34,28 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    // Create and add the slider element
+    const slider = document.createElement('div');
+    slider.className = 'model-toggle-slider';
+    modelToggle.insertBefore(slider, modelToggle.firstChild);
+
+    // Function to update slider position and width
+    function updateSlider(activeOption) {
+        const rect = activeOption.getBoundingClientRect();
+        const containerRect = modelToggle.getBoundingClientRect();
+        const left = rect.left - containerRect.left;
+        const width = rect.width;
+        
+        slider.style.width = `${width}px`;
+        slider.style.left = `${left}px`;
+    }
+
+    // Initialize slider position
+    const activeOption = document.querySelector('.model-option.active');
+    if (activeOption) {
+        updateSlider(activeOption);
+    }
+
     // Handle model selection
     modelOptions.forEach(option => {
         option.addEventListener("click", () => {
@@ -40,14 +63,19 @@ document.addEventListener("DOMContentLoaded", () => {
             option.classList.add("active");
             selectedModel = option.dataset.model;
 
-            // Add visual feedback
-            option.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-                option.style.transform = '';
-            }, 150);
+            // Update slider position with animation
+            updateSlider(option);
 
             console.log('Model switched to:', selectedModel);
         });
+    });
+
+    // Update slider on window resize
+    window.addEventListener('resize', () => {
+        const activeOption = document.querySelector('.model-option.active');
+        if (activeOption) {
+            updateSlider(activeOption);
+        }
     });
 
     sendButton.addEventListener("click", sendMessage);
