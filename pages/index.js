@@ -93,6 +93,7 @@ export default function Home() {
     const messageInput = document.getElementById("message-input");
     const sendButton = document.getElementById("send-button");
     const modelOptions = document.querySelectorAll(".model-option");
+    const modelToggle = document.querySelector(".model-toggle");
 
     let selectedModel = "gemini-flash-latest";
     let conversationHistory = [];
@@ -121,19 +122,47 @@ export default function Home() {
         }
     }
 
+    // Create and add the slider element
+    const slider = document.createElement('div');
+    slider.className = 'model-toggle-slider';
+    modelToggle.insertBefore(slider, modelToggle.firstChild);
+
+    // Function to update slider position and width
+    function updateSlider(activeOption) {
+        const rect = activeOption.getBoundingClientRect();
+        const containerRect = modelToggle.getBoundingClientRect();
+        const left = rect.left - containerRect.left;
+        const width = rect.width;
+        
+        slider.style.width = `${width}px`;
+        slider.style.left = `${left}px`;
+    }
+
+    // Initialize slider position
+    const activeOption = document.querySelector('.model-option.active');
+    if (activeOption) {
+        updateSlider(activeOption);
+    }
+
     modelOptions.forEach(option => {
         option.addEventListener("click", () => {
             modelOptions.forEach(opt => opt.classList.remove("active"));
             option.classList.add("active");
             selectedModel = option.dataset.model;
 
-            option.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-                option.style.transform = '';
-            }, 150);
+            // Update slider position with animation
+            updateSlider(option);
 
             console.log('Model switched to:', selectedModel);
         });
+    });
+
+    // Update slider on window resize
+    window.addEventListener('resize', () => {
+        const activeOption = document.querySelector('.model-option.active');
+        if (activeOption) {
+            updateSlider(activeOption);
+        }
     });
 
     function sendMessage() {
@@ -409,7 +438,7 @@ export default function Home() {
             />
             <button id="send-button">↑</button>
           </div>
-          <div className="footer-text">Made with 💖 by Ryan. Drift is powered by Gemini</div>
+          <div className="footer-text">Made with 💖 by Ryan • Drift is powered by Gemini</div>
         </div>
       </div>
     </div>
