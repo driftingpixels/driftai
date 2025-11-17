@@ -86,7 +86,7 @@ body {
 .clear-history-btn {
   position: absolute;
   right: 20px;
-  background: rgba(25, 118, 210, 0.9);
+  background: rgba(220, 53, 69, 0.9);
   color: white;
   border: none;
   font-size: 18px;
@@ -95,16 +95,16 @@ body {
   border-radius: 8px;
   transition: all 0.2s ease;
   opacity: 0.9;
-  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.3);
+  box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 }
 
 .clear-history-btn:hover {
   opacity: 1;
-  background: rgba(21, 101, 192, 0.9);
+  background: rgba(200, 35, 51, 0.9);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.4);
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
 }
 
 .clear-history-btn:active {
