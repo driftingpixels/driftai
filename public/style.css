@@ -439,10 +439,12 @@ body {
   position: absolute;
   width: 0;
   height: 0;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-bottom: 10px solid white;
-  transform: rotate(0deg);
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-left: 10px solid white;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 #send-button:hover {
