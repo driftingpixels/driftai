@@ -125,6 +125,19 @@ body {
   z-index: 1;
 }
 
+.content-background {
+  position: absolute;
+  top: var(--titlebar-height);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  z-index: 0;
+  pointer-events: none;
+}
+
 .chat-container {
   flex: 1;
   padding: 10px var(--message-padding);
@@ -138,6 +151,7 @@ body {
   scrollbar-width: none;
   height: 100%;
   position: relative;
+  z-index: 2;
 }
 
 .chat-container::-webkit-scrollbar {
