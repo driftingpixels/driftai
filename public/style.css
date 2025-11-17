@@ -322,6 +322,7 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.3);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
   padding: 6px;
+  min-width: 320px;
   max-width: 800px;
   margin: 0 auto;
   width: auto;
@@ -392,6 +393,7 @@ body {
   transition: all 0.2s ease;
   min-height: 32px;
   max-height: 200px;
+  min-width: 300px;
   max-width: 800px;
   overflow-y: auto;
   line-height: 1.4;
