@@ -313,15 +313,18 @@ body {
 .input-wrapper {
   position: relative;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   gap: 10px;
   background: rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(40px) saturate(180%);
   -webkit-backdrop-filter: blur(40px) saturate(180%);
-  border-radius: 20px;
+  border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.3);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-  padding: 8px;
+  padding: 6px;
+  max-width: 600px;
+  margin: 0 auto;
+  width: auto;
 }
 
 .model-toggle {
@@ -387,11 +390,12 @@ body {
   font-size: 16px;
   font-family: inherit;
   transition: all 0.2s ease;
-  min-height: 16px;
+  min-height: 32px;
   max-height: 200px;
   max-width: 600px;
   overflow-y: auto;
   line-height: 1.4;
+  align-self: flex-end;
 }
 
 #message-input::-webkit-scrollbar {
