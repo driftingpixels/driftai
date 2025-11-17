@@ -120,10 +120,9 @@ body {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: transparent;
   padding-top: var(--titlebar-height);
+  z-index: 1;
 }
 
 .chat-container {
