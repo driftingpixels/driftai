@@ -8,7 +8,6 @@ export default async function handler(req, res) {
     }
 
     if (req.method !== 'POST') {
-        console.log('Method not allowed:', req.method);
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
@@ -21,11 +20,6 @@ export default async function handler(req, res) {
     try {
         const { message, model = 'gemini-flash-latest', history = [] } = req.body;
         
-        console.log('=== API Request ===');
-        console.log('Model:', model);
-        console.log('Message length:', message?.length);
-        console.log('History length:', history.length);
-        
         // Validate the request body
         if (!message || typeof message !== 'string') {
             console.error('Invalid message format:', typeof message);
@@ -37,12 +31,9 @@ export default async function handler(req, res) {
             return res.status(400).json({ error: 'Message is too long. Please keep it under 10,000 characters.' });
         }
 
-
         // Validate model selection - using correct Gemini model names
         const allowedModels = ['gemini-flash-latest', 'gemini-pro-latest'];
         const selectedModel = allowedModels.includes(model) ? model : 'gemini-flash-latest';
-
-        console.log('Using model:', selectedModel);
 
         const genAI = new GoogleGenerativeAI(process.env.API_KEY);
         
@@ -66,53 +57,32 @@ export default async function handler(req, res) {
             },
         });
         
-        console.log('Sending message to AI with Google Search enabled...');
-        
         // Send the current message
         const result = await chat.sendMessage(message);
         const response = await result.response;
         const text = response.text();
         
-        console.log('Response generated successfully');
-        console.log('Response length:', text.length);
-        
-        // Check if grounding metadata is available (indicates search was used)
-        const groundingMetadata = response.groundingMetadata;
-        if (groundingMetadata) {
-            console.log('Google Search was used for this response');
-        }
-        
         res.status(200).json({ response: text });
     } catch (error) {
-        console.error('=== API Error ===');
-        console.error('Error name:', error.name);
-        console.error('Error message:', error.message);
-        console.error('Error stack:', error.stack);
+        console.error('API Error:', error.message);
 
         // More specific error handling
         const errorMessage = error.message || 'Unknown error';
         
         // Check for specific error types
         if (errorMessage.includes('API key')) {
-            console.error('API key error detected');
             res.status(401).json({ error: 'Invalid API key. Please check your API_KEY environment variable.' });
         } else if (errorMessage.includes('quota') || errorMessage.includes('exceeded')) {
-            console.error('Quota error detected');
             res.status(429).json({ error: 'API quota exceeded. Please try again later.' });
         } else if (errorMessage.includes('overloaded')) {
-            console.error('Overload error detected');
             res.status(503).json({ error: 'AI service is overloaded. Please try again in a moment.' });
         } else if (error.status === 503) {
-            console.error('Service unavailable');
             res.status(503).json({ error: 'Service temporarily unavailable. Please try again later.' });
         } else if (errorMessage.includes('400')) {
-            console.error('Bad request detected');
             res.status(400).json({ error: 'Invalid request format. Please try again.' });
         } else if (errorMessage.includes('model')) {
-            console.error('Model error detected');
             res.status(400).json({ error: 'Invalid model selected. Please try using a different model.' });
         } else {
-            console.error('Generic error');
             res.status(500).json({ 
                 error: `Error processing your request: ${errorMessage.substring(0, 200)}` 
             });
