@@ -105,7 +105,6 @@ export default function Home() {
     if (savedHistory) {
         try {
             conversationHistory = JSON.parse(savedHistory);
-            console.log('Loaded conversation history:', conversationHistory.length, 'messages');
         } catch (e) {
             console.error('Error loading history:', e);
             conversationHistory = [];
@@ -154,8 +153,6 @@ export default function Home() {
 
             // Update slider position with animation
             updateSlider(option);
-
-            console.log('Model switched to:', selectedModel);
         });
     });
 
@@ -173,9 +170,6 @@ export default function Home() {
 
         addMessage(messageText, "sent", false, true);
 
-        console.log('Sending message with history length:', conversationHistory.length);
-        console.log('Using model:', selectedModel);
-
         messageInput.value = "";
         messageInput.style.height = "auto";
 
@@ -184,7 +178,6 @@ export default function Home() {
         const loadingMessage = addLoadingMessage();
 
         const apiUrl = '/api/chat';
-        console.log('Calling API:', apiUrl);
 
         fetch(apiUrl, {
             method: "POST",
@@ -198,8 +191,6 @@ export default function Home() {
             })
         })
         .then(async response => {
-            console.log('Response status:', response.status);
-            
             const responseClone = response.clone();
             
             if (!response.ok) {
@@ -218,8 +209,6 @@ export default function Home() {
             return response.json();
         })
         .then(data => {
-            console.log('Response data:', data);
-            
             if (loadingMessage && loadingMessage.parentNode) {
                 loadingMessage.remove();
             }
@@ -240,15 +229,13 @@ export default function Home() {
                 });
                 
                 saveHistory();
-                
-                console.log('Response received, history length now:', conversationHistory.length);
             } else {
                 console.error('Unexpected response format:', data);
                 addMessage("Sorry, received an unexpected response format.", "system", false, true);
             }
         })
         .catch(error => {
-            console.error("Error details:", error);
+            console.error("Error:", error);
             if (loadingMessage && loadingMessage.parentNode) {
                 loadingMessage.remove();
             }
@@ -352,7 +339,6 @@ export default function Home() {
         localStorage.removeItem('conversationHistory');
         localStorage.removeItem('chatMessages');
         chatContainer.innerHTML = '';
-        console.log('Chat history cleared');
         setTimeout(() => {
             const welcomeText = "Hello! I'm Drift, your AI assistant. How can I help you today? 😊";
             addMessage(welcomeText, "received", false, false);
