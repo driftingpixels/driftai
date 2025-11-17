@@ -424,7 +424,7 @@ export default function Home() {
               placeholder="Type a message..."
               rows="1"
             />
-            <button id="send-button">↑</button>
+            <button id="send-button" aria-label="Send message"></button>
           </div>
           <div className="footer-text">Made with 💖 by Ryan • Drift is powered by Gemini</div>
         </div>
