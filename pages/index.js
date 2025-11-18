@@ -92,6 +92,9 @@ export default function Home() {
     const chatContainer = document.querySelector(".chat-container");
     const messageInput = document.getElementById("message-input");
     const sendButton = document.getElementById("send-button");
+    const uploadButton = document.getElementById("upload-button");
+    const fileInput = document.getElementById("file-input");
+    const imagePreviewContainer = document.querySelector(".image-preview-container");
     const modelOptions = document.querySelectorAll(".model-option");
     const modelToggle = document.querySelector(".model-toggle");
     const settingsBtn = document.querySelector(".settings-btn");
@@ -104,6 +107,7 @@ export default function Home() {
     let selectedPersona = localStorage.getItem('selectedPersona') || 'friendly';
     let selectedModel = "gemini-flash-latest";
     let conversationHistory = [];
+    let selectedImages = [];
 
     // Set initial persona in custom dropdown
     const initialOption = customSelect.querySelector(`.custom-option[data-value="${selectedPersona}"]`);
@@ -139,6 +143,64 @@ export default function Home() {
       }
     });
 
+    // Upload button click handler
+    uploadButton.addEventListener("click", () => {
+      fileInput.click();
+    });
+
+    // File input change handler
+    fileInput.addEventListener("change", async (e) => {
+      const files = Array.from(e.target.files);
+      
+      for (const file of files) {
+        if (file.type.startsWith('image/')) {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            const imageData = {
+              data: event.target.result,
+              name: file.name,
+              type: file.type
+            };
+            selectedImages.push(imageData);
+            displayImagePreview(imageData);
+          };
+          reader.readAsDataURL(file);
+        }
+      }
+      
+      // Reset file input
+      fileInput.value = '';
+    });
+
+    function displayImagePreview(imageData) {
+      const previewDiv = document.createElement("div");
+      previewDiv.className = "image-preview";
+      
+      const img = document.createElement("img");
+      img.src = imageData.data;
+      
+      const removeBtn = document.createElement("button");
+      removeBtn.className = "remove-image-btn";
+      removeBtn.innerHTML = "×";
+      removeBtn.onclick = () => {
+        selectedImages = selectedImages.filter(img => img.data !== imageData.data);
+        previewDiv.remove();
+        if (selectedImages.length === 0) {
+          imagePreviewContainer.style.display = 'none';
+        }
+      };
+      
+      previewDiv.appendChild(img);
+      previewDiv.appendChild(removeBtn);
+      imagePreviewContainer.appendChild(previewDiv);
+      imagePreviewContainer.style.display = 'flex';
+    }
+
+    function clearImagePreviews() {
+      imagePreviewContainer.innerHTML = '';
+      imagePreviewContainer.style.display = 'none';
+      selectedImages = [];
+    }
     
     // Load conversation history from localStorage on page load
     const savedHistory = localStorage.getItem('conversationHistory');
@@ -158,7 +220,7 @@ export default function Home() {
         try {
             const messages = JSON.parse(savedMessages);
             messages.forEach(msg => {
-                addMessage(msg.text, msg.type, false, false);
+                addMessage(msg.text, msg.type, false, false, msg.images);
             });
         } catch (e) {
             console.error('Error loading messages:', e);
@@ -224,23 +286,29 @@ export default function Home() {
     if (settingsOverlay) {
       settingsOverlay.addEventListener('click', closeSettings);
     }
-    
-
 
     function sendMessage() {
         const messageText = messageInput.value.trim();
-        if (messageText === "") return;
+        if (messageText === "" && selectedImages.length === 0) return;
 
-        addMessage(messageText, "sent", false, true);
+        const messagesToSend = [...selectedImages];
+        addMessage(messageText, "sent", false, true, messagesToSend);
 
         messageInput.value = "";
         messageInput.style.height = "auto";
 
         sendButton.disabled = true;
+        uploadButton.disabled = true;
 
         const loadingMessage = addLoadingMessage();
 
         const apiUrl = '/api/chat';
+
+        // Prepare image data for API
+        const imageData = selectedImages.map(img => ({
+          data: img.data.split(',')[1], // Remove data:image/jpeg;base64, prefix
+          mimeType: img.type
+        }));
 
         fetch(apiUrl, {
             method: "POST",
@@ -251,7 +319,8 @@ export default function Home() {
                 message: messageText,
                 model: selectedModel,
                 history: conversationHistory,
-                persona: selectedPersona
+                persona: selectedPersona,
+                images: imageData
             })
         })
         .then(async response => {
@@ -282,9 +351,23 @@ export default function Home() {
             } else if (data.response) {
                 addMessage(data.response, "received", false, true);
                 
+                // Build user message parts
+                const userParts = [];
+                if (messageText) {
+                  userParts.push({ text: messageText });
+                }
+                imageData.forEach(img => {
+                  userParts.push({
+                    inlineData: {
+                      data: img.data,
+                      mimeType: img.mimeType
+                    }
+                  });
+                });
+
                 conversationHistory.push({
                     role: "user",
-                    parts: [{ text: messageText }]
+                    parts: userParts
                 });
 
                 conversationHistory.push({
@@ -297,6 +380,9 @@ export default function Home() {
                 console.error('Unexpected response format:', data);
                 addMessage("Sorry, received an unexpected response format.", "system", false, true);
             }
+            
+            // Clear images after sending
+            clearImagePreviews();
         })
         .catch(error => {
             console.error("Error:", error);
@@ -309,18 +395,39 @@ export default function Home() {
         })
         .finally(() => {
             sendButton.disabled = false;
+            uploadButton.disabled = false;
         });
     }
 
-    function addMessage(text, type, isPlaceholder = false, shouldSave = false) {
+    function addMessage(text, type, isPlaceholder = false, shouldSave = false, images = []) {
         const messageElement = document.createElement("div");
         messageElement.classList.add("message", type);
 
         if (!isPlaceholder) {
-            if (type === "received" || type === "sent") {
-                messageElement.innerHTML = parseMarkdown(text);
-            } else {
-                messageElement.textContent = text;
+            // Add images if present
+            if (images && images.length > 0) {
+                const imagesContainer = document.createElement("div");
+                imagesContainer.className = "message-images";
+                
+                images.forEach(img => {
+                    const imgElement = document.createElement("img");
+                    imgElement.src = img.data;
+                    imgElement.className = "message-image";
+                    imagesContainer.appendChild(imgElement);
+                });
+                
+                messageElement.appendChild(imagesContainer);
+            }
+            
+            // Add text if present
+            if (text) {
+                const textContainer = document.createElement("div");
+                if (type === "received" || type === "sent") {
+                    textContainer.innerHTML = parseMarkdown(text);
+                } else {
+                    textContainer.textContent = text;
+                }
+                messageElement.appendChild(textContainer);
             }
         }
 
@@ -386,9 +493,16 @@ export default function Home() {
                     if (classList.includes('sent')) type = 'sent';
                     else if (classList.includes('system')) type = 'system';
                     
+                    // Extract images
+                    const images = [];
+                    msg.querySelectorAll('.message-image').forEach(img => {
+                        images.push({ data: img.src });
+                    });
+                    
                     messages.push({
                         text: msg.textContent,
-                        type: type
+                        type: type,
+                        images: images
                     });
                 }
             });
@@ -403,6 +517,7 @@ export default function Home() {
         localStorage.removeItem('conversationHistory');
         localStorage.removeItem('chatMessages');
         chatContainer.innerHTML = '';
+        clearImagePreviews();
         setTimeout(() => {
             const welcomeText = 'Hello, I am Drift your AI assistant.';
             addMessage(welcomeText, "received", false, false);
@@ -506,6 +621,7 @@ export default function Home() {
       <div className="content-below-titlebar">
         <div className="chat-container"></div>
         <div className="input-container">
+          <div className="image-preview-container"></div>
           <div className="model-toggle">
             <button className="model-option active" data-model="gemini-flash-latest">
               ⚡ Fast
@@ -515,6 +631,14 @@ export default function Home() {
             </button>
           </div>
           <div className="input-wrapper">
+            <input 
+              type="file" 
+              id="file-input" 
+              accept="image/*" 
+              multiple 
+              style={{display: 'none'}}
+            />
+            <button id="upload-button" aria-label="Upload image"></button>
             <textarea
               id="message-input"
               placeholder="Type a message..."
