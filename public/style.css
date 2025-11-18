@@ -322,7 +322,7 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.3);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
   padding: 6px;
-  width: 75%;
+  width: 90%;
   max-width: 800px;
   margin: 0 auto;
   min-width: auto;
@@ -417,7 +417,7 @@ body {
 #send-button {
   border: none;
   background-color: rgba(25, 118, 210, 0.9);
-  color: transparent; /* Hide the text content */
+  color: white;
   font-weight: 600;
   font-size: 20px;
   cursor: pointer;
@@ -435,16 +435,15 @@ body {
 }
 
 #send-button::before {
-  content: '';
+  content: '↑';
   position: absolute;
-  width: 0;
-  height: 0;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-bottom: 10px solid white;
+  color: white;
+  font-size: 20px;
+  font-weight: 600;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  line-height: 1;
 }
 
 #send-button:hover {
