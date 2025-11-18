@@ -94,9 +94,19 @@ export default function Home() {
     const sendButton = document.getElementById("send-button");
     const modelOptions = document.querySelectorAll(".model-option");
     const modelToggle = document.querySelector(".model-toggle");
+    const settingsBtn = document.querySelector(".settings-btn");
+    const settingsPanel = document.querySelector(".settings-panel");
+    const settingsOverlay = document.querySelector(".settings-overlay");
+    const personaSelect = document.getElementById("persona-select");
 
     let selectedModel = "gemini-flash-latest";
     let conversationHistory = [];
+    let selectedPersona = localStorage.getItem('selectedPersona') || 'friendly';
+    
+    // Set initial persona in dropdown
+    if (personaSelect) {
+      personaSelect.value = selectedPersona;
+    }
     
     // Load conversation history from localStorage on page load
     const savedHistory = localStorage.getItem('conversationHistory');
@@ -163,6 +173,33 @@ export default function Home() {
             updateSlider(activeOption);
         }
     });
+    
+    // Settings panel functionality
+    function openSettings() {
+      settingsPanel.classList.add('active');
+      settingsOverlay.classList.add('active');
+    }
+    
+    function closeSettings() {
+      settingsPanel.classList.remove('active');
+      settingsOverlay.classList.remove('active');
+    }
+    
+    if (settingsBtn) {
+      settingsBtn.addEventListener('click', openSettings);
+    }
+    
+    if (settingsOverlay) {
+      settingsOverlay.addEventListener('click', closeSettings);
+    }
+    
+    if (personaSelect) {
+      personaSelect.addEventListener('change', (e) => {
+        selectedPersona = e.target.value;
+        localStorage.setItem('selectedPersona', selectedPersona);
+        console.log('Persona changed to:', selectedPersona);
+      });
+    }
 
     function sendMessage() {
         const messageText = messageInput.value.trim();
@@ -187,7 +224,8 @@ export default function Home() {
             body: JSON.stringify({
                 message: messageText,
                 model: selectedModel,
-                history: conversationHistory
+                history: conversationHistory,
+                persona: selectedPersona
             })
         })
         .then(async response => {
@@ -382,6 +420,12 @@ export default function Home() {
       if (sendButton) {
         sendButton.removeEventListener("click", sendMessage);
       }
+      if (settingsBtn) {
+        settingsBtn.removeEventListener("click", openSettings);
+      }
+      if (settingsOverlay) {
+        settingsOverlay.removeEventListener("click", closeSettings);
+      }
     };
   }, []);
 
@@ -397,8 +441,26 @@ export default function Home() {
         <link rel="stylesheet" href="/style.css" />
       </Head>
       
+      <div className="settings-overlay"></div>
+      
+      <div className="settings-panel">
+        <h3>Persona</h3>
+        <label htmlFor="persona-select">Choose personality:</label>
+        <select id="persona-select">
+          <option value="friendly">Friendly</option>
+          <option value="neutral">Neutral</option>
+          <option value="toxic">Toxic</option>
+        </select>
+      </div>
+      
       <div className="titlebar">
         Drift AI
+        <button 
+          className="settings-btn" 
+          title="Settings"
+        >
+          ⚙️
+        </button>
         <button 
           className="clear-history-btn" 
           onClick={() => typeof window !== 'undefined' && window.clearChatHistory && window.clearChatHistory()}
