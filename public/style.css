@@ -191,8 +191,17 @@ body {
   color: #666;
   margin-bottom: 8px;
 }
+.custom-select-wrapper {
+  position: relative;
+  width: 100%;
+  font-family: inherit;
+}
 
-.settings-panel select {
+.custom-select {
+  position: relative;
+}
+
+.custom-select-trigger {
   width: 100%;
   padding: 10px 12px;
   border: 1px solid rgba(25, 118, 210, 0.3);
@@ -201,20 +210,77 @@ body {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   font-size: 16px;
-  font-family: inherit;
   color: #333;
   cursor: pointer;
   transition: all 0.2s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.settings-panel select:focus {
-  outline: none;
+.custom-select-trigger:hover {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.custom-select.open .custom-select-trigger {
   border-color: rgba(25, 118, 210, 0.6);
   background: rgba(255, 255, 255, 0.7);
 }
 
-.settings-panel select:hover {
-  background: rgba(255, 255, 255, 0.6);
+.arrow {
+  border: solid #333;
+  border-width: 0 2px 2px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  transition: transform 0.3s ease;
+}
+
+.custom-select.open .arrow {
+  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+}
+
+.custom-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(25, 118, 210, 0.3);
+  border-top: 0;
+  border-radius: 0 0 8px 8px;
+  overflow: hidden;
+  z-index: 10;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+}
+
+.custom-select.open .custom-options {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  border-radius: 8px;
+}
+
+.custom-option {
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.custom-option:hover {
+  background-color: rgba(25, 118, 210, 0.1);
+}
+
+.custom-option.selected {
+  background-color: rgba(25, 118, 210, 0.2);
+  font-weight: 500;
 }
 
 .content-below-titlebar {
