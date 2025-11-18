@@ -633,7 +633,6 @@ body {
 }
 
 #send-button:disabled {
-  background-color: rgba(187, 222, 251, 0.6);
   cursor: not-allowed;
   transform: scale(1);
   opacity: 0.6;
