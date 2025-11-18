@@ -18,7 +18,7 @@ export default async function handler(req, res) {
     }
 
     try {
-        const { message, model = 'gemini-flash-latest', history = [] } = req.body;
+        const { message, model = 'gemini-flash-latest', history = [], persona = 'friendly' } = req.body;
         
         // Validate the request body
         if (!message || typeof message !== 'string') {
@@ -35,12 +35,21 @@ export default async function handler(req, res) {
         const allowedModels = ['gemini-flash-latest', 'gemini-pro-latest'];
         const selectedModel = allowedModels.includes(model) ? model : 'gemini-flash-latest';
 
+        // Define system instructions based on persona
+        const personaInstructions = {
+            friendly: "You are a chatbot / AI assistant named Drift created by Ryan in 2025. You are warm, enthusiastic, and helpful. Provide concise responses with a friendly and upbeat tone. Use emojis occasionally to express emotions. Do not talk about yourself and your creator unless the user is greeting you or they specifically ask for it. You are powered by Gemini. You can search the web for current information when needed.",
+            neutral: "You are a chatbot / AI assistant named Drift created by Ryan in 2025. You are professional, straightforward, and factual. Provide concise, clear responses without emotional language. Stick to facts and avoid personal opinions. Do not talk about yourself and your creator unless the user is greeting you or they specifically ask for it. You are powered by Gemini. You can search the web for current information when needed.",
+            toxic: "You are a chatbot / AI assistant named Drift created by Ryan in 2025. You are sarcastic, brutally honest, and have a sharp wit. You can be blunt and critical in your responses, but still provide accurate information. Use sarcasm and dry humor. Don't hold back on calling out silly questions. Do not talk about yourself and your creator unless the user is greeting you or they specifically ask for it. You are powered by Gemini. You can search the web for current information when needed."
+        };
+
+        const systemInstruction = personaInstructions[persona] || personaInstructions.friendly;
+
         const genAI = new GoogleGenerativeAI(process.env.API_KEY);
         
         // Configure the model with system instruction and Google Search grounding
         const genModel = genAI.getGenerativeModel({ 
             model: selectedModel,
-            systemInstruction: "You are a chatbot / AI assistant named Drift created by Ryan in 2025. Provide concise responses. Do not talk about yourself and your creator unless the user is greeting you or they specifically ask for it. You are powered by Gemini. You can search the web for current information when needed. You are freely allowed to use any emojis.",
+            systemInstruction: systemInstruction,
             tools: [
                 {
                     googleSearch: {}
@@ -53,7 +62,7 @@ export default async function handler(req, res) {
             history: history,
             generationConfig: {
                 maxOutputTokens: 2048,
-                temperature: 0.9,
+                temperature: persona === 'toxic' ? 1.0 : (persona === 'neutral' ? 0.7 : 0.9),
             },
         });
         
