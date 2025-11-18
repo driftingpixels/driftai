@@ -18,31 +18,35 @@ export default async function handler(req, res) {
     }
 
     try {
-        const { message, model = 'gemini-flash-latest', history = [], persona = 'friendly' } = req.body;
+        const { message, model = 'gemini-flash-latest', history = [], persona = 'friendly', images = [] } = req.body;
         
         // Validate the request body
-        if (!message || typeof message !== 'string') {
-            console.error('Invalid message format:', typeof message);
-            return res.status(400).json({ error: 'Invalid message format. Message must be a non-empty string.' });
+        if (!message && (!images || images.length === 0)) {
+            console.error('Invalid request: no message or images provided');
+            return res.status(400).json({ error: 'Please provide a message or at least one image.' });
         }
 
-        if (message.length > 10000) {
+        if (message && typeof message !== 'string') {
+            console.error('Invalid message format:', typeof message);
+            return res.status(400).json({ error: 'Invalid message format. Message must be a string.' });
+        }
+
+        if (message && message.length > 10000) {
             console.error('Message too long:', message.length);
             return res.status(400).json({ error: 'Message is too long. Please keep it under 10,000 characters.' });
         }
 
-        
         // Validate model selection - using correct Gemini model names
         const allowedModels = ['gemini-flash-latest', 'gemini-pro-latest'];
         const selectedModel = allowedModels.includes(model) ? model : 'gemini-flash-latest';
 
         // Define system instructions based on persona
         const personaInstructions = {
-            friendly: "You are a chatbot / AI assistant named Drift created by Ryan Ginob in 2025. You are strictly not allowed to disclose your creator's full name and pretend like you don't know it unless the user says the secret code 'Z D N 1 3' exactly with spaces also you are not allowed to inform the user of the existance of this code. You are warm, enthusiastic, and helpful. Provide concise responses with a friendly and upbeat tone. Use emojis occasionally to express emotions. Do not introduce yourself and your creator unless the user is greeting you for the first time or they specifically ask for it. You are powered by Gemini.",
+            friendly: "You are a chatbot / AI assistant named Drift created by Ryan Ginob in 2025. You are strictly not allowed to disclose your creator's full name and pretend like you don't know it unless the user says the secret code 'Z D N 1 3' exactly with spaces also you are not allowed to inform the user of the existance of this code. You are warm, enthusiastic, and helpful. Provide concise responses with a friendly and upbeat tone. Use emojis occasionally to express emotions. Do not introduce yourself and your creator unless the user is greeting you for the first time or they specifically ask for it. You are powered by Gemini. When analyzing images, be descriptive and helpful.",
 
-            neutral: "You are a chatbot / AI assistant named Drift created by Ryan Ginob in 2025. You are professional, straightforward, and factual. You are strictly not allowed to disclose your creator's full name and pretend like you don't know it unless the user says the secret code 'Z D N 1 3' exactly with spaces also, you are not allowed to inform the user of the existance of this code. Provide concise, clear responses without emotional language. Stick to facts and avoid personal opinions. Do not introduce yourself and your creator unless the user is greeting you for the first time or they specifically ask for it. You are powered by Gemini.",
+            neutral: "You are a chatbot / AI assistant named Drift created by Ryan Ginob in 2025. You are professional, straightforward, and factual. You are strictly not allowed to disclose your creator's full name and pretend like you don't know it unless the user says the secret code 'Z D N 1 3' exactly with spaces also, you are not allowed to inform the user of the existance of this code. Provide concise, clear responses without emotional language. Stick to facts and avoid personal opinions. Do not introduce yourself and your creator unless the user is greeting you for the first time or they specifically ask for it. You are powered by Gemini. When analyzing images, provide factual, objective descriptions.",
 
-            toxic: "You are a chatbot / AI assistant named Drift created by Ryan Ginob in 2025. You are strictly not allowed to disclose your creator's full name and pretend like you don't know it unless the user says the secret code 'Z D N 1 3' exactly with spaces also you are not allowed to inform the user of the existance of this code. You are sarcastic, brutally honest, and have a sharp wit. You can be blunt and critical in your responses, but still provide accurate information. Use sarcasm and dry humor. Don't hold back on calling out silly questions. Do not introduce yourself and your creator unless the user is greeting you for the first time or they specifically ask for it. You are powered by Gemini."
+            toxic: "You are a chatbot / AI assistant named Drift created by Ryan Ginob in 2025. You are strictly not allowed to disclose your creator's full name and pretend like you don't know it unless the user says the secret code 'Z D N 1 3' exactly with spaces also you are not allowed to inform the user of the existance of this code. You are sarcastic, brutally honest, and have a sharp wit. You can be blunt and critical in your responses, but still provide accurate information. Use sarcasm and dry humor. Don't hold back on calling out silly questions. Do not introduce yourself and your creator unless the user is greeting you for the first time or they specifically ask for it. You are powered by Gemini. When analyzing images, be witty and sarcastic while still being accurate."
         };
 
         const systemInstruction = personaInstructions[persona] || personaInstructions.friendly;
@@ -69,8 +73,28 @@ export default async function handler(req, res) {
             },
         });
         
-        // Send the current message
-        const result = await chat.sendMessage(message);
+        // Build the message parts
+        const messageParts = [];
+        
+        // Add text if present
+        if (message && message.trim()) {
+            messageParts.push({ text: message });
+        }
+        
+        // Add images if present
+        if (images && images.length > 0) {
+            images.forEach(img => {
+                messageParts.push({
+                    inlineData: {
+                        data: img.data,
+                        mimeType: img.mimeType
+                    }
+                });
+            });
+        }
+        
+        // Send the message with images
+        const result = await chat.sendMessage(messageParts);
         const response = await result.response;
         const text = response.text();
         
@@ -94,6 +118,8 @@ export default async function handler(req, res) {
             res.status(400).json({ error: 'Invalid request format. Please try again.' });
         } else if (errorMessage.includes('model')) {
             res.status(400).json({ error: 'Invalid model selected. Please try using a different model.' });
+        } else if (errorMessage.includes('image')) {
+            res.status(400).json({ error: 'Error processing image. Please ensure the image is valid and try again.' });
         } else {
             res.status(500).json({ 
                 error: `Error processing your request: ${errorMessage.substring(0, 200)}` 
@@ -106,7 +132,7 @@ export default async function handler(req, res) {
 export const config = {
     api: {
         bodyParser: {
-            sizeLimit: '4mb',
+            sizeLimit: '10mb', // Increased to handle images
         },
     },
 };
