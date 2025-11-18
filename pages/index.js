@@ -406,11 +406,6 @@ export default function Home() {
         setTimeout(() => {
             const welcomeText = 'Hello, I am Drift your AI assistant.';
             addMessage(welcomeText, "received", false, false);
-            conversationHistory.push({
-                role: "model",
-                parts: [{ text: welcomeText }]
-            });
-            saveHistory();
         }, 300);
     };
 
@@ -444,11 +439,6 @@ export default function Home() {
         setTimeout(() => {
             const welcomeText = 'Hello, I am Drift your AI assistant.';
             addMessage(welcomeText, "received", false, false);
-            conversationHistory.push({
-                role: "model",
-                parts: [{ text: welcomeText }]
-            });
-            saveHistory();
         }, 500);
     }
 
