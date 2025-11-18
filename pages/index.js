@@ -404,8 +404,13 @@ export default function Home() {
         localStorage.removeItem('chatMessages');
         chatContainer.innerHTML = '';
         setTimeout(() => {
-            const welcomeText = "Hello! I'm Drift, your AI assistant. How can I help you today? 😊";
+            const welcomeText = 'Hello, I am Drift your AI assistant.';
             addMessage(welcomeText, "received", false, false);
+            conversationHistory.push({
+                role: "model",
+                parts: [{ text: welcomeText }]
+            });
+            saveHistory();
         }, 300);
     };
 
@@ -437,8 +442,13 @@ export default function Home() {
 
     if (!savedHistory && !savedMessages) {
         setTimeout(() => {
-            const welcomeText = "Hello! I'm Drift, your AI assistant. How can I help you today? 😊";
+            const welcomeText = 'Hello, I am Drift your AI assistant.';
             addMessage(welcomeText, "received", false, false);
+            conversationHistory.push({
+                role: "model",
+                parts: [{ text: welcomeText }]
+            });
+            saveHistory();
         }, 500);
     }
 
