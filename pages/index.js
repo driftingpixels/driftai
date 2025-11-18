@@ -97,16 +97,48 @@ export default function Home() {
     const settingsBtn = document.querySelector(".settings-btn");
     const settingsPanel = document.querySelector(".settings-panel");
     const settingsOverlay = document.querySelector(".settings-overlay");
-    const personaSelect = document.getElementById("persona-select");
+    const customSelect = document.querySelector(".custom-select");
+    const customSelectTrigger = customSelect.querySelector(".custom-select-trigger");
+    const customOptions = customSelect.querySelector(".custom-options");
 
+    let selectedPersona = localStorage.getItem('selectedPersona') || 'friendly';
     let selectedModel = "gemini-flash-latest";
     let conversationHistory = [];
-    let selectedPersona = localStorage.getItem('selectedPersona') || 'friendly';
-    
-    // Set initial persona in dropdown
-    if (personaSelect) {
-      personaSelect.value = selectedPersona;
+
+    // Set initial persona in custom dropdown
+    const initialOption = customSelect.querySelector(`.custom-option[data-value="${selectedPersona}"]`);
+    if (initialOption) {
+      customSelect.querySelector('.custom-select-trigger span').textContent = initialOption.textContent;
+      customOptions.querySelector('.custom-option.selected')?.classList.remove('selected');
+      initialOption.classList.add('selected');
     }
+
+    customSelectTrigger.addEventListener("click", () => {
+      customSelect.classList.toggle("open");
+    });
+
+    customOptions.addEventListener("click", (e) => {
+      if (e.target.classList.contains("custom-option")) {
+        const selectedOption = e.target;
+        const selectedValue = selectedOption.dataset.value;
+
+        selectedPersona = selectedValue;
+        localStorage.setItem('selectedPersona', selectedPersona);
+        console.log('Persona changed to:', selectedPersona);
+
+        customSelect.querySelector('.custom-select-trigger span').textContent = selectedOption.textContent;
+        customOptions.querySelector('.custom-option.selected')?.classList.remove('selected');
+        selectedOption.classList.add('selected');
+        customSelect.classList.remove("open");
+      }
+    });
+
+    window.addEventListener("click", (e) => {
+      if (!customSelect.contains(e.target)) {
+        customSelect.classList.remove("open");
+      }
+    });
+
     
     // Load conversation history from localStorage on page load
     const savedHistory = localStorage.getItem('conversationHistory');
@@ -193,13 +225,7 @@ export default function Home() {
       settingsOverlay.addEventListener('click', closeSettings);
     }
     
-    if (personaSelect) {
-      personaSelect.addEventListener('change', (e) => {
-        selectedPersona = e.target.value;
-        localStorage.setItem('selectedPersona', selectedPersona);
-        console.log('Persona changed to:', selectedPersona);
-      });
-    }
+
 
     function sendMessage() {
         const messageText = messageInput.value.trim();
@@ -446,11 +472,19 @@ export default function Home() {
       <div className="settings-panel">
         <h3>Persona</h3>
         <label htmlFor="persona-select">Choose personality:</label>
-        <select id="persona-select">
-          <option value="friendly">Friendly</option>
-          <option value="neutral">Neutral</option>
-          <option value="toxic">Toxic</option>
-        </select>
+        <div className="custom-select-wrapper">
+          <div className="custom-select">
+            <div className="custom-select-trigger">
+              <span>Friendly</span>
+              <div className="arrow"></div>
+            </div>
+            <div className="custom-options">
+              <div className="custom-option" data-value="friendly">Friendly</div>
+              <div className="custom-option" data-value="neutral">Neutral</div>
+              <div className="custom-option" data-value="toxic">Toxic</div>
+            </div>
+          </div>
+        </div>
       </div>
       
       <div className="titlebar">
