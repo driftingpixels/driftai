@@ -110,38 +110,40 @@ export default function Home() {
     let selectedImages = [];
 
     // Set initial persona in custom dropdown
-    const initialOption = customSelect.querySelector(`.custom-option[data-value="${selectedPersona}"]`);
-    if (initialOption) {
-      customSelect.querySelector('.custom-select-trigger span').textContent = initialOption.textContent;
-      customOptions.querySelector('.custom-option.selected')?.classList.remove('selected');
-      initialOption.classList.add('selected');
-    }
-
-    customSelectTrigger.addEventListener("click", () => {
-      customSelect.classList.toggle("open");
-    });
-
-    customOptions.addEventListener("click", (e) => {
-      if (e.target.classList.contains("custom-option")) {
-        const selectedOption = e.target;
-        const selectedValue = selectedOption.dataset.value;
-
-        selectedPersona = selectedValue;
-        localStorage.setItem('selectedPersona', selectedPersona);
-        console.log('Persona changed to:', selectedPersona);
-
-        customSelect.querySelector('.custom-select-trigger span').textContent = selectedOption.textContent;
+    if (customSelect) {
+      const initialOption = customSelect.querySelector(`.custom-option[data-value="${selectedPersona}"]`);
+      if (initialOption) {
+        customSelect.querySelector('.custom-select-trigger span').textContent = initialOption.textContent;
         customOptions.querySelector('.custom-option.selected')?.classList.remove('selected');
-        selectedOption.classList.add('selected');
-        customSelect.classList.remove("open");
+        initialOption.classList.add('selected');
       }
-    });
 
-    window.addEventListener("click", (e) => {
-      if (!customSelect.contains(e.target)) {
-        customSelect.classList.remove("open");
-      }
-    });
+      customSelectTrigger.addEventListener("click", () => {
+        customSelect.classList.toggle("open");
+      });
+
+      customOptions.addEventListener("click", (e) => {
+        if (e.target.classList.contains("custom-option")) {
+          const selectedOption = e.target;
+          const selectedValue = selectedOption.dataset.value;
+
+          selectedPersona = selectedValue;
+          localStorage.setItem('selectedPersona', selectedPersona);
+          console.log('Persona changed to:', selectedPersona);
+
+          customSelect.querySelector('.custom-select-trigger span').textContent = selectedOption.textContent;
+          customOptions.querySelector('.custom-option.selected')?.classList.remove('selected');
+          selectedOption.classList.add('selected');
+          customSelect.classList.remove("open");
+        }
+      });
+
+      window.addEventListener("click", (e) => {
+        if (!customSelect.contains(e.target)) {
+          customSelect.classList.remove("open");
+        }
+      });
+    }
 
     // Upload button click handler
     uploadButton.addEventListener("click", () => {
@@ -283,13 +285,17 @@ export default function Home() {
 
     // Settings panel functionality
     function openSettings() {
-      settingsPanel.classList.add('active');
-      settingsOverlay.classList.add('active');
+      if (settingsPanel && settingsOverlay) {
+        settingsPanel.classList.add('active');
+        settingsOverlay.classList.add('active');
+      }
     }
 
     function closeSettings() {
-      settingsPanel.classList.remove('active');
-      settingsOverlay.classList.remove('active');
+      if (settingsPanel && settingsOverlay) {
+        settingsPanel.classList.remove('active');
+        settingsOverlay.classList.remove('active');
+      }
     }
 
     if (settingsBtn) {
