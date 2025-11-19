@@ -685,13 +685,21 @@ export default function Home() {
                   multiple
                   style={{ display: 'none' }}
                 />
-                <button id="upload-button" aria-label="Upload image"></button>
+                <button id="upload-button" aria-label="Upload image">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 5V19M5 12H19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
                 <textarea
                   id="message-input"
                   placeholder="Type a message..."
                   rows="1"
                 />
-                <button id="send-button" aria-label="Send message"></button>
+                <button id="send-button" aria-label="Send message">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 19V5M5 12L12 5L19 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
               </div>
             </div>
           </div>
