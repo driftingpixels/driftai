@@ -167,11 +167,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function updatePreviewContainer() {
+        const inputWrapper = document.querySelector('.input-wrapper');
         if (uploadedImages.length > 0) {
             imagePreviewContainer.classList.add('has-images');
+            if (inputWrapper) {
+                inputWrapper.classList.add('has-images');
+            }
             console.log('Added has-images class');
         } else {
             imagePreviewContainer.classList.remove('has-images');
+            if (inputWrapper) {
+                inputWrapper.classList.remove('has-images');
+            }
             console.log('Removed has-images class');
         }
     }

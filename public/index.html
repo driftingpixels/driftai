@@ -34,13 +34,15 @@
                     </button>
                 </div>
                 <div class="input-wrapper">
-                    <div class="image-preview-container" id="image-preview-container"></div>
                     <div class="input-controls">
-                        <input type="file" id="image-upload" accept="image/*" multiple
-                            style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0;">
-                        <button id="upload-button" title="Upload image"></button>
-                        <textarea id="message-input" placeholder="Type a message..." rows="1"></textarea>
-                        <button id="send-button">↑</button>
+                        <div class="image-preview-container" id="image-preview-container"></div>
+                        <div class="input-row">
+                            <input type="file" id="image-upload" accept="image/*" multiple
+                                style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0;">
+                            <button id="upload-button" title="Upload image"></button>
+                            <textarea id="message-input" placeholder="Type a message..." rows="1"></textarea>
+                            <button id="send-button">↑</button>
+                        </div>
                     </div>
                 </div>
                 <div class="footer-text">Made with 💖 by Ryan • Drift is powered by Gemini</div>
