@@ -169,8 +169,10 @@ document.addEventListener("DOMContentLoaded", () => {
     function updatePreviewContainer() {
         if (uploadedImages.length > 0) {
             imagePreviewContainer.classList.add('has-images');
+            console.log('Added has-images class');
         } else {
             imagePreviewContainer.classList.remove('has-images');
+            console.log('Removed has-images class');
         }
     }
 

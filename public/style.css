@@ -531,7 +531,8 @@ body {
     padding 0.3s ease,
     margin-bottom 0.3s ease,
     transform 0.4s cubic-bezier(0.25, 1, 0.5, 1),
-    visibility 0.4s;
+    visibility 0s linear 0.4s;
+  /* Delay hiding */
   align-items: flex-start;
   justify-content: flex-start;
   margin-bottom: 0;
@@ -546,6 +547,14 @@ body {
   padding: 12px;
   margin-bottom: 8px;
   transform: translateY(0);
+  transition-delay: 0s;
+  /* Immediate showing */
+  transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+    opacity 0.3s ease-in-out,
+    padding 0.3s ease,
+    margin-bottom 0.3s ease,
+    transform 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+    visibility 0s linear 0s;
 }
 
 .image-preview {
@@ -612,15 +621,15 @@ body {
 }
 
 #upload-button {
-  order: 1;
+  order: -1;
 }
 
 #message-input {
-  order: 2;
+  order: 0;
 }
 
 #send-button {
-  order: 3;
+  order: 1;
 }
 
 .model-toggle {
