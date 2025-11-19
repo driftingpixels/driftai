@@ -740,7 +740,9 @@ body {
   transition: all 0.2s ease;
   min-height: 16px;
   max-height: 200px;
+  width: 100%;
   /* Restored width */
+  min-width: 0;
   max-width: 80vw;
   overflow-y: auto;
   line-height: 1.4;
