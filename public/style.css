@@ -516,10 +516,10 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border-radius: 12px 12px 0 0;
   padding: 0;
   width: 100%;
   max-height: 0;
@@ -532,12 +532,12 @@ body {
     margin-bottom 0.3s ease,
     transform 0.4s cubic-bezier(0.25, 1, 0.5, 1),
     visibility 0s linear 0.4s;
-  /* Delay hiding */
   align-items: flex-start;
   justify-content: flex-start;
   margin-bottom: 0;
   order: -1;
-  transform: translateY(10px);
+  transform: scaleY(0);
+  transform-origin: bottom;
 }
 
 .image-preview-container.has-images {
@@ -545,10 +545,9 @@ body {
   opacity: 1;
   visibility: visible;
   padding: 12px;
-  margin-bottom: 8px;
-  transform: translateY(0);
+  margin-bottom: 0;
+  transform: scaleY(1);
   transition-delay: 0s;
-  /* Immediate showing */
   transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1),
     opacity 0.3s ease-in-out,
     padding 0.3s ease,
@@ -611,6 +610,10 @@ body {
   margin: 0 auto;
   min-width: auto;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.input-wrapper.has-images {
+  border-radius: 0 0 16px 16px;
 }
 
 .input-controls {
