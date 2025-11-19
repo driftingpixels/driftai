@@ -526,16 +526,17 @@ body {
   opacity: 0;
   visibility: hidden;
   overflow: hidden;
-  transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-    opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-    padding 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-    margin-bottom 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-    visibility 0s linear 0.5s;
+  transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+    opacity 0.3s ease-in-out,
+    padding 0.3s ease,
+    margin-bottom 0.3s ease,
+    transform 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+    visibility 0.4s;
   align-items: flex-start;
   justify-content: flex-start;
   margin-bottom: 0;
   order: -1;
-  transform-origin: bottom;
+  transform: translateY(10px);
 }
 
 .image-preview-container.has-images {
@@ -544,22 +545,7 @@ body {
   visibility: visible;
   padding: 12px;
   margin-bottom: 8px;
-  transition-delay: 0s;
-  animation: expandUpward 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-@keyframes expandUpward {
-  from {
-    max-height: 0;
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    max-height: 200px;
-    opacity: 1;
-    transform: translateY(0);
-  }
+  transform: translateY(0);
 }
 
 .image-preview {
