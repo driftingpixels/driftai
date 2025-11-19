@@ -4,14 +4,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const sendButton = document.getElementById("send-button");
     const modelOptions = document.querySelectorAll(".model-option");
     const modelToggle = document.querySelector(".model-toggle");
+    const uploadButton = document.getElementById("upload-button");
+    const imageUploadInput = document.getElementById("image-upload");
+    const imagePreviewContainer = document.getElementById("image-preview-container");
 
     let selectedModel = "gemini-flash-latest"; // Default model
     let conversationHistory = []; // Store conversation history
-    
+    let uploadedImages = []; // Store uploaded images
+
     // Load conversation history from sessionStorage on page load
     const savedHistory = sessionStorage.getItem('conversationHistory');
     const savedMessages = sessionStorage.getItem('chatMessages');
-    
+
     if (savedHistory) {
         try {
             conversationHistory = JSON.parse(savedHistory);
@@ -21,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
             conversationHistory = [];
         }
     }
-    
+
     // Restore previous messages to chat UI
     if (savedMessages) {
         try {
@@ -45,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const containerRect = modelToggle.getBoundingClientRect();
         const left = rect.left - containerRect.left;
         const width = rect.width;
-        
+
         slider.style.width = `${width}px`;
         slider.style.left = `${left}px`;
     }
@@ -78,6 +82,79 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    // Image upload functionality
+    uploadButton.addEventListener('click', () => {
+        imageUploadInput.click();
+    });
+
+    imageUploadInput.addEventListener('change', (e) => {
+        const files = Array.from(e.target.files);
+
+        files.forEach(file => {
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+
+                reader.onload = (event) => {
+                    const imageData = {
+                        data: event.target.result,
+                        file: file
+                    };
+
+                    uploadedImages.push(imageData);
+                    addImagePreview(imageData, uploadedImages.length - 1);
+                    updatePreviewContainer();
+                };
+
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Reset the input
+        imageUploadInput.value = '';
+    });
+
+    function addImagePreview(imageData, index) {
+        const previewDiv = document.createElement('div');
+        previewDiv.className = 'image-preview';
+        previewDiv.dataset.index = index;
+
+        const img = document.createElement('img');
+        img.src = imageData.data;
+        img.alt = 'Uploaded image';
+
+        const removeBtn = document.createElement('button');
+        removeBtn.className = 'remove-image-btn';
+        removeBtn.innerHTML = '×';
+        removeBtn.addEventListener('click', () => {
+            removeImage(index);
+        });
+
+        previewDiv.appendChild(img);
+        previewDiv.appendChild(removeBtn);
+        imagePreviewContainer.appendChild(previewDiv);
+    }
+
+    function removeImage(index) {
+        // Remove from array
+        uploadedImages.splice(index, 1);
+
+        // Clear and rebuild preview
+        imagePreviewContainer.innerHTML = '';
+        uploadedImages.forEach((img, idx) => {
+            addImagePreview(img, idx);
+        });
+
+        updatePreviewContainer();
+    }
+
+    function updatePreviewContainer() {
+        if (uploadedImages.length > 0) {
+            imagePreviewContainer.classList.add('has-images');
+        } else {
+            imagePreviewContainer.classList.remove('has-images');
+        }
+    }
+
     sendButton.addEventListener("click", sendMessage);
     messageInput.addEventListener("keydown", (event) => {
         if (event.key === "Enter" && !event.shiftKey) {
@@ -87,7 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Auto-resize textarea
-    messageInput.addEventListener("input", function() {
+    messageInput.addEventListener("input", function () {
         this.style.height = 'auto';
         this.style.height = (this.scrollHeight > 150 ? 150 : this.scrollHeight) + 'px';
     });
@@ -104,6 +181,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         messageInput.value = "";
         messageInput.style.height = "auto"; // Reset height
+
+        // Clear uploaded images after sending
+        uploadedImages = [];
+        imagePreviewContainer.innerHTML = '';
+        updatePreviewContainer();
 
         // Disable send button while processing
         sendButton.disabled = true;
@@ -126,74 +208,74 @@ document.addEventListener("DOMContentLoaded", () => {
                 history: conversationHistory
             })
         })
-        .then(response => {
-            console.log('Response status:', response.status);
-            console.log('Response headers:', response.headers);
-            
-            if (!response.ok) {
-                return response.json().then(err => {
-                    throw new Error(err.error || `HTTP error! status: ${response.status}`);
-                }).catch((jsonErr) => {
-                    // If JSON parsing fails, return text response
-                    return response.text().then(text => {
-                        throw new Error(text || `HTTP error! status: ${response.status}`);
+            .then(response => {
+                console.log('Response status:', response.status);
+                console.log('Response headers:', response.headers);
+
+                if (!response.ok) {
+                    return response.json().then(err => {
+                        throw new Error(err.error || `HTTP error! status: ${response.status}`);
+                    }).catch((jsonErr) => {
+                        // If JSON parsing fails, return text response
+                        return response.text().then(text => {
+                            throw new Error(text || `HTTP error! status: ${response.status}`);
+                        });
                     });
-                });
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Response data:', data);
-            
-            // Remove the loading indicator
-            if (loadingMessage && loadingMessage.parentNode) {
-                loadingMessage.remove();
-            }
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Response data:', data);
 
-            if (data.error) {
-                addMessage(`Error: ${data.error}`, "received", false, true);
-            } else if (data.response) {
-                addMessage(data.response, "received", false, true);
-                
-                // Add user message to history in Gemini format
-                conversationHistory.push({
-                    role: "user",
-                    parts: [{ text: messageText }]
-                });
+                // Remove the loading indicator
+                if (loadingMessage && loadingMessage.parentNode) {
+                    loadingMessage.remove();
+                }
 
-                // Add model response to history in Gemini format
-                conversationHistory.push({
-                    role: "model",
-                    parts: [{ text: data.response }]
-                });
-                
-                // Save updated history
-                saveHistory();
-                
-                console.log('Response received, history length now:', conversationHistory.length);
-            } else {
-                console.error('Unexpected response format:', data);
-                addMessage("Sorry, received an unexpected response format.", "received", false, true);
-            }
-        })
-        .catch(error => {
-            console.error("Error details:", error);
-            // Remove the loading indicator
-            if (loadingMessage && loadingMessage.parentNode) {
-                loadingMessage.remove();
-            }
-            
-            let errorMessage = "Sorry, something went wrong.";
-            if (error.message) {
-                errorMessage += ` ${error.message}`;
-            }
-            
-            addMessage(errorMessage, "received", false, true);
-        })
-        .finally(() => {
-            // Re-enable send button
-            sendButton.disabled = false;
-        });
+                if (data.error) {
+                    addMessage(`Error: ${data.error}`, "received", false, true);
+                } else if (data.response) {
+                    addMessage(data.response, "received", false, true);
+
+                    // Add user message to history in Gemini format
+                    conversationHistory.push({
+                        role: "user",
+                        parts: [{ text: messageText }]
+                    });
+
+                    // Add model response to history in Gemini format
+                    conversationHistory.push({
+                        role: "model",
+                        parts: [{ text: data.response }]
+                    });
+
+                    // Save updated history
+                    saveHistory();
+
+                    console.log('Response received, history length now:', conversationHistory.length);
+                } else {
+                    console.error('Unexpected response format:', data);
+                    addMessage("Sorry, received an unexpected response format.", "received", false, true);
+                }
+            })
+            .catch(error => {
+                console.error("Error details:", error);
+                // Remove the loading indicator
+                if (loadingMessage && loadingMessage.parentNode) {
+                    loadingMessage.remove();
+                }
+
+                let errorMessage = "Sorry, something went wrong.";
+                if (error.message) {
+                    errorMessage += ` ${error.message}`;
+                }
+
+                addMessage(errorMessage, "received", false, true);
+            })
+            .finally(() => {
+                // Re-enable send button
+                sendButton.disabled = false;
+            });
     }
 
     function addMessage(text, type, isPlaceholder = false, shouldSave = false) {
@@ -213,7 +295,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 behavior: 'smooth'
             });
         });
-        
+
         // Save message to sessionStorage if needed
         if (shouldSave && !isPlaceholder) {
             saveChatMessages();
@@ -221,7 +303,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         return messageElement;
     }
-    
+
     function saveHistory() {
         try {
             sessionStorage.setItem('conversationHistory', JSON.stringify(conversationHistory));
@@ -229,7 +311,7 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error('Error saving history:', e);
         }
     }
-    
+
     function saveChatMessages() {
         try {
             const messages = [];
@@ -246,9 +328,9 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error('Error saving messages:', e);
         }
     }
-    
+
     // Add a clear history button functionality
-    window.clearChatHistory = function() {
+    window.clearChatHistory = function () {
         conversationHistory = [];
         sessionStorage.removeItem('conversationHistory');
         sessionStorage.removeItem('chatMessages');

@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="theme-color" content="#1976d2">
     <title>Drift AI</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div id="root">
         <div class="titlebar">
@@ -19,8 +22,8 @@
         </div>
         <div class="content-below-titlebar">
             <div class="chat-container">
-	      <div class="footer-text">Made with 💖 by Ryan • Drift is powered by Gemini</div>
-	    </div>
+                <div class="footer-text">Made with 💖 by Ryan • Drift is powered by Gemini</div>
+            </div>
             <div class="input-container">
                 <div class="model-toggle">
                     <button class="model-option active" data-model="gemini-flash-latest">
@@ -30,7 +33,10 @@
                         💎 Pro
                     </button>
                 </div>
+                <div class="image-preview-container" id="image-preview-container"></div>
                 <div class="input-wrapper">
+                    <input type="file" id="image-upload" accept="image/*" multiple style="display: none;">
+                    <button id="upload-button" title="Upload image"></button>
                     <textarea id="message-input" placeholder="Type a message..." rows="1"></textarea>
                     <button id="send-button">↑</button>
                 </div>
@@ -40,4 +46,5 @@
     </div>
     <script src="app.js"></script>
 </body>
+
 </html>
