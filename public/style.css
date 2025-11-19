@@ -684,6 +684,7 @@ body {
 }
 
 #upload-button {
+  order: -1;
   border: none;
   background-color: rgba(25, 118, 210, 0.9);
   color: white;
@@ -738,6 +739,7 @@ body {
 }
 
 #message-input {
+  order: 0;
   flex: 1;
   border: none;
   padding: 6px 10px;
@@ -773,6 +775,7 @@ body {
 }
 
 #send-button {
+  order: 1;
   border: none;
   background-color: rgba(25, 118, 210, 0.9);
   color: white;
