@@ -516,22 +516,26 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  background: transparent;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 12px;
   padding: 0;
   width: 100%;
   max-height: 0;
   opacity: 0;
   visibility: hidden;
   overflow: hidden;
-  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    padding 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    margin-bottom 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    visibility 0s linear 0.4s;
+  transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    padding 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    margin-bottom 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    visibility 0s linear 0.5s;
   align-items: flex-start;
   justify-content: flex-start;
   margin-bottom: 0;
   order: -1;
+  transform-origin: bottom;
 }
 
 .image-preview-container.has-images {
@@ -539,8 +543,23 @@ body {
   opacity: 1;
   visibility: visible;
   padding: 12px;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   transition-delay: 0s;
+  animation: expandUpward 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes expandUpward {
+  from {
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    max-height: 200px;
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .image-preview {
@@ -604,6 +623,18 @@ body {
   align-items: center;
   gap: 10px;
   width: 100%;
+}
+
+#upload-button {
+  order: 1;
+}
+
+#message-input {
+  order: 2;
+}
+
+#send-button {
+  order: 3;
 }
 
 .model-toggle {
@@ -777,7 +808,6 @@ body {
   transform: translate(-50%, -50%);
   line-height: 1;
   -webkit-text-stroke: 1px white;
-  text-stroke: 1px white;
 }
 
 #send-button:hover {
