@@ -618,18 +618,8 @@ body {
   align-items: center;
   gap: 10px;
   width: 100%;
-}
-
-#upload-button {
-  order: -1;
-}
-
-#message-input {
-  order: 0;
-}
-
-#send-button {
-  order: 1;
+  flex-direction: row;
+  /* Explicitly set row */
 }
 
 .model-toggle {
@@ -753,7 +743,7 @@ body {
   transition: all 0.2s ease;
   min-height: 16px;
   max-height: 200px;
-  width: 100%;
+  /* width: 100%; Removed to allow flex to work properly */
   max-width: 80vw;
   overflow-y: auto;
   line-height: 1.4;
