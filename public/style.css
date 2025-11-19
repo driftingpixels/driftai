@@ -614,12 +614,12 @@ body {
 }
 
 .input-controls {
-  display: flex;
+  display: flex !important;
+  flex-direction: row !important;
   align-items: center;
   gap: 10px;
   width: 100%;
-  flex-direction: row;
-  /* Explicitly set row */
+  justify-content: space-between;
 }
 
 .model-toggle {
