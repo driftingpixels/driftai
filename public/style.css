@@ -513,34 +513,31 @@ body {
 }
 
 .image-preview-container {
-  display: flex;
+  display: none;
   flex-wrap: wrap;
   gap: 8px;
-  background: rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(40px) saturate(180%);
-  -webkit-backdrop-filter: blur(40px) saturate(180%);
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: transparent;
   padding: 0;
-  width: 90%;
-  max-width: 800px;
-  margin: 0 auto;
+  width: 100%;
   max-height: 0;
   opacity: 0;
   overflow: hidden;
-  transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    padding 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    margin 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    padding 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    margin-bottom 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   align-items: flex-start;
   justify-content: flex-start;
+  margin-bottom: 0;
+  order: -1;
 }
 
 .image-preview-container.has-images {
+  display: flex;
   max-height: 200px;
   opacity: 1;
-  padding: 8px;
-  margin-bottom: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
 }
 
 .image-preview {
@@ -584,8 +581,7 @@ body {
 .input-wrapper {
   position: relative;
   display: flex;
-  align-items: center;
-  gap: 10px;
+  flex-direction: column;
   background: rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(40px) saturate(180%);
   -webkit-backdrop-filter: blur(40px) saturate(180%);
@@ -597,6 +593,14 @@ body {
   max-width: 800px;
   margin: 0 auto;
   min-width: auto;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.input-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
 }
 
 .model-toggle {
