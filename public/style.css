@@ -20,7 +20,8 @@
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   width: 100%;
@@ -391,7 +392,8 @@ body {
   font-style: italic;
 }
 
-.message ul, .message ol {
+.message ul,
+.message ol {
   margin: 8px 0;
   padding-left: 20px;
 }
@@ -417,6 +419,7 @@ body {
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -478,9 +481,12 @@ body {
 }
 
 @keyframes dotFade {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 0.2;
   }
+
   50% {
     opacity: 1;
   }
@@ -502,7 +508,7 @@ body {
   max-height: 400px;
 }
 
-.input-container > * {
+.input-container>* {
   pointer-events: auto;
 }
 
@@ -522,10 +528,10 @@ body {
   max-height: 0;
   opacity: 0;
   overflow: hidden;
-  transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
-              opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-              padding 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-              margin 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    padding 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    margin 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   align-items: flex-start;
   justify-content: flex-start;
 }
@@ -680,6 +686,12 @@ body {
   background-color: rgba(21, 101, 192, 0.95);
   transform: scale(1.1);
   box-shadow: 0 6px 20px rgba(25, 118, 210, 0.5);
+  z-index: 10;
+}
+
+#upload-button {
+  z-index: 10;
+  pointer-events: auto;
 }
 
 #upload-button:active {
@@ -796,19 +808,25 @@ body {
 }
 
 @keyframes pulse {
-  0%, 100% { 
+
+  0%,
+  100% {
     box-shadow: 0 0 25px rgba(25, 118, 210, 0.6), 0 4px 8px var(--shadow-color);
   }
-  50% { 
+
+  50% {
     box-shadow: 0 0 35px rgba(25, 118, 210, 0.8), 0 4px 8px var(--shadow-color);
   }
 }
 
 @keyframes pulseSent {
-  0%, 100% { 
+
+  0%,
+  100% {
     box-shadow: 0 0 25px rgba(52, 199, 89, 0.6), 0 4px 8px var(--shadow-color);
   }
-  50% { 
+
+  50% {
     box-shadow: 0 0 35px rgba(52, 199, 89, 0.8), 0 4px 8px var(--shadow-color);
   }
 }
@@ -827,7 +845,8 @@ body {
     --message-padding: 10px;
   }
 
-  html, body {
+  html,
+  body {
     height: 100vh;
     height: -webkit-fill-available;
   }
@@ -869,18 +888,19 @@ body {
     max-height: 150px;
   }
 
-  #send-button, #upload-button {
+  #send-button,
+  #upload-button {
     width: 30px;
     height: 30px;
     font-size: 18px;
   }
-  
+
   .settings-btn {
     right: 60px;
     font-size: 16px;
     padding: 6px;
   }
-  
+
   .clear-history-btn {
     right: 10px;
     font-size: 16px;
@@ -891,7 +911,7 @@ body {
     font-size: 10px;
     padding: 8px 12px;
   }
-  
+
   .chat-container {
     padding-bottom: 180px;
   }
@@ -911,7 +931,7 @@ body {
     width: auto;
     white-space: nowrap;
   }
-  
+
   .settings-panel {
     min-width: 280px;
     padding: 20px;

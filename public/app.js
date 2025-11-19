@@ -83,35 +83,54 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Image upload functionality
-    uploadButton.addEventListener('click', () => {
-        imageUploadInput.click();
-    });
+    if (uploadButton && imageUploadInput) {
+        console.log('Upload elements found, adding listeners');
 
-    imageUploadInput.addEventListener('change', (e) => {
-        const files = Array.from(e.target.files);
-
-        files.forEach(file => {
-            if (file.type.startsWith('image/')) {
-                const reader = new FileReader();
-
-                reader.onload = (event) => {
-                    const imageData = {
-                        data: event.target.result,
-                        file: file
-                    };
-
-                    uploadedImages.push(imageData);
-                    addImagePreview(imageData, uploadedImages.length - 1);
-                    updatePreviewContainer();
-                };
-
-                reader.readAsDataURL(file);
-            }
+        uploadButton.addEventListener('click', (e) => {
+            console.log('Upload button clicked');
+            e.preventDefault(); // Prevent any default button behavior
+            imageUploadInput.click();
         });
 
-        // Reset the input
-        imageUploadInput.value = '';
-    });
+        imageUploadInput.addEventListener('change', (e) => {
+            console.log('File input changed', e.target.files);
+            const files = Array.from(e.target.files);
+
+            if (files.length === 0) return;
+
+            files.forEach(file => {
+                console.log('Processing file:', file.name, file.type);
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+
+                    reader.onload = (event) => {
+                        console.log('File read successfully');
+                        const imageData = {
+                            data: event.target.result,
+                            file: file
+                        };
+
+                        uploadedImages.push(imageData);
+                        addImagePreview(imageData, uploadedImages.length - 1);
+                        updatePreviewContainer();
+                    };
+
+                    reader.onerror = (err) => {
+                        console.error('Error reading file:', err);
+                    };
+
+                    reader.readAsDataURL(file);
+                } else {
+                    console.warn('File is not an image:', file.name);
+                }
+            });
+
+            // Reset the input
+            imageUploadInput.value = '';
+        });
+    } else {
+        console.error('Upload elements NOT found:', { uploadButton, imageUploadInput });
+    }
 
     function addImagePreview(imageData, index) {
         const previewDiv = document.createElement('div');
