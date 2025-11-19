@@ -186,19 +186,32 @@ export default function Home() {
         selectedImages = selectedImages.filter(img => img.data !== imageData.data);
         previewDiv.remove();
         if (selectedImages.length === 0) {
-          imagePreviewContainer.style.display = 'none';
+          imagePreviewContainer.classList.remove('has-images');
+          const inputWrapper = document.querySelector('.input-wrapper');
+          if (inputWrapper) {
+            inputWrapper.classList.remove('has-images');
+          }
         }
       };
 
       previewDiv.appendChild(img);
       previewDiv.appendChild(removeBtn);
       imagePreviewContainer.appendChild(previewDiv);
-      imagePreviewContainer.style.display = 'flex';
+      imagePreviewContainer.classList.add('has-images');
+
+      const inputWrapper = document.querySelector('.input-wrapper');
+      if (inputWrapper) {
+        inputWrapper.classList.add('has-images');
+      }
     }
 
     function clearImagePreviews() {
       imagePreviewContainer.innerHTML = '';
-      imagePreviewContainer.style.display = 'none';
+      imagePreviewContainer.classList.remove('has-images');
+      const inputWrapper = document.querySelector('.input-wrapper');
+      if (inputWrapper) {
+        inputWrapper.classList.remove('has-images');
+      }
       selectedImages = [];
     }
 
