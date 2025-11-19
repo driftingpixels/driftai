@@ -674,7 +674,6 @@ body {
 }
 
 #upload-button {
-  order: -1;
   border: none;
   background-color: rgba(25, 118, 210, 0.9);
   color: white;
@@ -692,6 +691,8 @@ body {
   flex-shrink: 0;
   box-shadow: 0 4px 16px rgba(25, 118, 210, 0.4);
   position: relative;
+  z-index: 10;
+  pointer-events: auto;
 }
 
 #upload-button::before {
@@ -713,11 +714,6 @@ body {
   z-index: 10;
 }
 
-#upload-button {
-  z-index: 10;
-  pointer-events: auto;
-}
-
 #upload-button:active {
   transform: scale(0.95);
 }
@@ -729,7 +725,6 @@ body {
 }
 
 #message-input {
-  order: 0;
   flex: 1;
   border: none;
   padding: 6px 10px;
@@ -749,15 +744,12 @@ body {
   overflow-y: auto;
   line-height: 1.4;
   align-self: flex-end;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 #message-input::-webkit-scrollbar {
   display: none;
-}
-
-#message-input {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
 }
 
 #message-input:focus {
@@ -766,7 +758,6 @@ body {
 }
 
 #send-button {
-  order: 1;
   border: none;
   background-color: rgba(25, 118, 210, 0.9);
   color: white;
