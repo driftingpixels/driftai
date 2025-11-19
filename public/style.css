@@ -108,6 +108,7 @@ body {
   transform: scale(0.95) translateY(0);
 }
 
+
 .clear-history-btn {
   position: absolute;
   right: 20px;
@@ -282,6 +283,7 @@ body {
   background-color: rgba(25, 118, 210, 0.2);
   font-weight: 500;
 }
+
 
 .content-below-titlebar {
   position: fixed;
@@ -912,12 +914,6 @@ body {
     font-size: 18px;
   }
 
-  .settings-btn {
-    right: 60px;
-    font-size: 16px;
-    padding: 6px;
-  }
-
   .clear-history-btn {
     right: 10px;
     font-size: 16px;
@@ -947,11 +943,6 @@ body {
     min-width: auto;
     width: auto;
     white-space: nowrap;
-  }
-
-  .settings-panel {
-    min-width: 280px;
-    padding: 20px;
   }
 
   .image-preview {
