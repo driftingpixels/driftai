@@ -217,6 +217,21 @@ export default function Home() {
       selectedImages = [];
     }
 
+    function animateAndClearImages() {
+      // Remove the class to trigger the collapse animation
+      imagePreviewContainer.classList.remove('has-images');
+      const inputWrapper = document.querySelector('.input-wrapper');
+      if (inputWrapper) {
+        inputWrapper.classList.remove('has-images');
+      }
+
+      // Wait for the animation to finish (400ms) before clearing the content
+      setTimeout(() => {
+        imagePreviewContainer.innerHTML = '';
+        selectedImages = [];
+      }, 400);
+    }
+
     // Load conversation history from localStorage on page load
     const savedHistory = localStorage.getItem('conversationHistory');
     const savedMessages = localStorage.getItem('chatMessages');
@@ -313,6 +328,11 @@ export default function Home() {
       const messagesToSend = [...selectedImages];
       addMessage(messageText, "sent", false, true, messagesToSend);
 
+      // Animate removal of images immediately
+      if (selectedImages.length > 0) {
+        animateAndClearImages();
+      }
+
       messageInput.value = "";
       messageInput.style.height = "auto";
 
@@ -400,8 +420,8 @@ export default function Home() {
             addMessage("Sorry, received an unexpected response format.", "system", false, true);
           }
 
-          // Clear images after sending
-          clearImagePreviews();
+          // Clear images after sending (already animated out, just ensuring state is clean)
+          // clearImagePreviews(); // No longer needed here as it's handled by animateAndClearImages
         })
         .catch(error => {
           console.error("Error:", error);
