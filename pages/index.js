@@ -314,7 +314,13 @@ export default function Home() {
     }
 
     if (settingsBtn) {
-      settingsBtn.addEventListener('click', openSettings);
+      settingsBtn.addEventListener('click', () => {
+        if (settingsPanel.classList.contains('active')) {
+          closeSettings();
+        } else {
+          openSettings();
+        }
+      });
     }
 
     if (settingsOverlay) {
