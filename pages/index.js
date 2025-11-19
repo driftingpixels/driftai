@@ -643,22 +643,24 @@ export default function Home() {
             </button>
           </div>
           <div className="input-wrapper">
-            <div className="image-preview-container"></div>
             <div className="input-controls">
-              <input
-                type="file"
-                id="file-input"
-                accept="image/*"
-                multiple
-                style={{ display: 'none' }}
-              />
-              <button id="upload-button" aria-label="Upload image"></button>
-              <textarea
-                id="message-input"
-                placeholder="Type a message..."
-                rows="1"
-              />
-              <button id="send-button" aria-label="Send message"></button>
+              <div className="image-preview-container"></div>
+              <div className="input-row">
+                <input
+                  type="file"
+                  id="file-input"
+                  accept="image/*"
+                  multiple
+                  style={{ display: 'none' }}
+                />
+                <button id="upload-button" aria-label="Upload image"></button>
+                <textarea
+                  id="message-input"
+                  placeholder="Type a message..."
+                  rows="1"
+                />
+                <button id="send-button" aria-label="Send message"></button>
+              </div>
             </div>
           </div>
           <div className="footer-text">Made with 💖 by Ryan • Drift is powered by Gemini</div>
