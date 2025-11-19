@@ -95,19 +95,23 @@ body {
   transition: all 0.2s ease;
   opacity: 0.9;
   box-shadow: 0 2px 8px rgba(25, 118, 210, 0.3);
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
 .settings-btn:hover {
   opacity: 1;
   background: rgba(21, 101, 192, 0.9);
-  transform: translateY(-1px);
+  transform: translateY(-1px) translateZ(0);
   box-shadow: 0 4px 12px rgba(25, 118, 210, 0.4);
 }
 
 .settings-btn:active {
-  transform: scale(0.95) translateY(0);
+  transform: scale(0.95) translateY(0) translateZ(0);
 }
-
 
 .clear-history-btn {
   position: absolute;
@@ -122,17 +126,22 @@ body {
   transition: all 0.2s ease;
   opacity: 0.9;
   box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
 .clear-history-btn:hover {
   opacity: 1;
   background: rgba(200, 35, 51, 0.9);
-  transform: translateY(-1px);
+  transform: translateY(-1px) translateZ(0);
   box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
 }
 
 .clear-history-btn:active {
-  transform: scale(0.95) translateY(0);
+  transform: scale(0.95) translateY(0) translateZ(0);
 }
 
 .settings-panel {
@@ -284,7 +293,6 @@ body {
   font-weight: 500;
 }
 
-
 .content-below-titlebar {
   position: fixed;
   top: 0;
@@ -355,7 +363,6 @@ body {
 .message-image:hover {
   transform: scale(1.05);
 }
-
 
 .message p {
   margin: 0 0 8px 0;
@@ -692,6 +699,11 @@ body {
   position: relative;
   z-index: 10;
   pointer-events: auto;
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
 #upload-button svg {
@@ -699,22 +711,25 @@ body {
   height: 24px;
   color: white;
   transition: transform 0.2s ease;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 #upload-button:hover {
   background-color: rgba(21, 101, 192, 0.95);
-  transform: scale(1.1);
+  transform: scale(1.1) translateZ(0);
   box-shadow: 0 6px 20px rgba(25, 118, 210, 0.5);
   z-index: 10;
 }
 
 #upload-button:active {
-  transform: scale(0.95);
+  transform: scale(0.95) translateZ(0);
 }
 
 #upload-button:disabled {
   cursor: not-allowed;
-  transform: scale(1);
+  transform: scale(1) translateZ(0);
   opacity: 0.6;
 }
 
@@ -734,7 +749,6 @@ body {
   min-height: 16px;
   max-height: 200px;
   width: 100%;
-  /* Restored width */
   min-width: 0;
   max-width: 80vw;
   overflow-y: auto;
@@ -772,6 +786,11 @@ body {
   flex-shrink: 0;
   box-shadow: 0 4px 16px rgba(25, 118, 210, 0.4);
   position: relative;
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
 #send-button svg {
@@ -779,21 +798,24 @@ body {
   height: 20px;
   color: white;
   transition: transform 0.2s ease;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 #send-button:hover {
   background-color: rgba(21, 101, 192, 0.95);
-  transform: scale(1.1);
+  transform: scale(1.1) translateZ(0);
   box-shadow: 0 6px 20px rgba(25, 118, 210, 0.5);
 }
 
 #send-button:active {
-  transform: scale(0.95);
+  transform: scale(0.95) translateZ(0);
 }
 
 #send-button:disabled {
   cursor: not-allowed;
-  transform: scale(1);
+  transform: scale(1) translateZ(0);
   opacity: 0.6;
 }
 
@@ -896,17 +918,23 @@ body {
     max-height: 150px;
   }
 
-  #send-button,
-  #upload-button {
-    width: 30px;
-    height: 30px;
+  .settings-btn {
+    right: 60px;
     font-size: 18px;
+    padding: 8px;
   }
 
   .clear-history-btn {
-    right: 10px;
-    font-size: 16px;
-    padding: 6px;
+    right: 15px;
+    font-size: 18px;
+    padding: 8px;
+  }
+
+  #send-button,
+  #upload-button {
+    width: 32px;
+    height: 32px;
+    font-size: 20px;
   }
 
   .footer-text {
