@@ -694,12 +694,11 @@ body {
   pointer-events: auto;
 }
 
-#upload-button::before {
-  content: '+';
+#upload-button svg {
+  width: 24px;
+  height: 24px;
   color: white;
-  font-size: 24px;
-  font-weight: 600;
-  line-height: 1;
+  transition: transform 0.2s ease;
 }
 
 #upload-button:hover {
@@ -775,13 +774,11 @@ body {
   position: relative;
 }
 
-#send-button::before {
-  content: '↑';
+#send-button svg {
+  width: 20px;
+  height: 20px;
   color: white;
-  font-size: 20px;
-  font-weight: 600;
-  line-height: 1;
-  -webkit-text-stroke: 1px white;
+  transition: transform 0.2s ease;
 }
 
 #send-button:hover {
