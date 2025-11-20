@@ -7,7 +7,7 @@
   --border-color: #e0e0e0;
   --shadow-color: rgba(0, 0, 0, 0.1);
   --titlebar-bg: rgba(255, 255, 255, 0.85);
-  --titlebar-text: #333;
+  --titlebar-text: #ffffff;
   --footer-bg: #ffffff;
   --system-bg: rgba(158, 158, 158, 0.3);
   --system-text: #666;
@@ -197,7 +197,7 @@ body {
   margin: 0 0 16px 0;
   font-size: 20px;
   font-weight: 600;
-  color: #333;
+  color: #ffffff;
   text-align: center;
 }
 
@@ -205,7 +205,7 @@ body {
   display: block;
   font-size: 14px;
   font-weight: 500;
-  color: #666;
+  color: #cccccc;
   margin-bottom: 8px;
 }
 
@@ -367,7 +367,7 @@ body {
   --border-color: #404040;
   --shadow-color: rgba(0, 0, 0, 0.3);
   --titlebar-bg: rgba(30, 30, 30, 0.95);
-  --titlebar-text: #e0e0e0;
+  --titlebar-text: #ffffff;
   --footer-bg: #1a1a1a;
   --system-bg: rgba(80, 80, 80, 0.3);
   --system-text: #b0b0b0;
@@ -403,11 +403,11 @@ body {
 }
 
 [data-theme="dark"] .settings-panel h3 {
-  color: #e0e0e0;
+  color: #ffffff;
 }
 
 [data-theme="dark"] .settings-panel label {
-  color: #b0b0b0;
+  color: #cccccc;
 }
 
 [data-theme="dark"] .custom-select-trigger {
