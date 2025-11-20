@@ -359,9 +359,9 @@ body {
 
 /* Dark Mode Variables */
 [data-theme="dark"] {
-  --imessage-blue: #3d8ef8;
-  --imessage-green: #48d764;
-  --message-bg: #3d8ef8;
+  --imessage-blue: #1976d2;
+  --imessage-green: #34c759;
+  --message-bg: #1976d2;
   --message-text: white;
   --input-bg: #2a2a2a;
   --border-color: #404040;
