@@ -98,10 +98,12 @@ body {
   opacity: 0.9;
 }
 
-.settings-btn:hover {
-  opacity: 1;
-  background: rgba(21, 101, 192, 0.9);
-  transform: scale(1.1);
+@media (hover: hover) {
+  .settings-btn:hover {
+    opacity: 1;
+    background: rgba(21, 101, 192, 0.9);
+    transform: scale(1.1);
+  }
 }
 
 .settings-btn:active {
@@ -129,10 +131,12 @@ body {
   opacity: 0.9;
 }
 
-.clear-history-btn:hover {
-  opacity: 1;
-  background: rgba(200, 35, 51, 0.9);
-  transform: scale(1.1);
+@media (hover: hover) {
+  .clear-history-btn:hover {
+    opacity: 1;
+    background: rgba(200, 35, 51, 0.9);
+    transform: scale(1.1);
+  }
 }
 
 .clear-history-btn:active {
