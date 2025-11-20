@@ -676,10 +676,18 @@ export default function Home() {
         <div className="input-container">
           <div className="model-toggle">
             <button className="model-option active" data-model="gemini-flash-latest">
-              ⚡ Fast
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+              </svg>
+              Fast
             </button>
             <button className="model-option" data-model="gemini-pro-latest">
-              💎 Pro
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M6 3h12l4 6-10 13L2 9z"></path>
+                <path d="M11 3 8 9l4 13 4-13-3-6"></path>
+                <path d="M2 9h20"></path>
+              </svg>
+              Pro
             </button>
           </div>
           <div className="input-wrapper">
