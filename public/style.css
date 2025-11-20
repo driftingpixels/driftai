@@ -902,10 +902,12 @@ body {
   transition: transform 0.2s ease;
 }
 
-#upload-button:hover {
-  background-color: rgba(21, 101, 192, 0.95);
-  transform: scale(1.1);
-  z-index: 10;
+@media (hover: hover) {
+  #upload-button:hover {
+    background-color: rgba(21, 101, 192, 0.95);
+    transform: scale(1.1);
+    z-index: 10;
+  }
 }
 
 #upload-button:active {
@@ -979,9 +981,11 @@ body {
   transition: transform 0.2s ease;
 }
 
-#send-button:hover {
-  background-color: rgba(21, 101, 192, 0.95);
-  transform: scale(1.1);
+@media (hover: hover) {
+  #send-button:hover {
+    background-color: rgba(21, 101, 192, 0.95);
+    transform: scale(1.1);
+  }
 }
 
 #send-button:active {
