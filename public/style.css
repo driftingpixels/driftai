@@ -496,13 +496,14 @@ body {
   flex-direction: column;
   overflow: hidden;
   background: transparent;
-  padding-top: var(--titlebar-height);
+  padding-top: 0;
   z-index: 1;
 }
 
 .chat-container {
   flex: 1;
   padding: 10px var(--message-padding);
+  padding-top: calc(var(--titlebar-height) + 10px);
   padding-bottom: calc(var(--input-container-height) + 15px);
   overflow-y: auto;
   display: flex;
@@ -1164,7 +1165,11 @@ body {
   }
 
   .content-below-titlebar {
-    padding-top: calc(var(--titlebar-height) + env(safe-area-inset-top));
+    padding-top: 0;
+  }
+
+  .chat-container {
+    padding-top: calc(var(--titlebar-height) + env(safe-area-inset-top) + 10px);
   }
 
   .input-container {
