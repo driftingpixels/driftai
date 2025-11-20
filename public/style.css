@@ -679,6 +679,14 @@ body {
   display: flex;
   align-items: center;
   gap: 6px;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+  outline: none;
+}
+
+.model-option:focus {
+  outline: none;
 }
 
 .model-option.active {
