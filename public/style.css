@@ -676,6 +676,9 @@ body {
   position: relative;
   z-index: 1;
   color: #666;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .model-option.active {
