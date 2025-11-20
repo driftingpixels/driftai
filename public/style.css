@@ -108,6 +108,11 @@ body {
   transform: scale(0.95);
 }
 
+.settings-btn:focus {
+  outline: none;
+  opacity: 1;
+}
+
 .clear-history-btn {
   position: absolute;
   right: 20px;
@@ -132,6 +137,11 @@ body {
 
 .clear-history-btn:active {
   transform: scale(0.95);
+}
+
+.clear-history-btn:focus {
+  outline: none;
+  opacity: 1;
 }
 
 .settings-panel {
