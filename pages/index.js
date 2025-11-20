@@ -264,10 +264,8 @@ export default function Home() {
 
     // Function to update slider position and width
     function updateSlider(activeOption) {
-      const rect = activeOption.getBoundingClientRect();
-      const containerRect = modelToggle.getBoundingClientRect();
-      const left = rect.left - containerRect.left;
-      const width = rect.width;
+      const left = activeOption.offsetLeft;
+      const width = activeOption.offsetWidth;
 
       slider.style.width = `${width}px`;
       slider.style.left = `${left}px`;
