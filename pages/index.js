@@ -145,6 +145,71 @@ export default function Home() {
       });
     }
 
+    // Theme switching functionality
+    const themeToggle = document.querySelector(".theme-toggle");
+    const themeOptions = document.querySelectorAll(".theme-option");
+    let selectedTheme = localStorage.getItem('selectedTheme') || 'light';
+
+    // Apply saved theme on page load
+    document.documentElement.setAttribute('data-theme', selectedTheme);
+
+    // Set initial active theme option
+    if (themeToggle) {
+      themeOptions.forEach(option => {
+        if (option.dataset.theme === selectedTheme) {
+          option.classList.add('active');
+        } else {
+          option.classList.remove('active');
+        }
+      });
+
+      // Create and add the slider element for theme toggle
+      const themeSlider = document.createElement('div');
+      themeSlider.className = 'theme-toggle-slider';
+      themeToggle.insertBefore(themeSlider, themeToggle.firstChild);
+
+      // Function to update theme slider position
+      function updateThemeSlider(activeOption) {
+        const left = activeOption.offsetLeft;
+        const width = activeOption.offsetWidth;
+        themeSlider.style.width = `${width}px`;
+        themeSlider.style.left = `${left}px`;
+      }
+
+      // Initialize theme slider position
+      const activeThemeOption = document.querySelector('.theme-option.active');
+      if (activeThemeOption) {
+        updateThemeSlider(activeThemeOption);
+      }
+
+      // Theme option click handler
+      themeOptions.forEach(option => {
+        option.addEventListener('click', () => {
+          const theme = option.dataset.theme;
+
+          // Update active states
+          themeOptions.forEach(opt => opt.classList.remove('active'));
+          option.classList.add('active');
+
+          // Apply theme
+          selectedTheme = theme;
+          document.documentElement.setAttribute('data-theme', theme);
+          localStorage.setItem('selectedTheme', theme);
+
+          // Update slider position with animation
+          updateThemeSlider(option);
+        });
+      });
+
+      // Update slider on window resize
+      window.addEventListener('resize', () => {
+        const activeThemeOption = document.querySelector('.theme-option.active');
+        if (activeThemeOption) {
+          updateThemeSlider(activeThemeOption);
+        }
+      });
+    }
+
     // Upload button click handler
     uploadButton.addEventListener("click", () => {
       fileInput.click();
@@ -642,6 +707,31 @@ export default function Home() {
               <div className="custom-option" data-value="toxic">Toxic</div>
             </div>
           </div>
+        </div>
+
+        <h3 style={{ marginTop: '24px' }}>Theme</h3>
+        <label>Change theme:</label>
+        <div className="theme-toggle">
+          <button className="theme-option active" data-theme="light">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            Light
+          </button>
+          <button className="theme-option" data-theme="dark">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+            Dark
+          </button>
         </div>
       </div>
 
