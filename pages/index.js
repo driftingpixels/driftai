@@ -628,7 +628,12 @@ export default function Home() {
       clearImagePreviews();
       setTimeout(() => {
         const welcomeText = 'Hello, I am Drift your AI assistant.';
-        addMessage(welcomeText, "received", false, false);
+        addMessage(welcomeText, "received", false, true);
+        conversationHistory.push({
+          role: "model",
+          parts: [{ text: welcomeText }]
+        });
+        saveHistory();
       }, 300);
     };
 
@@ -661,7 +666,12 @@ export default function Home() {
     if (!savedHistory && !savedMessages) {
       setTimeout(() => {
         const welcomeText = 'Hello, I am Drift your AI assistant.';
-        addMessage(welcomeText, "received", false, false);
+        addMessage(welcomeText, "received", false, true);
+        conversationHistory.push({
+          role: "model",
+          parts: [{ text: welcomeText }]
+        });
+        saveHistory();
       }, 500);
     }
 
