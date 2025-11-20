@@ -179,7 +179,7 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background: transparent;
+  background: rgba(0, 0, 0, 0.3);
   z-index: 1001;
   opacity: 0;
   transition: opacity 0.3s ease;
@@ -392,6 +392,10 @@ body {
   -webkit-backdrop-filter: blur(40px) saturate(180%);
   border: 1px solid rgba(80, 80, 80, 0.3);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .settings-overlay {
+  background: rgba(255, 255, 255, 0.3);
 }
 
 [data-theme="dark"] .settings-panel h3 {
