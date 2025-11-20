@@ -71,7 +71,9 @@ body {
   font-weight: 700;
   letter-spacing: 0.5px;
   color: var(--titlebar-text);
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
   z-index: 1001;
   border-bottom: 1px solid rgba(255, 255, 255, 0.3);
   display: flex;
@@ -381,7 +383,9 @@ body {
 }
 
 [data-theme="dark"] .titlebar {
-  background: rgba(30, 30, 30, 0.95);
+  background: rgba(40, 40, 40, 0.3);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
   color: var(--titlebar-text);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
