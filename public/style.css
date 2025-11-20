@@ -7,7 +7,7 @@
   --border-color: #e0e0e0;
   --shadow-color: rgba(0, 0, 0, 0.1);
   --titlebar-bg: rgba(255, 255, 255, 0.85);
-  --titlebar-text: #ffffff;
+  --titlebar-text: #000000;
   --footer-bg: #ffffff;
   --system-bg: rgba(158, 158, 158, 0.3);
   --system-text: #666;
@@ -71,7 +71,7 @@ body {
   font-weight: 700;
   letter-spacing: 0.5px;
   color: var(--titlebar-text);
-  background: #000000;
+  background: rgba(255, 255, 255, 0);
   backdrop-filter: blur(40px);
   -webkit-backdrop-filter: blur(40px);
   z-index: 1003;
