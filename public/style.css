@@ -72,8 +72,8 @@ body {
   letter-spacing: 0.5px;
   color: var(--titlebar-text);
   background: rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(40px) saturate(180%);
-  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
   z-index: 1001;
   border-bottom: 1px solid rgba(255, 255, 255, 0.3);
   display: flex;
@@ -156,8 +156,8 @@ body {
   left: 50%;
   transform: translate(-50%, -50%) scale(0);
   background: rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(40px) saturate(180%);
-  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.3);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
@@ -384,16 +384,16 @@ body {
 
 [data-theme="dark"] .titlebar {
   background: rgba(40, 40, 40, 0.3);
-  backdrop-filter: blur(40px) saturate(180%);
-  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
   color: var(--titlebar-text);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 [data-theme="dark"] .settings-panel {
   background: rgba(40, 40, 40, 0.3);
-  backdrop-filter: blur(40px) saturate(180%);
-  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
   border: 1px solid rgba(80, 80, 80, 0.3);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
 }
@@ -453,16 +453,16 @@ body {
 
 [data-theme="dark"] .input-wrapper {
   background: rgba(40, 40, 40, 0.3);
-  backdrop-filter: blur(40px) saturate(180%);
-  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
   border: 1px solid rgba(80, 80, 80, 0.3);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 [data-theme="dark"] .model-toggle {
   background: rgba(40, 40, 40, 0.3);
-  backdrop-filter: blur(40px) saturate(180%);
-  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
   border: 1px solid rgba(80, 80, 80, 0.3);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
@@ -479,8 +479,8 @@ body {
 [data-theme="dark"] .footer-text {
   color: #b0b0b0;
   background: rgba(40, 40, 40, 0.3);
-  backdrop-filter: blur(40px) saturate(180%);
-  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
   border: 1px solid rgba(80, 80, 80, 0.3);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
@@ -790,8 +790,8 @@ body {
   display: flex;
   flex-direction: column;
   background: rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(40px) saturate(180%);
-  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.3);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
@@ -825,8 +825,8 @@ body {
   display: flex;
   gap: 0;
   background: rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(40px) saturate(180%);
-  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
   padding: 4px;
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.3);
@@ -935,8 +935,8 @@ body {
   padding: 6px 10px;
   border-radius: 15px;
   background-color: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(40px) saturate(180%);
-  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
   resize: none;
   font-size: 16px;
   font-family: inherit;
@@ -1012,8 +1012,8 @@ body {
   font-size: 11px;
   color: #666;
   background: rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(40px) saturate(180%);
-  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.3);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
