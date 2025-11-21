@@ -71,7 +71,7 @@ body {
   font-weight: 700;
   letter-spacing: 0.5px;
   color: var(--titlebar-text);
-  background: rgba(255, 255, 255, 0);
+  background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(40px);
   -webkit-backdrop-filter: blur(40px);
   z-index: 1003;
@@ -383,7 +383,7 @@ body {
 }
 
 [data-theme="dark"] .titlebar {
-  background: rgba(40, 40, 40, 0);
+  background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(40px);
   -webkit-backdrop-filter: blur(40px);
   color: var(--titlebar-text);
@@ -452,7 +452,7 @@ body {
 }
 
 [data-theme="dark"] .input-wrapper {
-  background: rgba(40, 40, 40, 0);
+  background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(40px);
   -webkit-backdrop-filter: blur(40px);
   border: 1px solid rgba(80, 80, 80, 0.3);
@@ -460,7 +460,7 @@ body {
 }
 
 [data-theme="dark"] .model-toggle {
-  background: rgba(40, 40, 40, 0);
+  background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(40px);
   -webkit-backdrop-filter: blur(40px);
   border: 1px solid rgba(80, 80, 80, 0.3);
@@ -478,7 +478,7 @@ body {
 
 [data-theme="dark"] .footer-text {
   color: #b0b0b0;
-  background: rgba(40, 40, 40, 0);
+  background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(40px);
   -webkit-backdrop-filter: blur(40px);
   border: 1px solid rgba(80, 80, 80, 0.3);
@@ -790,7 +790,7 @@ body {
   position: relative;
   display: flex;
   flex-direction: column;
-  background: rgba(255, 255, 255, 0);
+  background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(40px);
   -webkit-backdrop-filter: blur(40px);
   border-radius: 16px;
@@ -825,7 +825,7 @@ body {
   position: relative;
   display: flex;
   gap: 0;
-  background: rgba(255, 255, 255, 0);
+  background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(40px);
   -webkit-backdrop-filter: blur(40px);
   padding: 4px;
@@ -1012,7 +1012,7 @@ body {
   padding: 8px 15px;
   font-size: 11px;
   color: #666;
-  background: rgba(255, 255, 255, 0);
+  background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(40px);
   -webkit-backdrop-filter: blur(40px);
   border-radius: 16px;
