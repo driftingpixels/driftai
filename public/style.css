@@ -248,17 +248,16 @@ body {
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.3);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-  padding: 24px;
+  padding: 16px;
   z-index: 2002;
-  max-width: 90vw;
-  max-height: 90vh;
+  max-width: 70vw;
+  max-height: 70vh;
   opacity: 0;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
   pointer-events: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
 }
 
 .image-viewer-panel.active {
