@@ -149,6 +149,11 @@ export default function Home() {
     const customSelect = document.querySelector(".custom-select");
     const customSelectTrigger = customSelect.querySelector(".custom-select-trigger");
     const customOptions = customSelect.querySelector(".custom-options");
+    const imageViewerPanel = document.querySelector(".image-viewer-panel");
+    const imageViewerOverlay = document.querySelector(".image-viewer-overlay");
+    const imageViewerImg = document.querySelector(".image-viewer-img");
+    const imageViewerClose = document.querySelector(".image-viewer-close");
+
 
     let selectedPersona = localStorage.getItem('selectedPersona') || 'friendly';
     let selectedModel = "gemini-flash-latest";
@@ -445,6 +450,41 @@ export default function Home() {
     if (settingsOverlay) {
       settingsOverlay.addEventListener('click', closeSettings);
     }
+
+    // Image viewer functionality
+    function openImageViewer(imageSrc) {
+      if (imageViewerPanel && imageViewerOverlay && imageViewerImg) {
+        imageViewerImg.src = imageSrc;
+        imageViewerPanel.classList.add('active');
+        imageViewerOverlay.classList.add('active');
+      }
+    }
+
+    function closeImageViewer() {
+      if (imageViewerPanel && imageViewerOverlay) {
+        imageViewerPanel.classList.remove('active');
+        imageViewerOverlay.classList.remove('active');
+      }
+    }
+
+    if (imageViewerOverlay) {
+      imageViewerOverlay.addEventListener('click', closeImageViewer);
+    }
+
+    if (imageViewerClose) {
+      imageViewerClose.addEventListener('click', closeImageViewer);
+    }
+
+    // Event delegation for message image clicks
+    if (chatContainer) {
+      chatContainer.addEventListener('click', (e) => {
+        if (e.target.classList.contains('message-image') &&
+          e.target.closest('.message.sent')) {
+          openImageViewer(e.target.src);
+        }
+      });
+    }
+
 
     function sendMessage() {
       const messageText = messageInput.value.trim();
@@ -750,6 +790,13 @@ export default function Home() {
       </Head>
 
       <div className="settings-overlay"></div>
+
+      <div className="image-viewer-overlay"></div>
+
+      <div className="image-viewer-panel">
+        <button className="image-viewer-close">×</button>
+        <img className="image-viewer-img" src="" alt="Enlarged view" />
+      </div>
 
       <div className="settings-panel">
         <h3>Persona</h3>
