@@ -629,11 +629,7 @@ export default function Home() {
       setTimeout(() => {
         const welcomeText = 'Hello, I am Drift your AI assistant.';
         addMessage(welcomeText, "received", false, true);
-        conversationHistory.push({
-          role: "model",
-          parts: [{ text: welcomeText }]
-        });
-        saveHistory();
+        // Welcome message is UI-only - Gemini API rejects histories starting with model role
       }, 300);
     };
 
@@ -667,11 +663,7 @@ export default function Home() {
       setTimeout(() => {
         const welcomeText = 'Hello, I am Drift your AI assistant.';
         addMessage(welcomeText, "received", false, true);
-        conversationHistory.push({
-          role: "model",
-          parts: [{ text: welcomeText }]
-        });
-        saveHistory();
+        // Welcome message is UI-only - Gemini API rejects histories starting with model role
       }, 500);
     }
 
