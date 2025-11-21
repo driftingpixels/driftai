@@ -218,6 +218,102 @@ body {
   transition: color 0.3s ease;
 }
 
+/* Image Viewer Panel */
+.image-viewer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 2001;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.image-viewer-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.image-viewer-panel {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  padding: 24px;
+  z-index: 2002;
+  max-width: 90vw;
+  max-height: 90vh;
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.image-viewer-panel.active {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.image-viewer-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(220, 53, 69, 0.9);
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  line-height: 1;
+  transition: all 0.2s ease;
+  opacity: 0.9;
+  z-index: 1;
+}
+
+@media (hover: hover) {
+  .image-viewer-close:hover {
+    opacity: 1;
+    background: rgba(200, 35, 51, 0.9);
+    transform: scale(1.1);
+  }
+}
+
+.image-viewer-close:active {
+  transform: scale(0.95);
+}
+
+.image-viewer-close:focus {
+  outline: none;
+  opacity: 1;
+}
+
+.image-viewer-img {
+  max-width: 100%;
+  max-height: calc(90vh - 48px);
+  border-radius: 8px;
+  object-fit: contain;
+  display: block;
+}
+
+
 .custom-select-wrapper {
   position: relative;
   width: 100%;
@@ -419,6 +515,19 @@ body {
 [data-theme="dark"] .settings-panel label {
   color: #cccccc;
 }
+
+[data-theme="dark"] .image-viewer-overlay {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="dark"] .image-viewer-panel {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
 
 [data-theme="dark"] .custom-select-trigger {
   background: rgba(60, 60, 60, 0.5);
