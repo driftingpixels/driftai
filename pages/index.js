@@ -649,7 +649,9 @@ export default function Home() {
       messageInput.addEventListener("keydown", (event) => {
         if (event.key === "Enter" && !event.shiftKey) {
           event.preventDefault();
-          sendMessage();
+          if (!sendButton.disabled) {
+            sendMessage();
+          }
         }
       });
 
