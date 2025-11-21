@@ -637,7 +637,7 @@ export default function Home() {
       chatContainer.innerHTML = '';
       clearImagePreviews();
       setTimeout(() => {
-        const welcomeText = 'Hello, I am Drift your AI assistant.';
+        const welcomeText = 'Hello I am Drift, your AI assistant created by Ryan';
         addMessage(welcomeText, "received", false, true);
         // Welcome message is UI-only - Gemini API rejects histories starting with model role
       }, 300);
@@ -669,9 +669,10 @@ export default function Home() {
       });
     }
 
-    if (!savedHistory && !savedMessages) {
+    // Show welcome message if conversation history is empty
+    if (conversationHistory.length === 0) {
       setTimeout(() => {
-        const welcomeText = 'Hello, I am Drift your AI assistant.';
+        const welcomeText = 'Hello I am Drift, your AI assistant created by Ryan';
         addMessage(welcomeText, "received", false, true);
         // Welcome message is UI-only - Gemini API rejects histories starting with model role
       }, 500);
