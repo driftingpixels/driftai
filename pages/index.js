@@ -304,6 +304,16 @@ export default function Home() {
     if (savedHistory) {
       try {
         conversationHistory = JSON.parse(savedHistory);
+
+        // Fix for invalid history: Clear if it starts with a model message
+        // (Gemini API rejects histories that start with model role)
+        if (conversationHistory.length > 0 && conversationHistory[0].role === 'model') {
+          console.log('Detected invalid history format (starts with model message). Clearing...');
+          conversationHistory = [];
+          localStorage.removeItem('conversationHistory');
+          localStorage.removeItem('chatMessages');
+          // Will show welcome message below in the normal flow
+        }
       } catch (e) {
         console.error('Error loading history:', e);
         conversationHistory = [];
@@ -311,7 +321,7 @@ export default function Home() {
     }
 
     // Restore previous messages to chat UI
-    if (savedMessages) {
+    if (savedMessages && conversationHistory.length > 0) {
       try {
         const messages = JSON.parse(savedMessages);
         messages.forEach(msg => {
@@ -629,7 +639,11 @@ export default function Home() {
       setTimeout(() => {
         const welcomeText = 'Hello, I am Drift your AI assistant.';
         addMessage(welcomeText, "received", false, true);
-        // Welcome message is UI-only - Gemini API rejects histories starting with model role
+        conversationHistory.push({
+          role: "model",
+          parts: [{ text: welcomeText }]
+        });
+        saveHistory();
       }, 300);
     };
 
@@ -663,7 +677,11 @@ export default function Home() {
       setTimeout(() => {
         const welcomeText = 'Hello, I am Drift your AI assistant.';
         addMessage(welcomeText, "received", false, true);
-        // Welcome message is UI-only - Gemini API rejects histories starting with model role
+        conversationHistory.push({
+          role: "model",
+          parts: [{ text: welcomeText }]
+        });
+        saveHistory();
       }, 500);
     }
 
