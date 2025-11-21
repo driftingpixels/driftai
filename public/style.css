@@ -16,6 +16,9 @@
   --message-padding: 10px;
 }
 
+/* Import KaTeX CSS for LaTeX rendering */
+@import url('https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css');
+
 * {
   box-sizing: border-box;
 }
@@ -615,6 +618,36 @@ body {
   padding-left: 12px;
   margin: 8px 0;
   font-style: italic;
+}
+
+/* KaTeX (LaTeX) styling within messages */
+.message .katex {
+  font-size: 1.1em;
+  color: inherit;
+}
+
+.message .katex-display {
+  margin: 12px 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  text-align: center;
+}
+
+.message .katex-display>.katex {
+  display: inline-block;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Ensure KaTeX elements inherit text color in messages */
+.message .katex .mord,
+.message .katex .mop,
+.message .katex .mrel,
+.message .katex .mopen,
+.message .katex .mclose,
+.message .katex .mpunct,
+.message .katex .minner {
+  color: inherit;
 }
 
 @keyframes messageAppear {
