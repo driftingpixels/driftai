@@ -920,10 +920,14 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
-  line-height: 1;
   padding: 0;
   transition: all 0.2s ease;
+}
+
+.remove-image-btn svg {
+  width: 12px;
+  height: 12px;
+  stroke-width: 3;
 }
 
 .remove-image-btn:hover {
