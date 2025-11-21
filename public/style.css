@@ -1316,6 +1316,10 @@ body {
     max-height: 85vh;
     padding: 12px;
   }
+
+  .image-viewer-img {
+    max-height: calc(85vh - 32px);
+  }
 }
 
 @supports (padding: max(0px)) {
