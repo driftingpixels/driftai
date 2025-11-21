@@ -416,7 +416,6 @@ export default function Home() {
       messageInput.style.height = "auto";
 
       sendButton.disabled = true;
-      uploadButton.disabled = true;
 
       const loadingMessage = addLoadingMessage();
 
@@ -513,7 +512,6 @@ export default function Home() {
         })
         .finally(() => {
           sendButton.disabled = false;
-          uploadButton.disabled = false;
         });
     }
 
