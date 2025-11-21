@@ -1,10 +1,51 @@
 import { useEffect } from 'react';
 import Head from 'next/head';
+import katex from 'katex';
 
 export default function Home() {
   useEffect(() => {
-    // Simple markdown parser
+    // Simple markdown parser with LaTeX support
     function parseMarkdown(text) {
+      // Store LaTeX expressions to protect them from markdown processing
+      const latexPlaceholders = [];
+      let placeholderIndex = 0;
+
+      // Process block LaTeX first ($$...$$)
+      text = text.replace(/\$\$([\s\S]+?)\$\$/g, (match, latex) => {
+        try {
+          const rendered = katex.renderToString(latex.trim(), {
+            displayMode: true,
+            throwOnError: false,
+            output: 'html'
+          });
+          const placeholder = `___LATEX_BLOCK_${placeholderIndex}___`;
+          latexPlaceholders.push({ placeholder, rendered });
+          placeholderIndex++;
+          return placeholder;
+        } catch (e) {
+          console.error('LaTeX render error (block):', e);
+          return match; // Return original if rendering fails
+        }
+      });
+
+      // Process inline LaTeX ($...$)
+      text = text.replace(/\$([^\$\n]+?)\$/g, (match, latex) => {
+        try {
+          const rendered = katex.renderToString(latex.trim(), {
+            displayMode: false,
+            throwOnError: false,
+            output: 'html'
+          });
+          const placeholder = `___LATEX_INLINE_${placeholderIndex}___`;
+          latexPlaceholders.push({ placeholder, rendered });
+          placeholderIndex++;
+          return placeholder;
+        } catch (e) {
+          console.error('LaTeX render error (inline):', e);
+          return match; // Return original if rendering fails
+        }
+      });
+
       // Escape HTML
       let html = text.replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
@@ -84,6 +125,11 @@ export default function Home() {
         }
         return para;
       }).join('');
+
+      // Restore LaTeX placeholders with rendered HTML
+      latexPlaceholders.forEach(({ placeholder, rendered }) => {
+        html = html.replace(placeholder, rendered);
+      });
 
       return html;
     }
