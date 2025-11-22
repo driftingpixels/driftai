@@ -524,6 +524,8 @@ export default function Home() {
     }
 
 
+    let imageLoadingPromise = null;
+
     function sendMessage() {
       const messageText = messageInput.value.trim();
       if (messageText === "" && selectedImages.length === 0) return;
@@ -635,7 +637,12 @@ export default function Home() {
           let errorMessage = error.message || "Sorry, something went wrong.";
           addMessage(errorMessage, "system", false, true);
         })
-        .finally(() => {
+        .finally(async () => {
+          // Wait for any generated images to finish loading before re-enabling the send button
+          if (imageLoadingPromise) {
+            await imageLoadingPromise;
+            imageLoadingPromise = null;
+          }
           sendButton.disabled = false;
         });
     }
@@ -690,8 +697,8 @@ export default function Home() {
                 });
               });
 
-              // Wait for all images to load
-              Promise.all(imagePromises).then(() => {
+              // Wait for all images to load and store the promise so sendMessage can wait for it
+              imageLoadingPromise = Promise.all(imagePromises).then(() => {
                 // Remove loading message now that images are loaded
                 if (loadingMessageToRemove && loadingMessageToRemove.parentNode) {
                   loadingMessageToRemove.remove();
