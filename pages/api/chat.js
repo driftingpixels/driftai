@@ -70,7 +70,6 @@ export default async function handler(req, res) {
             generationConfig: {
                 maxOutputTokens: 2048,
                 temperature: 1.0,
-                responseMimeType: 'text/plain', // Ensures plain text/markdown output instead of LaTeX blocks
             },
         });
 
@@ -94,10 +93,44 @@ export default async function handler(req, res) {
             });
         }
 
+
         // Send the message with images
         const result = await chat.sendMessage(messageParts);
         const response = await result.response;
-        const text = response.text();
+
+        // Get the raw response text
+        let text = response.text();
+
+        // Check if the response has candidates with LaTeX content
+        if (response.candidates && response.candidates.length > 0) {
+            const candidate = response.candidates[0];
+
+            // Extract LaTeX expressions if present
+            if (candidate.content && candidate.content.parts) {
+                let latexMap = {};
+
+                candidate.content.parts.forEach(part => {
+                    // Collect executable code (LaTeX expressions)
+                    if (part.executableCode && part.executableCode.language === 'LATEX') {
+                        const code = part.executableCode.code;
+                        // Store with a unique identifier if we can match it
+                        latexMap[Object.keys(latexMap).length] = code;
+                    }
+                });
+
+                // Replace LATEXINLINE placeholders with inline LaTeX syntax
+                text = text.replace(/LATEXINLINE(\d+)/g, (match, index) => {
+                    const latex = latexMap[index];
+                    return latex ? `$${latex}$` : match;
+                });
+
+                // Replace LATEXBLOCK placeholders with block LaTeX syntax
+                text = text.replace(/LATEXBLOCK(\d+)/g, (match, index) => {
+                    const latex = latexMap[index];
+                    return latex ? `$$${latex}$$` : match;
+                });
+            }
+        }
 
         res.status(200).json({ response: text });
     } catch (error) {
