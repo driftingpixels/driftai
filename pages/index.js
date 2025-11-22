@@ -583,14 +583,15 @@ export default function Home() {
           return response.json();
         })
         .then(data => {
-          if (loadingMessage && loadingMessage.parentNode) {
-            loadingMessage.remove();
-          }
-
           if (data.error) {
+            if (loadingMessage && loadingMessage.parentNode) {
+              loadingMessage.remove();
+            }
             addMessage(data.error, "system", false, true);
           } else if (data.response) {
-            addMessage(data.response, "received", false, true);
+            // Don't remove loading message yet - pass it to addMessage
+            // It will be removed once images are loaded (or immediately if no images)
+            addMessage(data.response, "received", false, true, [], loadingMessage);
 
             // Build user message parts
             const userParts = [];
@@ -639,7 +640,7 @@ export default function Home() {
         });
     }
 
-    function addMessage(text, type, isPlaceholder = false, shouldSave = false, images = []) {
+    function addMessage(text, type, isPlaceholder = false, shouldSave = false, images = [], loadingMessageToRemove = null) {
       const messageElement = document.createElement("div");
       messageElement.classList.add("message", type);
 
@@ -686,6 +687,11 @@ export default function Home() {
 
               // Wait for all images to load
               Promise.all(imagePromises).then(() => {
+                // Remove loading message now that images are loaded
+                if (loadingMessageToRemove && loadingMessageToRemove.parentNode) {
+                  loadingMessageToRemove.remove();
+                }
+
                 messageElement.style.display = ''; // Restore layout
                 // Trigger reflow
                 messageElement.offsetHeight;
@@ -699,6 +705,11 @@ export default function Home() {
                   });
                 });
               });
+            } else {
+              // No generated images, remove loading message immediately
+              if (loadingMessageToRemove && loadingMessageToRemove.parentNode) {
+                loadingMessageToRemove.remove();
+              }
             }
           } else {
             textContainer.textContent = text;
