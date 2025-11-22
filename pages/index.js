@@ -453,7 +453,7 @@ export default function Home() {
 
     // Image viewer functionality
     function updateImageDimensions() {
-      if (!imageViewerImg || !imageViewerPanel.classList.contains('active')) return;
+      if (!imageViewerImg) return;
 
       // Reset styles to get natural dimensions if needed, though naturalWidth/Height should work
       const padding = 64; // 32px padding * 2
@@ -482,13 +482,18 @@ export default function Home() {
         imageViewerImg.style.width = '';
         imageViewerImg.style.height = '';
 
-        imageViewerImg.onload = () => {
+        const showPanel = () => {
           updateImageDimensions();
+          imageViewerPanel.classList.add('active');
+          imageViewerOverlay.classList.add('active');
         };
 
+        imageViewerImg.onload = showPanel;
         imageViewerImg.src = imageSrc;
-        imageViewerPanel.classList.add('active');
-        imageViewerOverlay.classList.add('active');
+
+        if (imageViewerImg.complete) {
+          showPanel();
+        }
       }
     }
 
