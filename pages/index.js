@@ -4,6 +4,9 @@ import katex from 'katex';
 
 export default function Home() {
   useEffect(() => {
+    // Remove preload class to enable transitions
+    document.documentElement.classList.remove('preload');
+
     // Simple markdown parser with LaTeX support
     function parseMarkdown(text) {
       // Store LaTeX expressions to protect them from markdown processing

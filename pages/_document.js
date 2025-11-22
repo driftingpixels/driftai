@@ -13,6 +13,7 @@ export default function Document() {
                   var localValue = localStorage.getItem('selectedTheme');
                   var theme = localValue || 'light';
                   document.documentElement.setAttribute('data-theme', theme);
+                  document.documentElement.classList.add('preload');
                 } catch (e) {}
               })();
             `,
