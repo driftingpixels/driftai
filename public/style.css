@@ -246,12 +246,14 @@ body {
   backdrop-filter: blur(40px);
   -webkit-backdrop-filter: blur(40px);
   border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(25, 118, 210, 0.3);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-  padding: 16px;
+  padding: 32px;
   z-index: 2002;
-  max-width: 70vw;
-  max-height: 70vh;
+  width: fit-content;
+  height: fit-content;
+  max-width: min(1200px, 95vw);
+  max-height: min(900px, 95vh);
   opacity: 0;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
   pointer-events: none;
@@ -311,7 +313,7 @@ body {
 
 .image-viewer-img {
   max-width: 100%;
-  max-height: calc(90vh - 48px);
+  max-height: calc(min(900px, 95vh) - 64px);
   border-radius: 8px;
   object-fit: contain;
   display: block;
