@@ -822,6 +822,7 @@ export default function Home() {
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="theme-color" content="#1976d2" />
+        <meta name="google-site-verification" content="NKyPmi8Ku12rCSj_SkXCbFIfbep5IrFUv2DSC5PwBjs" />
 
         {/* Favicon */}
         <link rel="icon" href="/icon.png" />
