@@ -70,6 +70,9 @@ export default function Home() {
       html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
       html = html.replace(/_(.+?)_/g, '<em>$1</em>');
 
+      // Images
+      html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" class="generated-image" />');
+
       // Links
       html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
 
@@ -513,8 +516,8 @@ export default function Home() {
     // Event delegation for message image clicks
     if (chatContainer) {
       chatContainer.addEventListener('click', (e) => {
-        if (e.target.classList.contains('message-image') &&
-          e.target.closest('.message.sent')) {
+        if ((e.target.classList.contains('message-image') && e.target.closest('.message.sent')) ||
+          e.target.classList.contains('generated-image')) {
           openImageViewer(e.target.src);
         }
       });
