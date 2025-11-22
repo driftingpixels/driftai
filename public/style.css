@@ -405,7 +405,7 @@ body {
   transition: color 0.3s ease;
   position: relative;
   z-index: 1;
-  color: #666;
+  color: #cccccc;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -557,7 +557,7 @@ body {
 }
 
 [data-theme="dark"] .footer-text {
-  color: #b0b0b0;
+  color: #000000;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(40px);
   -webkit-backdrop-filter: blur(40px);
