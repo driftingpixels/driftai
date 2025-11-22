@@ -890,7 +890,7 @@ export default function Home() {
   return (
     <div id="root">
       <Head>
-        <title>Drift AI - Your Intelligent AI Assistant</title>
+        <title>Drift AI</title>
         <meta name="description" content="Drift AI is a powerful, friendly, and versatile AI assistant powered by Gemini. Chat, upload images, and explore different personas." />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
         <meta name="mobile-web-app-capable" content="yes" />
