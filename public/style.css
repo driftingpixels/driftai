@@ -640,7 +640,7 @@ body {
 
 .message-image {
   max-width: 200px;
-  max-height: 200px;
+  max-height: 300px;
   border-radius: 8px;
   object-fit: cover;
   cursor: pointer;
@@ -1237,7 +1237,7 @@ body {
 
   .message-image {
     max-width: 150px;
-    max-height: 150px;
+    max-height: 225px;
   }
 
   .input-container {
