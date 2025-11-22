@@ -644,6 +644,11 @@ export default function Home() {
       const messageElement = document.createElement("div");
       messageElement.classList.add("message", type);
 
+      // Store original text for saving to localStorage later
+      if (text && !isPlaceholder) {
+        messageElement.dataset.originalText = text;
+      }
+
       if (!isPlaceholder) {
         // Add images if present
         if (images && images.length > 0) {
@@ -787,7 +792,7 @@ export default function Home() {
             });
 
             messages.push({
-              text: msg.textContent,
+              text: msg.dataset.originalText || msg.textContent, // Use original markdown if available
               type: type,
               images: images
             });
