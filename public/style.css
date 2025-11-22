@@ -14,6 +14,15 @@
   --titlebar-height: 60px;
   --input-container-height: 160px;
   --message-padding: 10px;
+  
+  /* User bubble color options */
+  --bubble-violet: #8b5cf6;
+  --bubble-green: #34c759;
+  --bubble-orange: #ff9500;
+  --bubble-cyan: #00c7be;
+  --bubble-pink: #ff2d92;
+  --bubble-yellow: #ffcc00;
+  --user-bubble-color: var(--bubble-green);
 }
 
 /* Import KaTeX CSS for LaTeX rendering */
@@ -754,8 +763,8 @@ body {
 
 .message.sent {
   align-self: flex-end;
-  background-color: var(--imessage-green);
-  box-shadow: 0 0 25px rgba(52, 199, 89, 0.6), 0 4px 8px var(--shadow-color);
+  background-color: var(--user-bubble-color);
+  box-shadow: 0 0 25px color-mix(in srgb, var(--user-bubble-color) 60%, transparent), 0 4px 8px var(--shadow-color);
 }
 
 .message.received {
