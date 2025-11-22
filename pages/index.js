@@ -218,9 +218,9 @@ export default function Home() {
       const rgbMap = {
         'violet': '139, 92, 246',
         'green': '52, 199, 89',
-        'orange': '152, 245, 249',
+        'orange': '254, 153, 0',
         'cyan': '0, 199, 190',
-        'pink': '255, 97, 187',
+        'pink': '250, 122, 203',
         'yellow': '255, 204, 0'
       };
 
