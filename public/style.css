@@ -405,7 +405,7 @@ body {
   transition: color 0.3s ease;
   position: relative;
   z-index: 1;
-  color: #000000;
+  color: #444444;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -531,6 +531,14 @@ body {
   border-color: rgba(61, 142, 248, 0.3);
 }
 
+[data-theme="dark"] .theme-option {
+  color: #cccccc;
+}
+
+[data-theme="dark"] .model-option {
+  color: #cccccc;
+}
+
 [data-theme="dark"] .input-wrapper {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(40px);
@@ -552,12 +560,16 @@ body {
   color: #e0e0e0;
 }
 
+[data-theme="dark"] #message-input::placeholder {
+  color: #cccccc;
+}
+
 [data-theme="dark"] #message-input:focus {
   background-color: rgba(70, 70, 70, 0.7);
 }
 
 [data-theme="dark"] .footer-text {
-  color: #000000;
+  color: #cccccc;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(40px);
   -webkit-backdrop-filter: blur(40px);
@@ -976,7 +988,7 @@ body {
   white-space: nowrap;
   position: relative;
   z-index: 1;
-  color: #666;
+  color: #444444;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -1070,6 +1082,11 @@ body {
   display: none;
 }
 
+#message-input::placeholder {
+  color: #444444;
+  opacity: 1;
+}
+
 #message-input:focus {
   outline: none;
   background-color: rgba(255, 255, 255, 0.7);
@@ -1123,7 +1140,7 @@ body {
   text-align: center;
   padding: 8px 15px;
   font-size: 11px;
-  color: #000000;
+  color: #444444;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(40px);
   -webkit-backdrop-filter: blur(40px);
