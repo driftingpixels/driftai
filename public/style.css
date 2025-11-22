@@ -644,6 +644,11 @@ body {
   border-radius: 8px;
   object-fit: cover;
   cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.message-image:hover {
+  transform: scale(1.02);
 }
 
 .message p {
