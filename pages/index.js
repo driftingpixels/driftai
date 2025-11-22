@@ -276,7 +276,8 @@ export default function Home() {
     let selectedTheme = localStorage.getItem('selectedTheme') || 'light';
 
     // Apply saved theme on page load
-    document.documentElement.setAttribute('data-theme', selectedTheme);
+    // document.documentElement.setAttribute('data-theme', selectedTheme); // Handled by _document.js to prevent flash
+
 
     // Set initial active theme option
     if (themeToggle) {
@@ -968,6 +969,19 @@ export default function Home() {
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="theme-color" content="#1976d2" />
         <meta name="google-site-verification" content="NKyPmi8Ku12rCSj_SkXCbFIfbep5IrFUv2DSC5PwBjs" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var localValue = localStorage.getItem('selectedTheme');
+                  var theme = localValue || 'light';
+                  document.documentElement.setAttribute('data-theme', theme);
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
 
         {/* Favicon */}
         <link rel="icon" href="/icon.png" />
