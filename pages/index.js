@@ -177,6 +177,12 @@ export default function Home() {
       }
 
       customSelectTrigger.addEventListener("click", () => {
+        // Calculate available space
+        const rect = customSelectTrigger.getBoundingClientRect();
+        const spaceBelow = window.innerHeight - rect.bottom - 20; // 20px buffer
+        const maxHeight = Math.max(spaceBelow, 100); // Minimum 100px height
+
+        customOptions.style.maxHeight = `${maxHeight}px`;
         customSelect.classList.toggle("open");
       });
 
@@ -246,6 +252,12 @@ export default function Home() {
       const bubbleColorOptions = bubbleColorSelect.querySelector('.custom-options');
 
       bubbleColorTrigger.addEventListener("click", () => {
+        // Calculate available space
+        const rect = bubbleColorTrigger.getBoundingClientRect();
+        const spaceBelow = window.innerHeight - rect.bottom - 20; // 20px buffer
+        const maxHeight = Math.max(spaceBelow, 100); // Minimum 100px height
+
+        bubbleColorOptions.style.maxHeight = `${maxHeight}px`;
         bubbleColorSelect.classList.toggle("open");
       });
 
