@@ -815,12 +815,32 @@ export default function Home() {
   return (
     <div id="root">
       <Head>
-        <title>Drift AI</title>
+        <title>Drift AI - Your Intelligent AI Assistant</title>
+        <meta name="description" content="Drift AI is a powerful, friendly, and versatile AI assistant powered by Gemini. Chat, upload images, and explore different personas." />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="theme-color" content="#1976d2" />
+
+        {/* Favicon */}
+        <link rel="icon" href="/icon.png" />
+        <link rel="apple-touch-icon" href="/icon.png" />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://drift-ai-web.vercel.app/" />
+        <meta property="og:title" content="Drift AI - Your Intelligent AI Assistant" />
+        <meta property="og:description" content="Drift AI is a powerful, friendly, and versatile AI assistant powered by Gemini. Chat, upload images, and explore different personas." />
+        <meta property="og:image" content="https://drift-ai-web.vercel.app/icon.png" />
+
+        {/* Twitter */}
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content="https://drift-ai-web.vercel.app/" />
+        <meta property="twitter:title" content="Drift AI - Your Intelligent AI Assistant" />
+        <meta property="twitter:description" content="Drift AI is a powerful, friendly, and versatile AI assistant powered by Gemini. Chat, upload images, and explore different personas." />
+        <meta property="twitter:image" content="https://drift-ai-web.vercel.app/icon.png" />
+
         <link rel="stylesheet" href="/style.css" />
       </Head>
 
