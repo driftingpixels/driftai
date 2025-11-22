@@ -70,6 +70,7 @@ export default async function handler(req, res) {
             generationConfig: {
                 maxOutputTokens: 2048,
                 temperature: 1.0,
+                responseMimeType: 'text/plain', // Ensures plain text/markdown output instead of LaTeX blocks
             },
         });
 
