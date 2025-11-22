@@ -798,6 +798,20 @@ body {
   animation-delay: 0.2s;
 }
 
+/* Generated Images */
+.generated-image {
+  max-width: 100%;
+  border-radius: 8px;
+  margin-top: 8px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.generated-image:hover {
+  transform: scale(1.02);
+}
+
 .message.loading .dot:nth-child(3) {
   animation-delay: 0.4s;
 }
