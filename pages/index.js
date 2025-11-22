@@ -697,8 +697,8 @@ export default function Home() {
                 });
               });
 
-              // Wait for all images to load and store the promise so sendMessage can wait for it
-              imageLoadingPromise = Promise.all(imagePromises).then(() => {
+              // Wait for all images to load
+              const allImagesLoaded = Promise.all(imagePromises).then(() => {
                 // Remove loading message now that images are loaded
                 if (loadingMessageToRemove && loadingMessageToRemove.parentNode) {
                   loadingMessageToRemove.remove();
@@ -717,6 +717,12 @@ export default function Home() {
                   });
                 });
               });
+
+              // Only set the shared imageLoadingPromise if this is a new message being sent
+              // (not a message being restored from localStorage)
+              if (shouldSave) {
+                imageLoadingPromise = allImagesLoaded;
+              }
             } else {
               // No generated images, remove loading message immediately
               if (loadingMessageToRemove && loadingMessageToRemove.parentNode) {
