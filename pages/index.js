@@ -664,6 +664,42 @@ export default function Home() {
           const textContainer = document.createElement("div");
           if (type === "received" || type === "sent") {
             textContainer.innerHTML = parseMarkdown(text);
+
+            // Check for generated images in the rendered HTML
+            const generatedImages = textContainer.querySelectorAll('.generated-image');
+            if (generatedImages.length > 0 && type === 'received') {
+              // Hide message initially
+              messageElement.style.opacity = '0';
+              messageElement.style.display = 'none'; // Also hide layout
+
+              // Create a promise for each image
+              const imagePromises = Array.from(generatedImages).map(img => {
+                return new Promise((resolve) => {
+                  if (img.complete) {
+                    resolve();
+                  } else {
+                    img.onload = resolve;
+                    img.onerror = resolve; // Resolve on error too so we don't hang
+                  }
+                });
+              });
+
+              // Wait for all images to load
+              Promise.all(imagePromises).then(() => {
+                messageElement.style.display = ''; // Restore layout
+                // Trigger reflow
+                messageElement.offsetHeight;
+                messageElement.style.opacity = '1';
+
+                // Scroll to bottom again after images load
+                requestAnimationFrame(() => {
+                  chatContainer.scrollTo({
+                    top: chatContainer.scrollHeight,
+                    behavior: 'smooth'
+                  });
+                });
+              });
+            }
           } else {
             textContainer.textContent = text;
           }
