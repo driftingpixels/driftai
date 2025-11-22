@@ -855,7 +855,7 @@ export default function Home() {
 
       <div className="settings-panel">
         <h3>Persona</h3>
-        <label htmlFor="persona-select">Choose personality:</label>
+        <label htmlFor="persona-select">Change personality:</label>
         <div className="custom-select-wrapper">
           <div className="custom-select">
             <div className="custom-select-trigger">
