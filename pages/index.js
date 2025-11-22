@@ -780,19 +780,24 @@ export default function Home() {
           const classList = Array.from(msg.classList);
           if (classList.includes('loading')) return;
 
-          if (!classList.includes('received') || msg.textContent.trim() !== '') {
+          // Save all messages that have either originalText or textContent
+          // This ensures messages with generated images (which have originalText with markdown) are saved
+          const originalText = msg.dataset.originalText;
+          const textContent = msg.textContent.trim();
+
+          if (originalText || textContent) {
             let type = 'received';
             if (classList.includes('sent')) type = 'sent';
             else if (classList.includes('system')) type = 'system';
 
-            // Extract images
+            // Extract images (uploaded images, not generated ones)
             const images = [];
             msg.querySelectorAll('.message-image').forEach(img => {
               images.push({ data: img.src });
             });
 
             messages.push({
-              text: msg.dataset.originalText || msg.textContent, // Use original markdown if available
+              text: originalText || textContent, // Use original markdown if available
               type: type,
               images: images
             });
