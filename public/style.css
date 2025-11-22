@@ -14,13 +14,13 @@
   --titlebar-height: 60px;
   --input-container-height: 160px;
   --message-padding: 10px;
-  
+
   /* User bubble color options */
   --bubble-violet: #8b5cf6;
   --bubble-green: #34c759;
-  --bubble-orange: #ff9500;
+  --bubble-orange: #98F5F9;
   --bubble-cyan: #00c7be;
-  --bubble-pink: #ff2d92;
+  --bubble-pink: #FF61BB;
   --bubble-yellow: #ffcc00;
   --user-bubble-color: var(--bubble-green);
 }
