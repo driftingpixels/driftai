@@ -18,7 +18,8 @@ export default function Home() {
             throwOnError: false,
             output: 'html'
           });
-          const placeholder = `___LATEX_BLOCK_${placeholderIndex}___`;
+          const uniqueId = `LATEXBLOCK${placeholderIndex}`;
+          const placeholder = `§§${uniqueId}§§`;
           latexPlaceholders.push({ placeholder, rendered });
           placeholderIndex++;
           return placeholder;
@@ -36,7 +37,8 @@ export default function Home() {
             throwOnError: false,
             output: 'html'
           });
-          const placeholder = `___LATEX_INLINE_${placeholderIndex}___`;
+          const uniqueId = `LATEXINLINE${placeholderIndex}`;
+          const placeholder = `§§${uniqueId}§§`;
           latexPlaceholders.push({ placeholder, rendered });
           placeholderIndex++;
           return placeholder;
