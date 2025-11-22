@@ -452,13 +452,47 @@ export default function Home() {
     }
 
     // Image viewer functionality
+    function updateImageDimensions() {
+      if (!imageViewerImg || !imageViewerPanel.classList.contains('active')) return;
+
+      // Reset styles to get natural dimensions if needed, though naturalWidth/Height should work
+      const padding = 64; // 32px padding * 2
+      const maxWidth = window.innerWidth * 0.9 - padding;
+      const maxHeight = window.innerHeight * 0.9 - padding;
+
+      const naturalWidth = imageViewerImg.naturalWidth;
+      const naturalHeight = imageViewerImg.naturalHeight;
+
+      if (naturalWidth === 0 || naturalHeight === 0) return;
+
+      // Calculate scale to fit within max dimensions (90% of screen)
+      // This handles both upscaling small images and downscaling large ones
+      const scale = Math.min(maxWidth / naturalWidth, maxHeight / naturalHeight);
+
+      const finalWidth = naturalWidth * scale;
+      const finalHeight = naturalHeight * scale;
+
+      imageViewerImg.style.width = `${finalWidth}px`;
+      imageViewerImg.style.height = `${finalHeight}px`;
+    }
+
     function openImageViewer(imageSrc) {
       if (imageViewerPanel && imageViewerOverlay && imageViewerImg) {
+        // Reset dimensions initially to avoid flickering old size
+        imageViewerImg.style.width = '';
+        imageViewerImg.style.height = '';
+
+        imageViewerImg.onload = () => {
+          updateImageDimensions();
+        };
+
         imageViewerImg.src = imageSrc;
         imageViewerPanel.classList.add('active');
         imageViewerOverlay.classList.add('active');
       }
     }
+
+    window.addEventListener('resize', updateImageDimensions);
 
     function closeImageViewer() {
       if (imageViewerPanel && imageViewerOverlay) {
