@@ -1210,11 +1210,11 @@ body {
 
   0%,
   100% {
-    box-shadow: 0 0 25px rgba(52, 199, 89, 0.6), 0 4px 8px var(--shadow-color);
+    box-shadow: 0 0 25px rgba(var(--user-bubble-rgb), 0.6), 0 4px 8px var(--shadow-color);
   }
 
   50% {
-    box-shadow: 0 0 35px rgba(52, 199, 89, 0.8), 0 4px 8px var(--shadow-color);
+    box-shadow: 0 0 35px rgba(var(--user-bubble-rgb), 0.8), 0 4px 8px var(--shadow-color);
   }
 }
 
