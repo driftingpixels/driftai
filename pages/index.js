@@ -301,13 +301,13 @@ export default function Home() {
       removeBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
       removeBtn.onclick = () => {
         selectedImages = selectedImages.filter(img => img.data !== imageData.data);
-        previewDiv.remove();
+
+        // If this is the last image, animate the collapse
         if (selectedImages.length === 0) {
-          imagePreviewContainer.classList.remove('has-images');
-          const inputWrapper = document.querySelector('.input-wrapper');
-          if (inputWrapper) {
-            inputWrapper.classList.remove('has-images');
-          }
+          animateAndClearImages();
+        } else {
+          // Otherwise just remove the preview
+          previewDiv.remove();
         }
       };
 
