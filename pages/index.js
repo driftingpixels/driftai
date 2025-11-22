@@ -214,7 +214,18 @@ export default function Home() {
         'pink': 'var(--bubble-pink)',
         'yellow': 'var(--bubble-yellow)'
       };
+
+      const rgbMap = {
+        'violet': 'var(--bubble-violet-rgb)',
+        'green': 'var(--bubble-green-rgb)',
+        'orange': 'var(--bubble-orange-rgb)',
+        'cyan': 'var(--bubble-cyan-rgb)',
+        'pink': 'var(--bubble-pink-rgb)',
+        'yellow': 'var(--bubble-yellow-rgb)'
+      };
+
       document.documentElement.style.setProperty('--user-bubble-color', colorMap[color]);
+      document.documentElement.style.setProperty('--user-bubble-rgb', rgbMap[color]);
     };
 
     applyBubbleColor(selectedBubbleColor);
