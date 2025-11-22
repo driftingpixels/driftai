@@ -200,6 +200,65 @@ export default function Home() {
       });
     }
 
+    // Bubble color selection functionality
+    const bubbleColorSelect = document.getElementById("bubble-color-select");
+    let selectedBubbleColor = localStorage.getItem('selectedBubbleColor') || 'green';
+
+    // Apply saved bubble color on page load
+    const applyBubbleColor = (color) => {
+      const colorMap = {
+        'violet': 'var(--bubble-violet)',
+        'green': 'var(--bubble-green)',
+        'orange': 'var(--bubble-orange)',
+        'cyan': 'var(--bubble-cyan)',
+        'pink': 'var(--bubble-pink)',
+        'yellow': 'var(--bubble-yellow)'
+      };
+      document.documentElement.style.setProperty('--user-bubble-color', colorMap[color]);
+    };
+
+    applyBubbleColor(selectedBubbleColor);
+
+    // Set initial bubble color in custom dropdown
+    if (bubbleColorSelect) {
+      const initialColorOption = bubbleColorSelect.querySelector(`.custom-option[data-value="${selectedBubbleColor}"]`);
+      if (initialColorOption) {
+        bubbleColorSelect.querySelector('.custom-select-trigger span').textContent = initialColorOption.textContent;
+        bubbleColorSelect.querySelector('.custom-options .custom-option.selected')?.classList.remove('selected');
+        initialColorOption.classList.add('selected');
+      }
+
+      const bubbleColorTrigger = bubbleColorSelect.querySelector('.custom-select-trigger');
+      const bubbleColorOptions = bubbleColorSelect.querySelector('.custom-options');
+
+      bubbleColorTrigger.addEventListener("click", () => {
+        bubbleColorSelect.classList.toggle("open");
+      });
+
+      bubbleColorOptions.addEventListener("click", (e) => {
+        if (e.target.classList.contains("custom-option")) {
+          const selectedOption = e.target;
+          const selectedValue = selectedOption.dataset.value;
+
+          selectedBubbleColor = selectedValue;
+          localStorage.setItem('selectedBubbleColor', selectedBubbleColor);
+          applyBubbleColor(selectedBubbleColor);
+          console.log('Bubble color changed to:', selectedBubbleColor);
+
+          bubbleColorSelect.querySelector('.custom-select-trigger span').textContent = selectedOption.textContent;
+          bubbleColorOptions.querySelector('.custom-option.selected')?.classList.remove('selected');
+          selectedOption.classList.add('selected');
+          bubbleColorSelect.classList.remove("open");
+        }
+      });
+
+      window.addEventListener("click", (e) => {
+        if (!bubbleColorSelect.contains(e.target)) {
+          bubbleColorSelect.classList.remove("open");
+        }
+      });
+    }
+
     // Theme switching functionality
     const themeToggle = document.querySelector(".theme-toggle");
     const themeOptions = document.querySelectorAll(".theme-option");
@@ -968,6 +1027,25 @@ export default function Home() {
             </svg>
             Dark
           </button>
+        </div>
+
+        <h3 style={{ marginTop: '24px' }}>User text bubble</h3>
+        <label htmlFor="bubble-color-select">Change user text bubble's color:</label>
+        <div className="custom-select-wrapper">
+          <div className="custom-select" id="bubble-color-select">
+            <div className="custom-select-trigger">
+              <span>Green</span>
+              <div className="arrow"></div>
+            </div>
+            <div className="custom-options">
+              <div className="custom-option" data-value="violet">Violet</div>
+              <div className="custom-option selected" data-value="green">Green</div>
+              <div className="custom-option" data-value="orange">Orange</div>
+              <div className="custom-option" data-value="cyan">Cyan</div>
+              <div className="custom-option" data-value="pink">Pink</div>
+              <div className="custom-option" data-value="yellow">Yellow</div>
+            </div>
+          </div>
         </div>
       </div>
 
