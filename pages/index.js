@@ -216,12 +216,12 @@ export default function Home() {
       };
 
       const rgbMap = {
-        'violet': 'var(--bubble-violet-rgb)',
-        'green': 'var(--bubble-green-rgb)',
-        'orange': 'var(--bubble-orange-rgb)',
-        'cyan': 'var(--bubble-cyan-rgb)',
-        'pink': 'var(--bubble-pink-rgb)',
-        'yellow': 'var(--bubble-yellow-rgb)'
+        'violet': '139, 92, 246',
+        'green': '52, 199, 89',
+        'orange': '152, 245, 249',
+        'cyan': '0, 199, 190',
+        'pink': '255, 97, 187',
+        'yellow': '255, 204, 0'
       };
 
       document.documentElement.style.setProperty('--user-bubble-color', colorMap[color]);
